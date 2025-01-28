@@ -269,7 +269,7 @@ const SidebarTrigger = React.forwardRef<
 			data-sidebar="trigger"
 			variant="ghost"
 			size="icon"
-			className={cn("  m-3 fixed z-30 bg-slate-200", className)}
+			className={cn("lg:hidden flex items-center justify-center  m-3 fixed z-30 bg-slate-200", className)}
 			onClick={(event) => {
 				onClick?.(event);
 				toggleSidebar();

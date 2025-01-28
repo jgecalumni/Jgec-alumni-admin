@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 
 import "./globals.css";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 
 export const metadata: Metadata = {
 	title: "Jalpaiguri Government Engineering College Alumni Association.",
@@ -25,12 +24,7 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en">
-			<body className={` antialiased`}>
-				<SidebarProvider>
-					<SidebarTrigger/>
-					{children}
-				</SidebarProvider>
-			</body>
+			<body className={` antialiased`}>{children}</body>
 		</html>
 	);
 }
