@@ -130,7 +130,8 @@ export default function Layout({
 								{navItems.map((item) => (
 									<SidebarMenuItem key={item.name}>
 										<SidebarMenuButton asChild>
-											<Link href={item.path}
+											<Link
+												href={item.path}
 												key={item.name}
 												className={`flex hover:text-[#516bb7] duration-200 justify-between font-medium items-center ${
 													pathname === item.path ? "text-[#516bb7] " : ""
@@ -171,10 +172,9 @@ export default function Layout({
 					</div>
 				</div>
 			</nav>
-				<div className="bg-[#edf1f4] w-full mt-14 z-10 h-screen lg:max-h-fit top-16 p-8 text-black">
-					{/* Rendered Page Content */}
-					{children}
-				</div>
+			<div className="bg-[#edf1f4] w-full mt-14 z-10 h-screen lg:max-h-fit top-16 p-8 text-black">
+				{children}
+			</div>
 		</>
 	);
 }

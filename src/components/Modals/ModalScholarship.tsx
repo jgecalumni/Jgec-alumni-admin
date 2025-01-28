@@ -37,7 +37,7 @@ const ModalScholarship: React.FC = () => {
 						<IoCreateOutline className="font-bold" />
 					</div>
 				</DialogTrigger>
-				<DialogContent className="sm:max-w-[425px] h-[80vh] overflow-auto">
+				<DialogContent className="max-w-[425px]  lg:w-full h-[80vh] overflow-auto">
 					<DialogHeader>
 						<DialogTitle>Create Scholarship</DialogTitle>
 					</DialogHeader>
