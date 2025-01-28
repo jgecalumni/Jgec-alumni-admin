@@ -20,7 +20,7 @@ const SelectTrigger = React.forwardRef<
 	<SelectPrimitive.Trigger
 		ref={ref}
 		className={cn(
-			"flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm  placeholder:text-muted-foreground focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1",
+			"flex h-10 w-full items-center justify-between rounded-md border border-input bg-slate-100 px-3 py-2 text-sm  placeholder:text-muted-foreground focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1",
 			className
 		)}
 		{...props}>
@@ -159,6 +159,7 @@ const SelectField: React.FC<SelectFieldProps> = ({
 	containerClassName,
 	labelClassName,
 	value,
+	defaultValue,
 	selectClassName,
 	selectItemClassName,
 	data,
@@ -179,7 +180,7 @@ const SelectField: React.FC<SelectFieldProps> = ({
 			)}
 			<Select {...props}>
 				<SelectTrigger aria-placeholder={placeholder}>
-					<SelectValue>{value}</SelectValue>
+					<SelectValue placeholder={defaultValue}>{value}</SelectValue>
 				</SelectTrigger>
 				<SelectContent className={cn(selectClassName)}>
 					{data.map((item) => (

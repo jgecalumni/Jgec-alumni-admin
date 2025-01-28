@@ -5,9 +5,9 @@ import { IoIosCreate } from "react-icons/io";
 export default function Home() {
 	return (
 		<div className="w-full">
-			<div className="text-2xl">Welcome Souhardya Deb !</div>
-			<div className="flex w-full  justify-between mt-8 gap-8 ">
-				<div className="rounded-md relative overflow-hidden h-[24vh] w-2/3 card-back-1 ">
+			<div className="text-xl lg:text-2xl">Welcome Souhardya Deb !</div>
+			<div className="flex w-full lg:flex-row flex-col  lg:justify-between mt-8 lg:gap-8 gap-6">
+				<div className="rounded-md relative overflow-hidden h-[24vh] lg:w-2/3 card-back-1 ">
 					<div className="absolute w-[22vh] rotate-0 -right-16 -top-8 rounded-full bg-[#ffffff2c] h-[22vh]"></div>
 					<div className="absolute w-[25vh] rotate-0 -right-6 -bottom-24 rounded-full bg-[#ffffff2c] h-[25vh]"></div>
 					<div className="py-8 px-4 flex justify-between items-start ">
@@ -26,7 +26,7 @@ export default function Home() {
 						/>
 					</div>
 				</div>
-				<div className="rounded-md relative overflow-hidden h-[24vh] w-2/3 card-back-2 ">
+				<div className="rounded-md relative overflow-hidden h-[24vh] lg:w-2/3 card-back-2 ">
 					<div className="absolute w-[22vh] rotate-0 -right-16 -top-8 rounded-full bg-[#ffffff2c] h-[22vh]"></div>
 					<div className="absolute w-[25vh] rotate-0 -right-6 -bottom-24 rounded-full bg-[#ffffff2c] h-[25vh]"></div>
 					<div className="py-8 px-4 flex justify-between items-start ">
@@ -45,7 +45,7 @@ export default function Home() {
 						/>
 					</div>
 				</div>
-				<div className="rounded-md relative overflow-hidden h-[24vh] w-2/3 card-back-3 ">
+				<div className="rounded-md relative overflow-hidden h-[24vh] lg:w-2/3 card-back-3 ">
 					<div className="absolute w-[22vh] rotate-0 -right-16 -top-8 rounded-full bg-[#ffffff2c] h-[22vh]"></div>
 					<div className="absolute w-[25vh] rotate-0 -right-6 -bottom-24 rounded-full bg-[#ffffff2c] h-[25vh]"></div>
 					<div className="py-8 px-4 flex justify-between items-start ">

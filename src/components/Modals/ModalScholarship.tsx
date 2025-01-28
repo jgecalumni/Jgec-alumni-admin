@@ -4,10 +4,20 @@ import { IoCreateOutline } from "react-icons/io5";
 import { Formik, Form, Field } from "formik";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
+import "react-quill/dist/quill.snow.css";
 
 import { Label } from "../ui/label";
 import { Loader2 } from "lucide-react";
 import { Textarea } from "../ui/textarea";
+import {
+	Dialog,
+	DialogContent,
+	DialogHeader,
+	DialogTitle,
+	DialogTrigger,
+} from "../ui/dialog";
+import ReactQuill from "react-quill";
+import { SelectField } from "../ui/select";
 
 const ModalScholarship: React.FC = () => {
 	const modalRef = useRef<HTMLDialogElement | null>(null);
@@ -20,18 +30,17 @@ const ModalScholarship: React.FC = () => {
 
 	return (
 		<>
-			<button
-				className="flex items-center justify-center gap-1"
-				onClick={openModal}>
-				<div>Create</div>
-				<IoCreateOutline className="font-bold" />
-			</button>
-			<dialog
-				id="my_modal_5"
-				ref={modalRef}
-				className="modal modal-middle">
-				<div className="modal-box bg-white text-foreground">
-					<h3 className="font-bold text-xl">Create Scholarship</h3>
+			<Dialog>
+				<DialogTrigger asChild>
+					<div className="bg-primary cursor-pointer flex items-center justify-center gap-1 p-3 rounded-md text-white px-8">
+						<div>Create</div>
+						<IoCreateOutline className="font-bold" />
+					</div>
+				</DialogTrigger>
+				<DialogContent className="sm:max-w-[425px] h-[80vh] overflow-auto">
+					<DialogHeader>
+						<DialogTitle>Create Scholarship</DialogTitle>
+					</DialogHeader>
 					<div>
 						<Formik
 							initialValues={{
@@ -61,7 +70,7 @@ const ModalScholarship: React.FC = () => {
 									actions.setSubmitting(false);
 								}, 1000);
 							}}>
-							{({ handleChange, isSubmitting }) => (
+							{({ handleChange, isSubmitting, values, setFieldValue }) => (
 								<Form className="mt-4 space-y-5">
 									<div>
 										<Label htmlFor="title">Title</Label>
@@ -84,13 +93,14 @@ const ModalScholarship: React.FC = () => {
 										/>
 									</div>
 									<div>
-										<label htmlFor="description">Description</label>
-										<Textarea
-											id="description"
-											name="description"
-											placeholder="Short information about the scholarship"
-											onChange={handleChange}
-											className="mt-1 text-sm placeholder:line-clamp-1  bg-slate-100"
+										<Label htmlFor="description">Description</Label>
+										<ReactQuill
+											theme="snow"
+											value={values.description}
+											onChange={(content) =>
+												setFieldValue("description", content)
+											}
+											
 										/>
 									</div>
 									<div>
@@ -104,30 +114,16 @@ const ModalScholarship: React.FC = () => {
 										/>
 									</div>
 									<div>
-										<Label htmlFor="providerDepartment">
-											Provider Department
-										</Label>
-										<Field
-											as="select"
+										<SelectField
 											name="providerDepartment"
-											id="providerDepartment"
-											className="select bg-slate-100 select-bordered w-full">
-											<option
-												value=""
-												selected
-												disabled>
-												Select a department
-											</option>
-											{["CSE", "ECE", "IT", "ME", "EE", "CIVIL"].map(
-												(option) => (
-													<option
-														key={option}
-														value={option}>
-														{option}
-													</option>
-												)
-											)}
-										</Field>
+											label="Department"
+											defaultValue="Select your department"
+											data={["CSE", "ECE", "IT", "EE", "ME", "CE"]}
+											onValueChange={(value) =>
+												setFieldValue("providerDepartment", value)
+											}
+											value={values.providerDepartment}
+										/>
 									</div>
 									<div>
 										<Label htmlFor="providerAdmissionYear">
@@ -137,7 +133,7 @@ const ModalScholarship: React.FC = () => {
 											id="providerAdmissionYear"
 											name="providerAdmissionYear"
 											placeholder="Provider admission year"
-											className="mt-1  text-sm"
+											className="mt-1 text-sm"
 											onChange={handleChange}
 										/>
 									</div>
@@ -216,114 +212,64 @@ const ModalScholarship: React.FC = () => {
 									</div>
 
 									<div>
-										<Label htmlFor="firstSem">Need 1st Semester Result</Label>
-										<Field
-											as="select"
+										<SelectField
 											name="firstSem"
-											id="firstSem"
-											className="select mt-1 bg-slate-100 select-bordered w-full">
-											<option
-												selected
-												value=""
-												disabled>
-												Select true or false
-											</option>
-											{["true", "false"].map((option) => (
-												<option
-													key={option}
-													value={option}>
-													{option}
-												</option>
-											))}
-										</Field>
+											label="Need 1st semester result?"
+											defaultValue="Select true or false"
+											data={["true", "false"]}
+											onValueChange={(value) =>
+												setFieldValue("firstSem", value)
+											}
+											value={values.firstSem}
+										/>
 									</div>
 									<div>
-										<Label htmlFor="secondSem">Need 2nd Semester Result</Label>
-										<Field
-											as="select"
+										<SelectField
 											name="secondSem"
-											id="secondSem"
-											className="select mt-1 bg-slate-100 select-bordered w-full">
-											<option
-												selected
-												value=""
-												disabled>
-												Select true or false
-											</option>
-											{["true", "false"].map((option) => (
-												<option
-													key={option}
-													value={option}>
-													{option}
-												</option>
-											))}
-										</Field>
+											label="Need 2nd semester result?"
+											defaultValue="Select true or false"
+											data={["true", "false"]}
+											onValueChange={(value) =>
+												setFieldValue("secondSem", value)
+											}
+											value={values.secondSem}
+										/>
 									</div>
 									<div>
-										<Label htmlFor="thirdSem">Need 3rd Semester Result</Label>
-										<Field
-											as="select"
+										<SelectField
 											name="thirdSem"
-											id="thirdSem"
-											className="select mt-1 bg-slate-100 select-bordered w-full">
-											<option
-												selected
-												value=""
-												disabled>
-												Select true or false
-											</option>
-											{["true", "false"].map((option) => (
-												<option
-													key={option}
-													value={option}>
-													{option}
-												</option>
-											))}
-										</Field>
+											label="Need 3rd semester result?"
+											defaultValue="Select true or false"
+											data={["true", "false"]}
+											onValueChange={(value) =>
+												setFieldValue("thirdSem", value)
+											}
+											value={values.thirdSem}
+										/>
 									</div>
 									<div>
-										<Label htmlFor="fourthSem">Need 4th Semester Result</Label>
-										<Field
-											as="select"
+										<SelectField
 											name="fourthSem"
-											id="fourthSem"
-											className="select mt-1 bg-slate-100 select-bordered w-full">
-											<option
-												selected
-												value=""
-												disabled>
-												Select true or false
-											</option>
-											{["true", "false"].map((option) => (
-												<option
-													key={option}
-													value={option}>
-													{option}
-												</option>
-											))}
-										</Field>
+											label="Need 4th semester result?"
+											defaultValue="Select true or false"
+											data={["true", "false"]}
+											onValueChange={(value) =>
+												setFieldValue("fourthSem", value)
+											}
+											value={values.fourthSem}
+										/>
 									</div>
 									<div>
-										<Label htmlFor="fifthSem">Need 5th Semester Result</Label>
-										<Field
-											as="select"
+										<SelectField
 											name="fifthSem"
-											id="fifthSem"
-											className="select mt-1 bg-slate-100 select-bordered w-full">
-											<option
-												selected
-												value=""
-												disabled>
-												Select true or false
-											</option>
-											{["true", "false"].map((option) => (
-												<option
-													key={option}
-													value={option}>
-													{option}
-												</option>
-											))}
-										</Field>
+											label="Need 5th semester result?"
+											defaultValue="Select true or false"
+											data={["true", "false"]}
+											onValueChange={(value) =>
+												setFieldValue("fifthSem", value)
+											}
+											value={values.fifthSem}
+										/>
 									</div>
 
 									<div className="items-center w-full flex justify-end">
@@ -338,7 +284,7 @@ const ModalScholarship: React.FC = () => {
 											<>
 												<Button
 													type="submit"
-													className="bg-success">
+													className="bg-success text-white">
 													Submit
 												</Button>
 											</>
@@ -348,16 +294,8 @@ const ModalScholarship: React.FC = () => {
 							)}
 						</Formik>
 					</div>
-					<div className="modal-action">
-						<form method="dialog">
-							{/* if there is a button in form, it will close the modal */}
-							<button className="btn btn-sm border border-slate-100 bg-slate-100 btn-circle btn-ghost absolute right-2 top-2">
-								✕
-							</button>
-						</form>
-					</div>
-				</div>
-			</dialog>
+				</DialogContent>
+			</Dialog>
 		</>
 	);
 };

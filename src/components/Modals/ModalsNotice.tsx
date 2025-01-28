@@ -1,12 +1,23 @@
 import React, { useRef } from "react";
-import { IoCreateOutline } from "react-icons/io5";
-import { Formik, Form } from "formik";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
 
-import { Label } from "../ui/label";
+import {
+	Dialog,
+	DialogContent,
+	DialogDescription,
+	DialogFooter,
+	DialogHeader,
+	DialogTitle,
+	DialogTrigger,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Button } from "../ui/button";
 import { Loader2 } from "lucide-react";
 import { Textarea } from "../ui/textarea";
+import { Form, Formik } from "formik";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
+import { IoCreateOutline } from "react-icons/io5";
 const ModalNotice: React.FC = () => {
 	const modalRef = useRef<HTMLDialogElement | null>(null);
 
@@ -18,18 +29,17 @@ const ModalNotice: React.FC = () => {
 
 	return (
 		<>
-			<button
-				className="flex items-center justify-center gap-1"
-				onClick={openModal}>
-				<div>Create</div>
-				<IoCreateOutline className="font-bold" />
-			</button>
-			<dialog
-				id="my_modal_5"
-				ref={modalRef}
-				className="modal modal-middle">
-				<div className="modal-box bg-white text-foreground">
-					<h3 className="font-bold text-xl">Create Notice</h3>
+			<Dialog>
+				<DialogTrigger asChild>
+					<div className="bg-primary cursor-pointer flex items-center justify-center gap-1 p-3 rounded-md text-white px-8">
+						<div>Create</div>
+						<IoCreateOutline className="font-bold" />
+					</div>
+				</DialogTrigger>
+				<DialogContent className="sm:max-w-[425px]">
+					<DialogHeader>
+						<DialogTitle>Create Notice</DialogTitle>
+					</DialogHeader>
 					<div>
 						<Formik
 							initialValues={{
@@ -43,7 +53,7 @@ const ModalNotice: React.FC = () => {
 									actions.setSubmitting(false);
 								}, 1000);
 							}}>
-							{({ handleChange, isSubmitting }) => (
+							{({ handleChange, isSubmitting, values, setFieldValue }) => (
 								<Form className="mt-4 space-y-5">
 									<div>
 										<Label htmlFor="title">Title</Label>
@@ -56,14 +66,18 @@ const ModalNotice: React.FC = () => {
 										/>
 									</div>
 									<div>
-										<label htmlFor="description">Description</label>
-										<Textarea
-											placeholder="Short information about the notice"
-											className="mt-1 text-sm  bg-slate-100"
+										<Label htmlFor="description">Description</Label>
+										
+										<ReactQuill
+											theme="snow"
+											value={values.description}
+											onChange={(content) =>
+												setFieldValue("description", content)
+											}
 										/>
 									</div>
 									<div>
-										<label htmlFor="picture">Upload your file</label>
+										<Label htmlFor="picture">Upload your file</Label>
 										<Input
 											name="picture"
 											id="picture"
@@ -84,7 +98,7 @@ const ModalNotice: React.FC = () => {
 											<>
 												<Button
 													type="submit"
-													className="bg-success">
+													className="bg-success text-white">
 													Submit
 												</Button>
 											</>
@@ -94,16 +108,8 @@ const ModalNotice: React.FC = () => {
 							)}
 						</Formik>
 					</div>
-					<div className="modal-action">
-						<form method="dialog">
-							{/* if there is a button in form, it will close the modal */}
-							<button className="btn btn-sm border border-slate-100 bg-slate-100 btn-circle btn-ghost absolute right-2 top-2">
-								✕
-							</button>
-						</form>
-					</div>
-				</div>
-			</dialog>
+				</DialogContent>
+			</Dialog>
 		</>
 	);
 };
