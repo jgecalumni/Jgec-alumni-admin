@@ -6,6 +6,7 @@ import Modals from "../Modals/ModalsNotice";
 import Link from "next/link";
 import { FaEdit } from "react-icons/fa";
 import { MdDeleteForever } from "react-icons/md";
+import ModalNoticeEdit from "../Modals/ModalNoticeEdit";
 
 const Notice: React.FC = () => {
 	return (
@@ -60,10 +61,7 @@ const Notice: React.FC = () => {
 															</div>
 															<div className="flex items-center gap-6">
 																<div className="lg:block hidden">
-																	<FaEdit
-																		size={25}
-																		color="green"
-																	/>
+																	<ModalNoticeEdit/>
 																</div>
 																<div className="lg:block hidden">
 																	<MdDeleteForever

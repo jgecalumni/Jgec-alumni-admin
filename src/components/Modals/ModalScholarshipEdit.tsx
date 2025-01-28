@@ -19,7 +19,7 @@ import {
 import ReactQuill from "react-quill";
 import { SelectField } from "../ui/select";
 
-const ModalScholarship: React.FC = () => {
+const ModalScholarshipEdit: React.FC = () => {
 	const modalRef = useRef<HTMLDialogElement | null>(null);
 
 	const openModal = () => {
@@ -32,14 +32,13 @@ const ModalScholarship: React.FC = () => {
 		<>
 			<Dialog>
 				<DialogTrigger asChild>
-					<div className="bg-primary cursor-pointer flex items-center justify-center gap-1 p-3 rounded-md text-white px-8">
-						<div>Create</div>
-						<IoCreateOutline className="font-bold" />
+					<div className="font-medium cursor-pointer text-blue-600 dark:text-blue-500 hover:underline">
+						Edit
 					</div>
 				</DialogTrigger>
-				<DialogContent className="max-w-[425px] modal-scrollbar  lg:w-full h-[80vh] overflow-auto">
+				<DialogContent className="max-w-[425px] modal-scrollbar lg:w-full h-[80vh] overflow-auto">
 					<DialogHeader>
-						<DialogTitle>Create Scholarship</DialogTitle>
+						<DialogTitle>Edit Scholarship</DialogTitle>
 					</DialogHeader>
 					<div>
 						<Formik
@@ -100,7 +99,6 @@ const ModalScholarship: React.FC = () => {
 											onChange={(content) =>
 												setFieldValue("description", content)
 											}
-											
 										/>
 									</div>
 									<div>
@@ -300,4 +298,4 @@ const ModalScholarship: React.FC = () => {
 	);
 };
 
-export default ModalScholarship;
+export default ModalScholarshipEdit;

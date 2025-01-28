@@ -18,7 +18,8 @@ import { Form, Formik } from "formik";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { IoCreateOutline } from "react-icons/io5";
-const ModalNotice: React.FC = () => {
+import { FaEdit } from "react-icons/fa";
+const ModalNoticeEdit: React.FC = () => {
 	const modalRef = useRef<HTMLDialogElement | null>(null);
 
 	const openModal = () => {
@@ -31,14 +32,15 @@ const ModalNotice: React.FC = () => {
 		<>
 			<Dialog>
 				<DialogTrigger asChild>
-					<div className="bg-primary cursor-pointer flex items-center justify-center gap-1 p-3 rounded-md text-white px-8">
-						<div>Create</div>
-						<IoCreateOutline className="font-bold" />
-					</div>
+					<FaEdit
+						size={25}
+						color="green"
+						className="cursor-pointer"
+					/>
 				</DialogTrigger>
 				<DialogContent className="sm:max-w-[425px] modal-scrollbar">
 					<DialogHeader>
-						<DialogTitle>Create Notice</DialogTitle>
+						<DialogTitle>Edit Notice</DialogTitle>
 					</DialogHeader>
 					<div>
 						<Formik
@@ -67,7 +69,7 @@ const ModalNotice: React.FC = () => {
 									</div>
 									<div>
 										<Label htmlFor="description">Description</Label>
-										
+
 										<ReactQuill
 											theme="snow"
 											value={values.description}
@@ -114,4 +116,4 @@ const ModalNotice: React.FC = () => {
 	);
 };
 
-export default ModalNotice;
+export default ModalNoticeEdit;
