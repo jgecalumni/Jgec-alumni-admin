@@ -19,23 +19,52 @@ export default function Layout({
 
 	// Navigation items
 	const navItems = [
-		{ name: "Dashboard", path: "/", icon: <TiHome size={20} /> },
+		{ name: "Dashboard", path: "/", icon: <TiHome size={22} /> },
 		{ name: "Notice", path: "/notice", icon: <IoIosCreate size={20} /> },
 		{ name: "Scholarship", path: "/scholarship", icon: <IoSchool size={20} /> },
-		{ name: "Gallery", path: "/gallery", icon: <IoMdPhotos size={20} /> },
-		{ name: "Members", path: "/members", icon: <FaUser size={20} /> },
+		{ name: "Gallery", path: "/gallery", icon: <IoMdPhotos size={18} /> },
+		{ name: "Members", path: "/members", icon: <FaUser size={16} /> },
 	];
 
 	return (
-		
-			<div className="drawer lg:drawer-open">
-				<input
-					id="my-drawer-2"
-					type="checkbox"
-					className="drawer-toggle"
-				/>
+
+		<div className="w-full h-screen flex">
+			{/* Drawer */}
+			<div className="w-72 h-full">
+				<div className="menu bg-blue-50 min-h-full p-0 w-72">
+					<div className="flex gap-4 py-4 items-center justify-center">
+						<Image
+							src="/assets/Logo.webp"
+							height={80}
+							width={80}
+							alt="Jgec Alumni Logo"
+							className=""
+						/>
+						<div className="text-lg text-wrap font-medium">Jgec Alumni <br /> Admin Portal</div>
+					</div>
+					<div className="w-full border border-neutral-200 rounded"></div>
+
+					{/* Navigation Links */}
+					<div className="px-10 py-8 flex flex-col gap-y-8 text-gray-600">
+						{navItems.map((item) => (
+							<div
+								key={item.name}
+								className={`flex justify-between text-base font-medium items-center ${pathname === item.path ? "text-main " : ""}`}>
+								<Link href={item.path}>{item.name}</Link>
+								<div
+									className={`${pathname === item.path ? "text-main" : "text-gray-400"}`}>
+									{item.icon}
+								</div>
+							</div>
+						))}
+					</div>
+				</div>
+			</div>
+
+			{/* Main Content */}
+			<div className=" w-full h-full text-black bg-neutral-50 overflow-hidden">
 				{/* Top Bar */}
-				<div className="drawer-content shadow-md flex justify-end items-center h-[10vh] w-full bg-white pr-4 space-x-8 top-0">
+				<div className="flex justify-end items-center h-20 w-full bg-white gap-8 px-8 border-b border-neutral-200 shadow-sm">
 					<div className="flex justify-center items-center gap-1">
 						<Image
 							src="/assets/Logo.webp"
@@ -44,59 +73,17 @@ export default function Layout({
 							alt="Logo"
 							className="rounded-full"
 						/>
-						<div className="text-sm">Souhardya Deb</div>
+						<div className="text-sm font-medium">Souhardya Deb</div>
 					</div>
 					<div className="bg-error flex items-center justify-center gap-2 p-2 px-4 text-white rounded text-sm">
 						<div>Logout</div>
 						<FiLogOut />
 					</div>
 				</div>
-
-				{/* Drawer */}
-				<div className="drawer-side shadow-md">
-					<label
-						htmlFor="my-drawer-2"
-						className="drawer-overlay"></label>
-					<div className="menu bg-white min-h-full p-0 w-72">
-						<div className="flex gap-2 py-2 items-center">
-							<Image
-								src="/assets/Logo.webp"
-								height={80}
-								width={80}
-								alt="Jgec Alumni Logo"
-								className="pl-3"
-							/>
-							<div className="line-clamp-1">Jgec Alumni Admin</div>
-						</div>
-						<div className="w-full border border-[#ffffff46] rounded"></div>
-
-						{/* Navigation Links */}
-						<div className="p-10 py-14 space-y-14 text-gray-600">
-							{navItems.map((item) => (
-								<div
-									key={item.name}
-									className={`flex justify-between font-medium items-center ${
-										pathname === item.path ? "text-[#516bb7] " : ""
-									}`}>
-									<Link href={item.path}>{item.name}</Link>
-									<div
-										className={`${
-											pathname === item.path ? "text-[#516bb7]" : "text-gray-400"
-										}`}>
-										{item.icon}
-									</div>
-								</div>
-							))}
-						</div>
-					</div>
-				</div>
-
-				{/* Main Content */}
-				<div className="drawer-content w-full absolute top-16 p-8 text-black">
-					{/* Rendered Page Content */}
+				<div className="w-full h-[calc(100vh-5rem)] overflow-y-auto p-6">
 					{children}
 				</div>
 			</div>
-		// </div>
+		</div> 
 	);
 }

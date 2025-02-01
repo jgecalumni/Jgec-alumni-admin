@@ -100,3 +100,20 @@ body {
 		@apply bg-background text-foreground;
 	}
 }
+
+*::-webkit-scrollbar {
+  width: 6px !important;
+}
+*::-webkit-scrollbar-track {
+  background: #f1f1f1 !important;
+}
+*::-webkit-scrollbar-thumb {
+  background: red !important;
+  border-radius: 10px !important;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: #555 !important;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none !important;
+}
