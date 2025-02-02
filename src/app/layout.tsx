@@ -1,17 +1,10 @@
 import type { Metadata } from "next";
-// import { Geist, Geist_Mono } from "next/font/google";
-import { Inter, } from "next/font/google";
 import "./globals.css";
-
-const geistSans = Inter({
-	variable: "--font-geist-sans",
-	subsets: ["latin"],
-});
-
-const geistMono = Inter({
-	variable: "--font-geist-mono",
-	subsets: ["latin"],
-});
+import Providers from "@/store/provider";
+import ReactQueryProvider from "@/store/query-client";
+import { Toaster } from "react-hot-toast";
+import { Poppins } from "next/font/google"
+import "react-quill/dist/quill.snow.css";
 
 export const metadata: Metadata = {
 	title: "Jalpaiguri Government Engineering College Alumni Association.",
@@ -28,6 +21,12 @@ export const metadata: Metadata = {
 	},
 };
 
+const poppins = Poppins({
+	weight: ['400', '500', '600', '700'],
+	subsets: ['latin'],
+	variable:'--font-poppins'
+})
+
 export default function RootLayout({
 	children,
 }: Readonly<{
@@ -35,9 +34,13 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en">
-			<body
-				className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-				{children}
+			<body className={`${poppins.className} antialiased`}>
+				<Providers>
+					<ReactQueryProvider>
+						{children}
+						<Toaster />
+					</ReactQueryProvider>
+				</Providers>
 			</body>
 		</html>
 	);

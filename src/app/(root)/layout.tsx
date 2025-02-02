@@ -8,7 +8,25 @@ import { IoMdPhotos } from "react-icons/io";
 import { FaUser } from "react-icons/fa";
 import { FiLogOut } from "react-icons/fi";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+
+import {
+	Sidebar,
+	SidebarContent,
+	SidebarGroup,
+	SidebarGroupContent,
+	SidebarGroupLabel,
+	SidebarMenu,
+	SidebarMenuButton,
+	SidebarMenuItem,
+	SidebarProvider,
+	SidebarTrigger,
+} from "@/components/ui/sidebar";
+import { useLogoutMutation } from "@/store/baseApi";
+import { useEffect } from "react";
+import toast from "react-hot-toast";
+import { Loader2 } from "lucide-react";
+
 
 export default function Layout({
 	children,
@@ -16,6 +34,17 @@ export default function Layout({
 	children: React.ReactNode;
 }>) {
 	const pathname = usePathname();
+	const router = useRouter();
+	const [logout, { isLoading, isError, error, isSuccess }] = useLogoutMutation();
+
+	useEffect(() => {
+		if (isError) {
+			toast.error((error as any)?.data?.message || "Failed to logout");
+		}
+		if (isSuccess) {
+			router.replace("/login");
+		}
+	}, [isError, error, isSuccess, router]);
 
 	// Navigation items
 	const navItems = [
@@ -27,44 +56,54 @@ export default function Layout({
 	];
 
 	return (
-
-		<div className="w-full h-screen flex">
-			{/* Drawer */}
-			<div className="w-72 h-full">
-				<div className="menu bg-blue-50 min-h-full p-0 w-72">
-					<div className="flex gap-4 py-4 items-center justify-center">
-						<Image
-							src="/assets/Logo.webp"
-							height={80}
-							width={80}
-							alt="Jgec Alumni Logo"
-							className=""
-						/>
-						<div className="text-lg text-wrap font-medium">Jgec Alumni <br /> Admin Portal</div>
-					</div>
-					<div className="w-full border border-neutral-200 rounded"></div>
-
-					{/* Navigation Links */}
-					<div className="px-10 py-8 flex flex-col gap-y-8 text-gray-600">
-						{navItems.map((item) => (
-							<div
-								key={item.name}
-								className={`flex justify-between text-base font-medium items-center ${pathname === item.path ? "text-main " : ""}`}>
-								<Link href={item.path}>{item.name}</Link>
-								<div
-									className={`${pathname === item.path ? "text-main" : "text-gray-400"}`}>
-									{item.icon}
+		<SidebarProvider>
+			<Sidebar className="shadow-xl z-30 bg-[#ffffff]">
+				<SidebarContent>
+					<SidebarGroup>
+						<SidebarGroupLabel className="my-4">
+							<div className="flex gap-1 my-2 items-center">
+								<Image
+									src="/assets/Logo.webp"
+									height={60}
+									width={60}
+									alt="Jgec Alumni Logo"
+									className="w-14 h-14 rounded-full"
+								/>
+								<div className="line-clamp-1 text-base text-neutral-950">
+									Jgec Alumni Admin
 								</div>
 							</div>
-						))}
-					</div>
-				</div>
-			</div>
-
-			{/* Main Content */}
-			<div className=" w-full h-full text-black bg-neutral-50 overflow-hidden">
-				{/* Top Bar */}
-				<div className="flex justify-end items-center h-20 w-full bg-white gap-8 px-8 border-b border-neutral-200 shadow-sm">
+						</SidebarGroupLabel>
+						<SidebarGroupContent className="mt-8 p-4 ">
+							<SidebarMenu className="space-y-6">
+								{navItems.map((item) => (
+									<SidebarMenuItem key={item.name}>
+										<SidebarMenuButton asChild>
+											<Link
+												href={item.path}
+												key={item.name}
+												className={`flex hover:text-[#516bb7] duration-200 justify-between font-medium items-center ${pathname === item.path ? "text-[#516bb7] " : ""
+													}`}>
+												<span>{item.name}</span>
+												<span
+													className={`${pathname === item.path
+														? "text-[#516bb7]"
+														: "text-gray-400 hover:text-[#516bb7] duration-200"
+														} `}>
+													{item.icon}
+												</span>
+											</Link>
+										</SidebarMenuButton>
+									</SidebarMenuItem>
+								))}
+							</SidebarMenu>
+						</SidebarGroupContent>
+					</SidebarGroup>
+				</SidebarContent>
+			</Sidebar>
+			<SidebarTrigger />
+			<nav className="w-full fixed  z-20 ">
+				<div className=" shadow-md z-20 flex justify-end items-center h-[10vh] w-full bg-white pr-4 space-x-3 lg:space-x-8 top-0">
 					<div className="flex justify-center items-center gap-1">
 						<Image
 							src="/assets/Logo.webp"
@@ -75,15 +114,19 @@ export default function Layout({
 						/>
 						<div className="text-sm font-medium">Souhardya Deb</div>
 					</div>
-					<div className="bg-error flex items-center justify-center gap-2 p-2 px-4 text-white rounded text-sm">
+					<button
+						className="bg-danger flex items-center justify-center gap-2 p-2 px-4 text-white rounded text-sm disabled:opacity-50"
+						onClick={async () => await logout()}
+						disabled={isLoading}
+					>
 						<div>Logout</div>
-						<FiLogOut />
-					</div>
+						{!isLoading ? <FiLogOut /> : <Loader2 className="animate-spin" size={16} />}
+					</button>
 				</div>
-				<div className="w-full h-[calc(100vh-5rem)] overflow-y-auto p-6">
-					{children}
-				</div>
+			</nav>
+			<div className="bg-[#edf1f4] w-full mt-14 z-10 h-screen lg:max-h-fit top-16 p-8 text-black">
+				{children}
 			</div>
-		</div> 
+		</SidebarProvider>
 	);
 }
