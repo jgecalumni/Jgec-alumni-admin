@@ -37,6 +37,12 @@ const validationSchema = Yup.object().shape({
 	whenToApply: Yup.string().required("When to apply is required").max(500, "When to apply should be less than 500 characters"),
 	ageLimit: Yup.string().required("Age limit is required").max(500, "Age limit should be less than 500 characters"),
 	amountDetails: Yup.string().required("Amount details is required").max(500, "Amount details should be less than 500 characters"),
+	firstSem: Yup.string().required("Select true or false"),
+	secondSem: Yup.string().required("Select true or false"),
+	thirdSem: Yup.string().required("Select true or false"),
+	fourthSem: Yup.string().required("Select true or false"),
+	fifthSem: Yup.string().required("Select true or false"),
+	
 });
 
 const ModalScholarshipEdit: React.FC<IProps> = memo(({ open, closed, details }) => {
@@ -99,6 +105,11 @@ const ModalScholarshipEdit: React.FC<IProps> = memo(({ open, closed, details }) 
 								whenToApply: details?.whenToApply || "",
 								ageLimit: details?.ageLimit || "",
 								amountDetails: details?.amountDetails || "",
+								firstSem:"",
+								secondSem:"",
+								thirdSem:"",
+								fourthSem:"",
+								fifthSem:"",
 							}}
 							onSubmit={handelSubmit}
 							validationSchema={validationSchema}
@@ -201,6 +212,81 @@ const ModalScholarshipEdit: React.FC<IProps> = memo(({ open, closed, details }) 
 											value={values.amountDetails}
 										/>
 										<ErrorMessage name="amountDetails" component={'div'} className="text-xs text-red-500 mt-1.5" />
+									</div>
+									<div>
+										<SelectField
+											name="firstSem"
+											label="Need 1st semester result?"
+											defaultValue="Select true or false"
+											data={[
+												{ label: "True", value: "true" },
+												{ label: "False", value: "false" },
+											]}
+											onValueChange={(value) =>
+												setFieldValue("firstSem", value)
+											}
+											value={values.firstSem}
+										/>
+									</div>
+									<div>
+										<SelectField
+											name="secondSem"
+											label="Need 2nd semester result?"
+											defaultValue="Select true or false"
+											data={[
+												{ label: "True", value: "true" },
+												{ label: "False", value: "false" },
+											]}
+											onValueChange={(value) =>
+												setFieldValue("secondSem", value)
+											}
+											value={values.secondSem}
+										/>
+									</div>
+									<div>
+										<SelectField
+											name="thirdSem"
+											label="Need 3rd semester result?"
+											defaultValue="Select true or false"
+											data={[
+												{ label: "True", value: "true" },
+												{ label: "False", value: "false" },
+											]}
+											onValueChange={(value) =>
+												setFieldValue("thirdSem", value)
+											}
+											value={values.thirdSem}
+										/>
+									</div>
+									<div>
+										<SelectField
+											name="fourthSem"
+											label="Need 4th semester result?"
+											defaultValue="Select true or false"
+											data={[
+												{ label: "True", value: "true" },
+												{ label: "False", value: "false" },
+											]}
+											onValueChange={(value) =>
+												setFieldValue("fourthSem", value)
+											}
+											value={values.fourthSem}
+										/>
+									</div>
+									<div>
+										<SelectField
+											name="fifthSem"
+											label="Need 5th semester result?"
+											defaultValue="Select true or false"
+											data={[
+												{ label: "True", value: "true" },
+												{ label: "False", value: "false" },
+											]}
+											onValueChange={(value) =>
+												setFieldValue("fifthSem", value)
+											}
+											value={values.fifthSem}
+										/>
 									</div>
 									<div className="items-center w-full flex justify-end">
 										<Button
