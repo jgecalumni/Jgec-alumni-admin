@@ -1,7 +1,6 @@
 "use client";
-import React, { memo, useEffect, useRef, useState } from "react";
-import { IoCreateOutline } from "react-icons/io5";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import React, { memo, useEffect, useState } from "react";
+import { Formik, Form, ErrorMessage } from "formik";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import "react-quill/dist/quill.snow.css";
@@ -21,6 +20,7 @@ const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 import * as Yup from "yup";
 import { useAddScholarshipsMutation, useEditScholarshipsMutation } from "@/store/feature/scholarship-feature";
 import toast from "react-hot-toast";
+import { MultiSelect } from "../ui/multiselect";
 
 interface IProps {
 	open: boolean;
@@ -37,13 +37,21 @@ const validationSchema = Yup.object().shape({
 	whenToApply: Yup.string().required("When to apply is required").max(500, "When to apply should be less than 500 characters"),
 	ageLimit: Yup.string().required("Age limit is required").max(500, "Age limit should be less than 500 characters"),
 	amountDetails: Yup.string().required("Amount details is required").max(500, "Amount details should be less than 500 characters"),
-	firstSem: Yup.string().required("Select true or false"),
-	secondSem: Yup.string().required("Select true or false"),
-	thirdSem: Yup.string().required("Select true or false"),
-	fourthSem: Yup.string().required("Select true or false"),
-	fifthSem: Yup.string().required("Select true or false"),
-	
+	// array should not be empty
+	semRequire: Yup.array().min(1, 'Semester required is required'),
 });
+
+
+const semOptions = [
+	{ label: "1st Sem", value: "1st Sem" },
+	{ label: "2nd Sem", value: "2nd Sem" },
+	{ label: "3rd Sem", value: "3rd Sem" },
+	{ label: "4th Sem", value: "4th Sem" },
+	{ label: "5th Sem", value: "5th Sem" },
+	{ label: "6th Sem", value: "6th Sem" },
+	{ label: "7th Sem", value: "7th Sem" },
+	{ label: "8th Sem", value: "8th Sem" },
+]
 
 const ModalScholarshipEdit: React.FC<IProps> = memo(({ open, closed, details }) => {
 	const { data: members } = useGetAllMembersQuery({ limit: 50 });
@@ -71,14 +79,18 @@ const ModalScholarshipEdit: React.FC<IProps> = memo(({ open, closed, details }) 
 	}, [isError, error, isEditError, editError]);
 
 	const handelSubmit = async (values: any) => {
+		let sem = values.semRequire.join(',');
 		if (details) {
-			const res = await editScholarship({ id: details.id, data: values });
+			if (!values.semRequire.length) {
+				sem = details.semRequire;
+			}
+			const res = await editScholarship({ id: details.id, data: { ...values, semRequire: sem } });
 			if (res?.data?.success) {
 				toast.success("Scholarship updated successfully");
 				closed();
 			}
 		} else {
-			const res = await addScholarship({ data: values });
+			const res = await addScholarship({ data: { ...values, semRequire: sem } });
 			if (res?.data?.success) {
 				toast.success("Scholarship added successfully");
 				closed();
@@ -105,11 +117,7 @@ const ModalScholarshipEdit: React.FC<IProps> = memo(({ open, closed, details }) 
 								whenToApply: details?.whenToApply || "",
 								ageLimit: details?.ageLimit || "",
 								amountDetails: details?.amountDetails || "",
-								firstSem:"",
-								secondSem:"",
-								thirdSem:"",
-								fourthSem:"",
-								fifthSem:"",
+								semRequire: details?.semRequire?.split[','] || [],
 							}}
 							onSubmit={handelSubmit}
 							validationSchema={validationSchema}
@@ -140,7 +148,7 @@ const ModalScholarshipEdit: React.FC<IProps> = memo(({ open, closed, details }) 
 										/>
 										<ErrorMessage name="description" component={'div'} className="text-xs text-red-500 mt-1.5" />
 									</div>
-									<div> 
+									<div>
 										<SelectField
 											name="providerId"
 											label="Select Scholarship Provider"
@@ -214,79 +222,19 @@ const ModalScholarshipEdit: React.FC<IProps> = memo(({ open, closed, details }) 
 										<ErrorMessage name="amountDetails" component={'div'} className="text-xs text-red-500 mt-1.5" />
 									</div>
 									<div>
-										<SelectField
-											name="firstSem"
-											label="Need 1st semester result?"
-											defaultValue="Select true or false"
-											data={[
-												{ label: "True", value: "true" },
-												{ label: "False", value: "false" },
-											]}
-											onValueChange={(value) =>
-												setFieldValue("firstSem", value)
-											}
-											value={values.firstSem}
+										<Label htmlFor="semRequire" className="pb-1">Select required semester result for this scholarship</Label>
+										<MultiSelect
+											options={semOptions}
+											onValueChange={(value) => setFieldValue("semRequire", value)}
+											defaultValue={details ? details.semRequire.split(',') : []}
+											placeholder="Select semester"
+											footer={false}
+											needSearch={false}
+											selectAllField={false}
+											animation={0}
+											maxCount={8}
 										/>
-									</div>
-									<div>
-										<SelectField
-											name="secondSem"
-											label="Need 2nd semester result?"
-											defaultValue="Select true or false"
-											data={[
-												{ label: "True", value: "true" },
-												{ label: "False", value: "false" },
-											]}
-											onValueChange={(value) =>
-												setFieldValue("secondSem", value)
-											}
-											value={values.secondSem}
-										/>
-									</div>
-									<div>
-										<SelectField
-											name="thirdSem"
-											label="Need 3rd semester result?"
-											defaultValue="Select true or false"
-											data={[
-												{ label: "True", value: "true" },
-												{ label: "False", value: "false" },
-											]}
-											onValueChange={(value) =>
-												setFieldValue("thirdSem", value)
-											}
-											value={values.thirdSem}
-										/>
-									</div>
-									<div>
-										<SelectField
-											name="fourthSem"
-											label="Need 4th semester result?"
-											defaultValue="Select true or false"
-											data={[
-												{ label: "True", value: "true" },
-												{ label: "False", value: "false" },
-											]}
-											onValueChange={(value) =>
-												setFieldValue("fourthSem", value)
-											}
-											value={values.fourthSem}
-										/>
-									</div>
-									<div>
-										<SelectField
-											name="fifthSem"
-											label="Need 5th semester result?"
-											defaultValue="Select true or false"
-											data={[
-												{ label: "True", value: "true" },
-												{ label: "False", value: "false" },
-											]}
-											onValueChange={(value) =>
-												setFieldValue("fifthSem", value)
-											}
-											value={values.fifthSem}
-										/>
+										<ErrorMessage name="semRequire" component={'div'} className="text-xs text-red-500 mt-1.5" />
 									</div>
 									<div className="items-center w-full flex justify-end">
 										<Button

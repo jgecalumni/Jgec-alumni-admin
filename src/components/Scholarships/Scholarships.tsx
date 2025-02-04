@@ -12,8 +12,7 @@ import Loading from "@/app/loading";
 const ModalScholarshipEdit = dynamic(
 	() => import("../Modals/ModalScholarshipEdit"),
 	{ ssr: false }
-);
-const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
+); 
 
 const Scholarships: React.FC = () => {
 	const [searchQuery, setSearchQuery] = useState<string>("");
@@ -40,20 +39,6 @@ const Scholarships: React.FC = () => {
 	if (isLoading) {
 		return <Loading />;
 	}
-
-	// Handle search functionality
-	// const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-	// 	const query = e.target.value.toLowerCase();
-	// 	setSearchQuery(query);
-
-	// 	// Filter scholarships based on title or provider name
-	// 	const filtered = ScholarshipDetails.filter((scholarship) =>
-	// 		scholarship.title.toLowerCase().includes(query) ||
-	// 		scholarship.providerName.toLowerCase().includes(query)
-	// 	);
-
-	// 	setFilteredScholarships(filtered);
-	// };
 
 	const handleSearch = debounce(async (e: any) => {
 		const searchValue = e.target.value;
@@ -142,13 +127,7 @@ const Scholarships: React.FC = () => {
 										>
 											{item.name}
 										</th>
-										<td className="px-6 py-4 truncate max-w-xs">
-											{/* <ReactQuill
-												theme="bubble"
-												value={item.description}
-												readOnly={true}
-												className="view_editor"
-											/> */}
+										<td className="px-6 py-4 truncate max-w-xs"> 
 											{item.amountDetails}
 										</td>
 										<td className="px-6 py-4">{item.provider.name}</td>
