@@ -7,6 +7,8 @@ import { IoSchool } from "react-icons/io5";
 import { IoMdPhotos } from "react-icons/io";
 import { FaUser } from "react-icons/fa";
 import { FiLogOut } from "react-icons/fi";
+import { MdEventNote } from "react-icons/md";
+
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 
@@ -51,6 +53,7 @@ export default function Layout({
 		{ name: "Dashboard", path: "/", icon: <TiHome size={22} /> },
 		{ name: "Notice", path: "/notice", icon: <IoIosCreate size={20} /> },
 		{ name: "Scholarship", path: "/scholarship", icon: <IoSchool size={20} /> },
+		{name: "Events", path:"/events",icon: <MdEventNote size={20}/>},
 		{ name: "Gallery", path: "/gallery", icon: <IoMdPhotos size={18} /> },
 		{ name: "Members", path: "/members", icon: <FaUser size={16} /> },
 	];

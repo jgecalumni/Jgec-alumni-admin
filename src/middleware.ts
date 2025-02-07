@@ -22,6 +22,7 @@ export const config = {
         '/gallery',
         '/members',
         '/notice',
+        '/events',
         '/scholarship', 
   ]
 }; 
