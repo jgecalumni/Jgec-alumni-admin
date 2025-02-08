@@ -1,9 +1,9 @@
 import { baseApi } from "../baseApi";
 interface IResponse {
-    data: IEventType,
-    message: string,
-    success: boolean,
-    error: boolean
+	data: IEventType;
+	message: string;
+	success: boolean;
+	error: boolean;
 }
 export const eventApi = baseApi
 	.enhanceEndpoints({
@@ -37,7 +37,7 @@ export const eventApi = baseApi
 				}),
 				providesTags: ["event-details"],
 			}),
-			addEvent: builder.mutation<IResponse,any>({
+			addEvent: builder.mutation<IResponse, any>({
 				query: (event) => ({
 					url: "/events/add",
 					method: "POST",
@@ -46,11 +46,11 @@ export const eventApi = baseApi
 				}),
 				invalidatesTags: ["add-events"],
 			}),
-			editEvent: builder.mutation<any, { id: string; data: any }>({
-				query: ({ id, data }) => ({
+			editEvent: builder.mutation<IResponse, { formData: any; id: string }>({
+				query: ({ formData, id }) => ({
 					url: `/events/update/${id}`,
 					method: "PATCH",
-					body: data,
+					body: formData,
 					credentials: "include",
 				}),
 				invalidatesTags: ["edit-events"],

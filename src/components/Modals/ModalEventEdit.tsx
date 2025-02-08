@@ -14,7 +14,7 @@ import dynamic from "next/dynamic";
 import toast from "react-hot-toast";
 import { MdDeleteOutline } from "react-icons/md";
 import { IoAdd, IoCreateOutline, IoPulseOutline } from "react-icons/io5";
-import { useAddEventMutation } from "@/store/feature/event-feature";
+import { useAddEventMutation, useEditEventMutation } from "@/store/feature/event-feature";
 import Image from "next/image";
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 interface IProps {
@@ -24,9 +24,13 @@ interface IProps {
 }
 const ModalEventEdit: React.FC<IProps> = memo(({ open, closed, data }) => {
 	const [addEvent, { isError, isLoading, error }] = useAddEventMutation();
+	const [editEvent, { isLoading: editLoading, isError: editIsError, error: editError, isSuccess: editSuccess }] = useEditEventMutation();
 	const [imagePreview, setImagePreview] = useState<string | null>(null);
 
 	useEffect(() => {
+		if (editIsError) {
+			toast.error((editError as any)?.data.message || "Failed to update event");
+		}
 		if (isError) {
 			toast.error((error as any)?.data?.message || "Failed to add event");
 			console.log((error as any)?.data?.message);
@@ -34,7 +38,7 @@ const ModalEventEdit: React.FC<IProps> = memo(({ open, closed, data }) => {
 		if (data?.event_thumbnail) {
 			setImagePreview(data.event_thumbnail);
 		}
-	}, [isError, error, data]);
+	}, [isError, error, data,editError,editIsError]);
 	const handleFileChange = (
 		event: React.ChangeEvent<HTMLInputElement>,
 		setFieldValue: any
@@ -55,7 +59,8 @@ const ModalEventEdit: React.FC<IProps> = memo(({ open, closed, data }) => {
 		}
 	};
 	const handleSubmit = async (values: any) => {
-		console.log(values);
+		
+
 		const {
 			name,
 			shortDescription,
@@ -69,7 +74,7 @@ const ModalEventEdit: React.FC<IProps> = memo(({ open, closed, data }) => {
 			event_thumbnail,
 		} = values;
 
-		const formData: any = new FormData();
+		const formData = new FormData();
 		formData.append("name", name);
 		formData.append("shortDescription", shortDescription);
 		formData.append("details", details);
@@ -80,13 +85,21 @@ const ModalEventEdit: React.FC<IProps> = memo(({ open, closed, data }) => {
 		formData.append("hostDetails", hostDetails);
 		formData.append("schedule", JSON.stringify(schedule));
 		formData.append("event_thumbnail", event_thumbnail);
-
-		const res = await addEvent(formData);
-
-		if (res?.data?.success) {
-			toast.success("Event added successfully");
-			closed();
+		if (data) {
+			const res = await editEvent({ formData, id: data.id }); 
+			if (res?.data?.success) {
+				toast.success("Event updated successfully");
+				closed();
+			}
 		}
+		else { 
+			const res = await addEvent(formData);
+			if (res?.data?.success) {
+				toast.success("Event added successfully");
+				closed();
+			}
+		}
+		
 	};
 
 	return (
@@ -380,15 +393,16 @@ const ModalEventEdit: React.FC<IProps> = memo(({ open, closed, data }) => {
 									<div className="items-center w-full flex justify-end">
 										<Button
 											type="submit"
-											className="bg-success text-white">
+											className="bg-success text-white"
+											disabled={isLoading || editLoading}>
 											Submit
-											{/* {isLoading ||
+											{isLoading ||
 												(editLoading && (
 													<Loader2
 														className="animate-spin"
 														size={16}
 													/>
-												))} */}
+												))}
 										</Button>
 									</div>
 								</Form>
