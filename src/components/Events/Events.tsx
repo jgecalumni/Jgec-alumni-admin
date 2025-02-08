@@ -9,13 +9,15 @@ import { debounce } from "@/utils";
 import { ArrowLeft, ArrowRight, PlusIcon } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import ModalEventEdit from "../Modals/ModalEventEdit";
+const ModalEventEdit = dynamic(() => import("../Modals/ModalEventEdit"), { ssr: false });
+import dynamic from "next/dynamic";
+import { format, parse } from "date-fns";
 
 const Events: React.FC = () => {
 	const [openModal, setOpenModal] = useState<boolean>(false);
 	const [searchQuery, setSearchQuery] = useState<string>("");
 	const [page, setPage] = useState<number>(1);
-    const [editEvent, setEditEvent] = useState<any>();
+	const [editEvent, setEditEvent] = useState<any>();
 	const [totalPages, setTotalPages] = useState<number>(1);
 	const { data, error, isError, isLoading, refetch } = useAllEventsQuery({
 		page: 1,
@@ -25,21 +27,20 @@ const Events: React.FC = () => {
 		deleteEvent,
 		{ isLoading: isDeleting, error: deleteError, isError: isDeleteError },
 	] = useDeleteEventMutation();
- 
-	
-	
-	
 
 	useEffect(() => {
 		if (isError) {
 			toast.error((error as any)?.data?.message || "Failed to fetch Events");
 		}
+		if (isDeleteError) { 
+			toast.error((deleteError as any)?.data?.message || "Failed to delete Event");
+		}
 		if (data) {
 			setTotalPages(data?.totalPages);
 		}
-	}, [isError, error, data]);
+	}, [isError, error, data, isDeleteError, deleteError]);
 
-	if (isLoading) {
+	if (isLoading || isDeleting) {
 		return <Loading />;
 	}
 
@@ -55,7 +56,7 @@ const Events: React.FC = () => {
 			refetch();
 		}
 	};
-	
+
 
 	return (
 		<>
@@ -149,7 +150,7 @@ const Events: React.FC = () => {
 								data?.events.map((item: any) => (
 									<tr
 										key={item.id}
-										className="bg-white cursor-pointer border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
+										className="bg-white cursor-pointer border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 text-sm">
 										<th
 											scope="row"
 											className="px-6 truncate lg:whitespace-normal font-medium text-gray-900 dark:text-white max-w-xs"
@@ -159,8 +160,10 @@ const Events: React.FC = () => {
 
 										<td className="px-6 py-4">{item.shortDescription}</td>
 										<td className="px-6 py-4">{item.location}</td>
-										<td className="px-6 py-4">{item.date}</td>
-										<td className="px-6 py-4">{item.time}</td>
+										<td className="px-6 py-4">{format(new Date(item.date), 'dd MMM, yyyy')}</td>
+										<td className="px-6 py-4">{
+											format(parse("17:00", "HH:mm", new Date()), "h:mm a")
+										}</td>
 
 										<td className="px-6 py-4 w-full h-full flex items-center gap-2">
 											<button
@@ -220,7 +223,7 @@ const Events: React.FC = () => {
 					open={openModal || !!editEvent}
 					data={editEvent}
 					closed={() => {
-						setOpenModal(false), refetch(),setEditEvent(null)
+						setOpenModal(false), refetch(), setEditEvent(null)
 					}}
 				/>
 			)}
