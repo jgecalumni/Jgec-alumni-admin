@@ -1,4 +1,4 @@
-import React, { memo, useEffect } from "react";
+import React, { memo, useEffect, useState } from "react";
 import {
 	Dialog,
 	DialogContent,
@@ -24,13 +24,36 @@ interface IProps {
 }
 const ModalEventEdit: React.FC<IProps> = memo(({ open, closed, data }) => {
 	const [addEvent, { isError, isLoading, error }] = useAddEventMutation();
+	const [imagePreview, setImagePreview] = useState<string | null>(null);
 
 	useEffect(() => {
 		if (isError) {
 			toast.error((error as any)?.data?.message || "Failed to add event");
 			console.log((error as any)?.data?.message);
 		}
-	}, [isError, error]);
+		if (data?.event_thumbnail) {
+			setImagePreview(data.event_thumbnail);
+		}
+	}, [isError, error, data]);
+	const handleFileChange = (
+		event: React.ChangeEvent<HTMLInputElement>,
+		setFieldValue: any
+	) => {
+		const file = event.target.files?.[0];
+		setFieldValue("event_thumbnail", file);
+
+		if (file) {
+			const reader = new FileReader();
+			reader.onload = (e) => {
+				if (e.target?.result) {
+					setImagePreview(e.target.result as string);
+				}
+			};
+			reader.readAsDataURL(file);
+		} else {
+			setImagePreview(null);
+		}
+	};
 	const handleSubmit = async (values: any) => {
 		console.log(values);
 		const {
@@ -59,6 +82,7 @@ const ModalEventEdit: React.FC<IProps> = memo(({ open, closed, data }) => {
 		formData.append("event_thumbnail", event_thumbnail);
 
 		const res = await addEvent(formData);
+
 		if (res?.data?.success) {
 			toast.success("Event added successfully");
 			closed();
@@ -199,27 +223,27 @@ const ModalEventEdit: React.FC<IProps> = memo(({ open, closed, data }) => {
 									</div>
 									<div>
 										<Label htmlFor="event_thumbnail">Upload Thumbnail</Label>
-										{data ? (
-											<Image
-												src={values?.event_thumbnail}
-												alt="Thumbnail"
-												height={120}
-												width={120}
-											/>
-										) : (
+										<div className="lg:flex items-center gap-2">
 											<Input
 												name="event_thumbnail"
 												id="event_thumbnail"
 												type="file"
-												onChange={(e) =>
-													setFieldValue(
-														"event_thumbnail",
-														e?.target?.files ? e.target.files[0] : ""
-													)
-												}
+												accept="image/*"
+												onChange={(e) => handleFileChange(e, setFieldValue)}
 												className="mt-1"
 											/>
-										)}
+											{imagePreview && (
+												<div className="mt-2">
+													<Image
+														src={imagePreview}
+														alt="Event Thumbnail"
+														width={120}
+														height={120}
+														className="rounded-lg"
+													/>
+												</div>
+											)}
+										</div>
 									</div>
 									<div className="relative">
 										<Label htmlFor="schedule">Schedule</Label>

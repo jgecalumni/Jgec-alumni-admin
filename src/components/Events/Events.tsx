@@ -25,8 +25,10 @@ const Events: React.FC = () => {
 		deleteEvent,
 		{ isLoading: isDeleting, error: deleteError, isError: isDeleteError },
 	] = useDeleteEventMutation();
-
-	console.log(data);
+ 
+	
+	
+	
 
 	useEffect(() => {
 		if (isError) {
@@ -53,6 +55,7 @@ const Events: React.FC = () => {
 			refetch();
 		}
 	};
+	
 
 	return (
 		<>
