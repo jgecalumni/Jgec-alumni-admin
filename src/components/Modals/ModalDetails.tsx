@@ -255,7 +255,7 @@ export const ModalEventDetails: React.FC<IProps> = memo(
 									<div
 										key={schedule.id}
 										className=" bg-white flex items-center gap-3 rounded-md h-12 shadow-lg ">
-										<div className="h-full text-white flex items-center justify-center p-3 text-[12px] lg:text-[16px] rounded-l-md bg-primary">{format(parse(schedule.startTime, "HH:mm", new Date()), "h:mm a")}- {format(parse(schedule.endTime, "HH:mm", new Date()), "h:mm a")}</div>
+										<div className="h-full text-white flex items-center justify-center p-3 text-[12px] lg:text-[14px] rounded-l-md bg-primary">{format(parse(schedule.startTime, "HH:mm", new Date()), "h:mm a")}- {format(parse(schedule.endTime, "HH:mm", new Date()), "h:mm a")}</div>
 										<div className="font-medium">{schedule.activity}</div>
 									</div>
 								))}
