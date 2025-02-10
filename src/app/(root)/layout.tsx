@@ -54,7 +54,7 @@ export default function Layout({
 		{ name: "Notice", path: "/notice", icon: <IoIosCreate size={20} /> },
 		{ name: "Scholarship", path: "/scholarship", icon: <IoSchool size={20} /> },
 		{name: "Events", path:"/events",icon: <MdEventNote size={20}/>},
-		{ name: "Gallery", path: "/gallery", icon: <IoMdPhotos size={18} /> },
+		// { name: "Gallery", path: "/gallery", icon: <IoMdPhotos size={18} /> },
 		{ name: "Members", path: "/members", icon: <FaUser size={16} /> },
 	];
 
