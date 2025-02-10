@@ -174,7 +174,7 @@ const Members = () => {
 							)}
 						</tbody>
 					</table>
-					<div className="flex items-center justify-between ">
+					<div className={`flex items-center justify-between ${data?.members.length>0?"block":"hidden"} `}>
 						<div>
 							Show Page {page} of {totalPages}
 						</div>

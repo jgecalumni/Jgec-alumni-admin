@@ -183,7 +183,7 @@ const Scholarships: React.FC = () => {
 							)}
 						</tbody>
 					</table>
-					<div className="flex items-center justify-between ">
+					<div className={`flex items-center justify-between ${data?.scholarships.length>0?"block":"hidden"} `}>
 						<div>
 							Show Page {page} of {totalPages}
 						</div>
