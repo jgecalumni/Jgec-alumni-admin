@@ -24,7 +24,7 @@ export default function Home() {
 
 	return (
 		<div className="w-full">
-			<div className="text-xl lg:text-2xl">Welcome Souhardya Deb !</div>
+			<div className="text-xl lg:text-2xl">Welcome Admin !</div>
 			<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-4">
 				<Link href="/members">
 					<div className="rounded-md relative overflow-hidden w-full h-40 card-back-1 ">

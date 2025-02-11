@@ -22,7 +22,7 @@ const Events: React.FC = () => {
 	const [eventDetails,setEventDetails] = useState<any>();
 	const [totalPages, setTotalPages] = useState<number>(1);
 	const { data, error, isError, isLoading, refetch } = useAllEventsQuery({
-		page: 1,
+		page: page,
 		search: searchQuery,
 	});
 	const [
