@@ -115,7 +115,7 @@ export default function Layout({
 							alt="Logo"
 							className="rounded-full"
 						/>
-						<div className="text-sm font-medium">Souhardya Deb</div>
+						<div className="text-sm font-medium">Admin</div>
 					</div>
 					<button
 						className="bg-danger flex items-center justify-center gap-2 p-2 px-4 text-white rounded text-sm disabled:opacity-50"
