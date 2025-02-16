@@ -5,7 +5,10 @@ import { ScholarshipDetails } from "@/lib/ScholarshipData";
 import Image from "next/image";
 import { ArrowLeft, ArrowRight, PlusIcon } from "lucide-react";
 import dynamic from "next/dynamic";
-import { useAllScholarshipsQuery } from "@/store/feature/scholarship-feature";
+import {
+	useAllScholarshipsQuery,
+	useDeleteScholarshipsMutation,
+} from "@/store/feature/scholarship-feature";
 import toast from "react-hot-toast";
 import { debounce } from "@/utils";
 import Loading from "@/app/loading";
@@ -27,6 +30,10 @@ const Scholarships: React.FC = () => {
 		page: 1,
 		search: searchQuery,
 	});
+	const [
+		deleteScholarship,
+		{ isLoading: isDeleting, error: deleteError, isError: isDeleteError },
+	] = useDeleteScholarshipsMutation();
 
 	useEffect(() => {
 		if (isError) {
@@ -34,12 +41,17 @@ const Scholarships: React.FC = () => {
 				(error as any)?.data?.message || "Failed to fetch scholarships"
 			);
 		}
+		if (isDeleteError) {
+			toast.error(
+				(deleteError as any)?.data?.message || "Failed to delete Scholarship"
+			);
+		}
 		if (data) {
 			setTotalPages(data?.totalPages);
 		}
-	}, [isError, error, data]);
+	}, [isError, error, data, isDeleteError, deleteError]);
 
-	if (isLoading) {
+	if (isLoading || isDeleteError) {
 		return <Loading />;
 	}
 
@@ -47,6 +59,14 @@ const Scholarships: React.FC = () => {
 		const searchValue = e.target.value;
 		setSearchQuery(searchValue);
 	}, 1000);
+
+	const handleDelete = async (id: string) => {
+		const res = await deleteScholarship(id);
+		if (res?.data?.success) {
+			toast.success("Scholarship deleted successfully");
+			refetch();
+		}
+	};
 
 	return (
 		<>
@@ -147,11 +167,11 @@ const Scholarships: React.FC = () => {
 										<td className="px-6 py-4 truncate max-w-xs">
 											{item.amountDetails}
 										</td>
-										<td className="px-6 py-4">{item.provider.name}</td>
+										<td className="px-6 py-4">{item.providerName}</td>
 										<td className="px-6 py-4">
 											<Image
-												src={item.provider.photo}
-												alt={item.name}
+												src={item.providerImage}
+												alt={item.provideName}
 												width={100}
 												height={100}
 												className="w-40 h-20 object-contain"
@@ -166,7 +186,11 @@ const Scholarships: React.FC = () => {
 												}}>
 												Edit
 											</button>
-											<button className="font-medium text-danger hover:underline">
+											<button
+												className="font-medium text-danger hover:underline"
+												onClick={(e) => {
+													e.stopPropagation(), handleDelete(item.id);
+												}}>
 												Delete
 											</button>
 										</td>
@@ -183,7 +207,10 @@ const Scholarships: React.FC = () => {
 							)}
 						</tbody>
 					</table>
-					<div className={`flex items-center justify-between ${data?.scholarships.length>0?"block":"hidden"} `}>
+					<div
+						className={`flex items-center justify-between ${
+							data?.scholarships.length > 0 ? "block" : "hidden"
+						} `}>
 						<div>
 							Show Page {page} of {totalPages}
 						</div>

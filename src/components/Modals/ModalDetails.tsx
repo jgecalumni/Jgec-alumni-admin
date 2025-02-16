@@ -100,7 +100,7 @@ export const ModalScholarshipDetails: React.FC<IProps> = memo(
 				<Dialog
 					open={open}
 					onOpenChange={closed}>
-					<DialogContent className="sm:max-w-2xl modal-scrollbar">
+					<DialogContent className="sm:max-w-2xl overflow-auto lg:w-full h-full max-h-[85vh] modal-scrollbar">
 						<DialogHeader className="font-semibold text-lg">
 							<DialogTitle>Scholarship Details</DialogTitle>
 						</DialogHeader>
@@ -144,27 +144,38 @@ export const ModalScholarshipDetails: React.FC<IProps> = memo(
 									<div className="space-y-1 ">
 										<div>
 											<span className="font-medium">Name</span> :{" "}
-											{details.provider.name}
+											{details.providerName}
 										</div>
 										<div>
 											<span className="font-medium">Department</span> :{" "}
-											{details.provider.department}
+											{details.providerDepartment}
 										</div>
 										<div>
 											<span className="font-medium">Passing Year</span> :{" "}
-											{details.provider.passingYear}
+											{details.providerPassingYear}
 										</div>
+										
 									</div>
 								</div>
 								<div className="">
 									<Image
-										src={details.provider.photo}
+										src={details.providerImage}
 										alt="provider photo"
-										width={120}
-										height={120}
+										width={160}
+										height={160}
+										className="rounded"
 									/>
 								</div>
 							</div>
+							<div>
+											<span className="font-medium">Provider Description</span> :{" "}
+											<ReactQuill
+											theme="bubble"
+											value={details.providerDescription}
+											readOnly={true}
+											className="scholarship_view_editor"
+										/>
+										</div>
 						</div>
 					</DialogContent>
 				</Dialog>

@@ -19,6 +19,7 @@ import {
 } from "@/store/feature/scholarship-feature";
 import toast from "react-hot-toast";
 import { MultiSelect } from "../ui/multiselect";
+import Image from "next/image";
 
 interface IProps {
 	open: boolean;
@@ -31,7 +32,7 @@ const validationSchema = Yup.object().shape({
 		.required("Scholarship name is required")
 		.max(200, "Scholarship name should be less than 200 characters"),
 	description: Yup.string().required("Scholarship description is required"),
-	providerId: Yup.string().required("Provider is required"),
+	providerName: Yup.string().required("Provider name is required"),
 	providerDescription: Yup.string().required(
 		"Provider description is required"
 	),
@@ -64,28 +65,37 @@ const semOptions = [
 
 const ModalScholarshipEdit: React.FC<IProps> = memo(
 	({ open, closed, details }) => {
-		const { data: members } = useGetAllMembersQuery({ limit: 50 });
-		const [options, setOptions] = useState<{ value: string; label: string }[]>(
-			[]
-		);
-		
-		
 		const [addScholarship, { isLoading, isError, error }] =
 			useAddScholarshipsMutation();
 		const [
 			editScholarship,
 			{ isLoading: isEditing, isError: isEditError, error: editError },
 		] = useEditScholarshipsMutation();
+		const [imagePreview, setImagePreview] = useState<string | null>(null);
+		const handleFileChange = (
+			event: React.ChangeEvent<HTMLInputElement>,
+			setFieldValue: any
+		) => {
+			const file = event.target.files?.[0];
+			setFieldValue("providerImage", file);
 
-		useEffect(() => {
-			if (members) {
-				const options = members?.members?.map((member: any) => ({
-					value: member.id,
-					label: member.name,
-				}));
-				setOptions(options);
+			if (file) {
+				const reader = new FileReader();
+				reader.onload = (e) => {
+					if (e.target?.result) {
+						setImagePreview(e.target.result as string);
+					}
+				};
+				reader.readAsDataURL(file);
+			} else {
+				setImagePreview(null);
 			}
-		}, [members]);
+		};
+		useEffect(() => {
+			if (details?.providerImage) {
+				setImagePreview(details.providerImage);
+			}
+		}, [details]);
 
 		useEffect(() => {
 			if (isEditError) {
@@ -102,22 +112,34 @@ const ModalScholarshipEdit: React.FC<IProps> = memo(
 
 		const handelSubmit = async (values: any) => {
 			let sem = values.semRequire.join(",");
+			const formData = new FormData();
+			formData.append("name", values.name);
+			formData.append("subtitle", values.subtitle);
+			formData.append("description", values.description);
+			formData.append("providerName", values.providerName);
+			formData.append("providerDepartment", values.providerDepartment);
+			formData.append("providerPassingYear", values.providerPassingYear);
+			formData.append("providerImage", values.providerImage);
+			formData.append("providerDescription", values.providerDescription);
+			formData.append("whoCanApply", values.whoCanApply);
+			formData.append("whenToApply", values.whenToApply);
+			formData.append("ageLimit", values.ageLimit);
+			formData.append("amountDetails", values.amountDetails);
+			formData.append("semRequire", sem);
 			if (details) {
 				if (!values.semRequire.length) {
 					sem = details.semRequire;
 				}
 				const res = await editScholarship({
 					id: details.id,
-					data: { ...values, semRequire: sem },
+					formData,
 				});
 				if (res?.data?.success) {
 					toast.success("Scholarship updated successfully");
 					closed();
 				}
 			} else {
-				const res = await addScholarship({
-					data: { ...values, semRequire: sem },
-				});
+				const res = await addScholarship(formData);
 				if (res?.data?.success) {
 					toast.success("Scholarship added successfully");
 					closed();
@@ -143,7 +165,10 @@ const ModalScholarshipEdit: React.FC<IProps> = memo(
 									name: details?.name || "",
 									subtitle: details?.subtitle || "",
 									description: details?.description || "",
-									providerId: details?.providerId || "",
+									providerName: details?.providerName || "",
+									providerImage: details?.providerImage || "",
+									providerDepartment: details?.providerDepartment || "",
+									providerPassingYear: details?.providerPassingYear || "",
 									providerDescription: details?.providerDescription || "",
 									whoCanApply: details?.whoCanApply || "",
 									whenToApply: details?.whenToApply || "",
@@ -205,7 +230,7 @@ const ModalScholarshipEdit: React.FC<IProps> = memo(
 												className="text-xs text-red-500 mt-1.5"
 											/>
 										</div>
-										<div>
+										{/* <div>
 											<SelectField
 												name="providerId"
 												label="Select Scholarship Provider"
@@ -233,6 +258,89 @@ const ModalScholarshipEdit: React.FC<IProps> = memo(
 												name="providerId"
 												component={"div"}
 												className="text-xs text-red-500 mt-1.5"
+											/>
+										</div> */}
+										<div>
+											<Label htmlFor="providerName">Provider Name</Label>
+											<Input
+												name="providerName"
+												id="providerName"
+												placeholder="Enter Provider Name"
+												value={values.providerName}
+												onChange={handleChange}
+												className="mt-1"
+											/>
+											<ErrorMessage
+												name="provideName"
+												component={"div"}
+												className="text-xs text-red-500 mt-1.5"
+											/>
+										</div>
+										<div>
+											<Label htmlFor="providerImage">Provider Image</Label>
+											<div className="lg:flex items-center gap-2">
+												<Input
+													name="providerImage"
+													id="providerImage"
+													type="file"
+													accept="image/*"
+													onChange={(e) => handleFileChange(e, setFieldValue)}
+													className="mt-1"
+												/>
+												{imagePreview && (
+													<div className="mt-2">
+														<Image
+															src={imagePreview}
+															alt="Provider Image"
+															width={120}
+															height={120}
+															className="rounded-lg"
+														/>
+													</div>
+												)}
+											</div>
+											<ErrorMessage
+												name="event_thumbnail"
+												component="div"
+												className="text-red-500 text-xs mt-1.5"
+											/>
+										</div>
+										<div>
+											<SelectField
+												name="providerDepartment"
+												label="Provider Department"
+												defaultValue="Select provider department"
+												data={[
+													{ label: "CSE", value: "CSE" },
+													{ label: "IT", value: "IT" },
+													{ label: "ECE", value: "ECE" },
+													{ label: "EE", value: "EE" },
+													{ label: "ME", value: "ME" },
+													{ label: "CE", value: "CE" },
+												]}
+												onValueChange={(value) =>
+													setFieldValue("providerDepartment", value)
+												}
+												value={values.providerDepartment}
+											/>
+											<ErrorMessage
+												name="providerDepartment"
+												component="div"
+												className="text-red-500 text-xs"
+											/>
+										</div>
+										<div>
+											<Label htmlFor="providerPassingYear">
+												Provider passing year
+											</Label>
+											<Input
+												name="providerPassingYear"
+												id="providerPassingYear"
+												placeholder="Enter the provider passing year"
+												type="number"
+												onChange={handleChange}
+												value={values.providerPassingYear}
+												className="mt-1"
 											/>
 										</div>
 										<div>

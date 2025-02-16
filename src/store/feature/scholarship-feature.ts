@@ -21,21 +21,21 @@ export const scholarshipApi = baseApi
                 }),
                 providesTags: ['scholarship-details']
             }),
-            addScholarships: builder.mutation<any, { data: any }>({
-                query: ({ data }) => ({
+            addScholarships: builder.mutation<any, any >({
+                query: (formData) => ({
                     url: '/scholarships/add',
                     method: 'POST',
                     credentials: 'include',
-                    body: data
+                    body: formData
                 }),
                 invalidatesTags: ['add-scholarships']
             }),
-            editScholarships: builder.mutation<any, { id: string, data: any }>({
-                query: ({ id, data }) => ({
+            editScholarships: builder.mutation<any, { id: string, formData: FormData }>({
+                query: ({ id, formData }) => ({
                     url: `/scholarships/update/${id}`,
                     method: 'PATCH',
                     credentials: 'include',
-                    body: data
+                    body: formData
                 }),
                 invalidatesTags: ['edit-scholarships']
             }),
