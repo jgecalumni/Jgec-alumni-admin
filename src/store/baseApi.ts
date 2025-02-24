@@ -16,6 +16,7 @@ export const baseApi = createApi({
                 url: "/auth/member/admin/login",
                 method: "POST",
                 body: data, 
+                credentials: "include"
             }),
             invalidatesTags: ["login"],
         }),
