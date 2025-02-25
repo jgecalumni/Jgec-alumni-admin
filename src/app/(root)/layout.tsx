@@ -60,8 +60,6 @@ export default function Layout({
 	];
 	const documentSections = [
 		{ name: "Scholarships", path: "/documents/scholarship" },
-		{ name: "Policies", path: "/documents/policies" },
-		{ name: "Guidelines", path: "/documents/guidelines" },
 	];
 
 	return (
