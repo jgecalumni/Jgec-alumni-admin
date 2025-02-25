@@ -24,6 +24,7 @@ export const baseApi = createApi({
             query: () => ({
                 url: "/auth/member/logout",
                 method: "GET",
+                credentials: "include"
             }),
             invalidatesTags: ["logout"],
         }),
