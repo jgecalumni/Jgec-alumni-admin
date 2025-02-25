@@ -317,6 +317,7 @@ const ModalScholarshipEdit: React.FC<IProps> = memo(
 													{ label: "EE", value: "EE" },
 													{ label: "ME", value: "ME" },
 													{ label: "CE", value: "CE" },
+													{ label: "Not Mentioned", value: "Not Mentioned" },
 												]}
 												onValueChange={(value) =>
 													setFieldValue("providerDepartment", value)
