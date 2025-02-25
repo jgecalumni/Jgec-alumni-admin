@@ -22,7 +22,7 @@ export const baseApi = createApi({
         }),
         logout: builder.mutation<any, void>({
             query: () => ({
-                url: "/auth/member/logout",
+                url: "/auth/member/admin/logout",
                 method: "GET",
                 // credentials: "include"
             }),
