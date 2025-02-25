@@ -7,7 +7,7 @@ import { IoSchool } from "react-icons/io5";
 import { IoMdPhotos } from "react-icons/io";
 import { FaUser } from "react-icons/fa";
 import { FiLogOut } from "react-icons/fi";
-import { MdEventNote } from "react-icons/md";
+import { MdEventNote, MdFolder } from "react-icons/md";
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -25,9 +25,9 @@ import {
 	SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { useLogoutMutation } from "@/store/baseApi";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { Loader2 } from "lucide-react";
+import { ChevronRight, Loader2, MoveRightIcon } from "lucide-react";
 
 
 export default function Layout({
@@ -38,6 +38,7 @@ export default function Layout({
 	const pathname = usePathname();
 	const router = useRouter();
 	const [logout, { isLoading, isError, error, isSuccess }] = useLogoutMutation();
+	const [documentsOpen, setDocumentsOpen] = useState(false);
 
 	useEffect(() => {
 		if (isError) {
@@ -56,6 +57,11 @@ export default function Layout({
 		{name: "Events", path:"/events",icon: <MdEventNote size={20}/>},
 		{ name: "Gallery", path: "/gallery", icon: <IoMdPhotos size={18} /> },
 		{ name: "Members", path: "/members", icon: <FaUser size={16} /> },
+	];
+	const documentSections = [
+		{ name: "Scholarships", path: "/documents/scholarship" },
+		{ name: "Policies", path: "/documents/policies" },
+		{ name: "Guidelines", path: "/documents/guidelines" },
 	];
 
 	return (
@@ -99,6 +105,28 @@ export default function Layout({
 										</SidebarMenuButton>
 									</SidebarMenuItem>
 								))}
+								{/* Documents Dropdown */}
+								<SidebarMenuItem>
+									<button
+										onClick={() => setDocumentsOpen(!documentsOpen)}
+										className="flex w-full justify-between font-medium items-center hover:text-[#516bb7] px-2 mt-2 duration-200"
+									>
+										<span>Documents</span>
+										<span className="text-gray-400 hover:text-[#516bb7] duration-200">
+											<MdFolder size={20} />
+										</span>
+									</button>
+									{documentsOpen && (
+										<div className="pl-4 mt-4 space-y-6">
+											{documentSections.map((doc) => (
+												<Link key={doc.name} href={doc.path} className={`flex items-center gap-2 font-medium  ${pathname === doc.path ? "text-[#516bb7] " : ""
+													} hover:text-[#516bb7] duration-200`}>
+													<ChevronRight size={18} /> {doc.name}
+												</Link>
+											))}
+										</div>
+									)}
+								</SidebarMenuItem>
 							</SidebarMenu>
 						</SidebarGroupContent>
 					</SidebarGroup>

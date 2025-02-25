@@ -47,6 +47,7 @@ const validateSchema = Yup.object().shape({
 const ModalEventEdit: React.FC<IProps> = memo(({ open, closed, data }) => {
 	const [addEvent, { isError, isLoading, error }] = useAddEventMutation();
 	const [editEvent, { isLoading: editLoading, isError: editIsError, error: editError }] = useEditEventMutation();
+	
 	const [imagePreview, setImagePreview] = useState<string | null>(null);
 
 	useEffect(() => {
