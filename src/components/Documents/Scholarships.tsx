@@ -71,7 +71,7 @@ const Scholarships = () => {
 											height={20}
 											alt=""
 										/>
-										<div className="text-sm line-clamp-2">{item.title}</div>
+										<div className="text-sm line-clamp-1 group-hover:line-clamp-2">{item.title}</div>
 									</div>
 									<div className="mt-4 flex gap-6 justify-center items-center p-4">
 										<Link href={item.link} target="_blank">
