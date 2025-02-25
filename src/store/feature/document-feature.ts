@@ -21,7 +21,20 @@ export interface INotice {
 
 export const docsApi = baseApi
 	.enhanceEndpoints({
-		addTagTypes: ["getAllScholarshipsDocs", "addScholarshipsDocs","deleteScholarshipsDocs","updateScholDocs"],
+		addTagTypes: [
+			"getAllScholarshipsDocs",
+			"addScholarshipsDocs",
+			"deleteScholarshipsDocs",
+			"updateScholDocs",
+			"getAllkanchenjungaDocs",
+			"addkanchenjungaDocs",
+			"deletekanchenjungaDocs",
+			"updatekanchenjungaDocs",
+			"getAllGivingBackDocs",
+			"addGivingBackDocs",
+			"deleteGivingBackDocs",
+			"updateGivingBackDocs",
+		],
 	})
 	.injectEndpoints({
 		endpoints: (builder) => ({
@@ -33,14 +46,6 @@ export const docsApi = baseApi
 				}),
 				providesTags: ["getAllScholarshipsDocs"],
 			}),
-			// getNoticeDetails: builder.query<IResponse, number>({
-			//     query: (id) => ({
-			//         url: `/notice/${id}`,
-			//         method: 'GET',
-			//         credentials: 'include'
-			//     }),
-			//     providesTags: ['notice-details']
-			// }),
 			addScholDocs: builder.mutation<IResponse, any>({
 				query: (data) => ({
 					url: "/documents/add/scholarshipDocs",
@@ -50,24 +55,115 @@ export const docsApi = baseApi
 				}),
 				invalidatesTags: ["addScholarshipsDocs"],
 			}),
-			updateScholDocs: builder.mutation<IResponse, { formData: any, id: string }>({
-			    query: ({ formData, id }) => ({
-			        url: `/documents/update/scholarshipDocs/${id}`,
-			        method: 'PATCH',
-			        credentials: 'include',
-			        body: formData
-			    }),
-			    invalidatesTags: ['updateScholDocs']
+			updateScholDocs: builder.mutation<
+				IResponse,
+				{ formData: any; id: string }
+			>({
+				query: ({ formData, id }) => ({
+					url: `/documents/update/scholarshipDocs/${id}`,
+					method: "PATCH",
+					credentials: "include",
+					body: formData,
+				}),
+				invalidatesTags: ["updateScholDocs"],
 			}),
 			deleteScholDocs: builder.mutation<IResponse, string>({
-			    query: (id) => ({
-			        url: `/documents/delete/scholarshipDocs/${id}`,
-			        method: 'DELETE',
-			        credentials: 'include'
-			    }),
-			    invalidatesTags: ['deleteScholarshipsDocs']
+				query: (id) => ({
+					url: `/documents/delete/scholarshipDocs/${id}`,
+					method: "DELETE",
+					credentials: "include",
+				}),
+				invalidatesTags: ["deleteScholarshipsDocs"],
+			}),
+			getAllKanchenungaDocs: builder.query<IGetAllDocsRes, any>({
+				query: () => ({
+					url: "/documents/kanchenjungaDocs",
+					method: "GET",
+					credentials: "include",
+				}),
+				providesTags: ["getAllkanchenjungaDocs"],
+			}),
+			addKanchenungaDocs: builder.mutation<IResponse, any>({
+				query: (data) => ({
+					url: "/documents/add/kanchenjungaDocs",
+					method: "POST",
+					credentials: "include",
+					body: data,
+				}),
+				invalidatesTags: ["addkanchenjungaDocs"],
+			}),
+			updateKanchenungaDocs: builder.mutation<
+				IResponse,
+				{ formData: any; id: string }
+			>({
+				query: ({ formData, id }) => ({
+					url: `/documents/update/kanchenjungaDocs/${id}`,
+					method: "PATCH",
+					credentials: "include",
+					body: formData,
+				}),
+				invalidatesTags: ["updatekanchenjungaDocs"],
+			}),
+			deleteKanchenungaDocs: builder.mutation<IResponse, string>({
+				query: (id) => ({
+					url: `/documents/delete/kanchenjungaDocs/${id}`,
+					method: "DELETE",
+					credentials: "include",
+				}),
+				invalidatesTags: ["deletekanchenjungaDocs"],
+			}),
+
+			getAllGivingBackDocs: builder.query<IGetAllDocsRes, any>({
+				query: () => ({
+					url: "/documents/givingBackDocs",
+					method: "GET",
+					credentials: "include",
+				}),
+				providesTags: ["getAllGivingBackDocs"],
+			}),
+			addGivingBackDocs: builder.mutation<IResponse, any>({
+				query: (data) => ({
+					url: "/documents/add/givingBackDocs",
+					method: "POST",
+					credentials: "include",
+					body: data,
+				}),
+				invalidatesTags: ["addGivingBackDocs"],
+			}),
+			updateGivingBackDocs: builder.mutation<
+				IResponse,
+				{ formData: any; id: string }
+			>({
+				query: ({ formData, id }) => ({
+					url: `/documents/update/givingBackDocs/${id}`,
+					method: "PATCH",
+					credentials: "include",
+					body: formData,
+				}),
+				invalidatesTags: ["updateGivingBackDocs"],
+			}),
+			deleteGivingBackDocs: builder.mutation<IResponse, string>({
+				query: (id) => ({
+					url: `/documents/delete/givingBackDocs/${id}`,
+					method: "DELETE",
+					credentials: "include",
+				}),
+				invalidatesTags: ["deleteGivingBackDocs"],
 			}),
 		}),
 	});
 
-export const { useGetAllScholDocsQuery, useAddScholDocsMutation,useDeleteScholDocsMutation,useUpdateScholDocsMutation } = docsApi;
+export const {
+	useGetAllScholDocsQuery,
+	useAddScholDocsMutation,
+	useDeleteScholDocsMutation,
+	useUpdateScholDocsMutation,
+	useAddKanchenungaDocsMutation,
+	useDeleteKanchenungaDocsMutation,
+	useGetAllKanchenungaDocsQuery,
+	useUpdateKanchenungaDocsMutation,
+	useAddGivingBackDocsMutation,
+	useDeleteGivingBackDocsMutation,
+	useGetAllGivingBackDocsQuery,
+	useUpdateGivingBackDocsMutation,
+} = docsApi;

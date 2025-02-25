@@ -60,6 +60,8 @@ export default function Layout({
 	];
 	const documentSections = [
 		{ name: "Scholarships", path: "/documents/scholarship" },
+		{ name: "Kanchenjunga", path: "/documents/kanchenjunga" },
+		{ name: "Giving-Back", path: "/documents/giving-back" },
 	];
 
 	return (
@@ -115,9 +117,9 @@ export default function Layout({
 										</span>
 									</button>
 									{documentsOpen && (
-										<div className="pl-4 mt-4 space-y-6">
+										<div className="pl-4 mt-4 space-y-4">
 											{documentSections.map((doc) => (
-												<Link key={doc.name} href={doc.path} className={`flex items-center gap-2 font-medium  ${pathname === doc.path ? "text-[#516bb7] " : ""
+												<Link key={doc.name} href={doc.path} className={`flex text-sm items-center gap-2 font-medium  ${pathname === doc.path ? "text-[#516bb7] " : ""
 													} hover:text-[#516bb7] duration-200`}>
 													<ChevronRight size={18} /> {doc.name}
 												</Link>
