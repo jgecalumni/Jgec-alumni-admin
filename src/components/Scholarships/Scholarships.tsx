@@ -27,7 +27,7 @@ const Scholarships: React.FC = () => {
 	const [page, setPage] = useState<number>(1);
 	const [totalPages, setTotalPages] = useState<number>(1);
 	const { data, error, isLoading, isError, refetch } = useAllScholarshipsQuery({
-		page: 1,
+		page: page,
 		search: searchQuery,
 	});
 	const [
