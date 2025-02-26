@@ -6,7 +6,7 @@ export const scholarshipApi = baseApi
         endpoints: (builder) => ({
             allScholarships: builder.query<any, { limit?: number, page?: number, search?: string }>({
                 query: ({ limit = 10, page = 1, search = "" }) => ({
-                    url: '/scholarships',
+                    url: '/scholarships/admin',
                     params: { limit, page, search },
                     method: 'GET',
                     credentials: 'include'
