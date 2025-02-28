@@ -34,6 +34,10 @@ export const docsApi = baseApi
 			"addGivingBackDocs",
 			"deleteGivingBackDocs",
 			"updateGivingBackDocs",
+			"getAllauditReportDocs",
+			"addauditReportDocs",
+			"deleteauditReportDocs",
+			"updateauditReportDocs",
 		],
 	})
 	.injectEndpoints({
@@ -150,6 +154,44 @@ export const docsApi = baseApi
 				}),
 				invalidatesTags: ["deleteGivingBackDocs"],
 			}),
+
+			getAllauditReportDocs: builder.query<IGetAllDocsRes, any>({
+				query: () => ({
+					url: "/documents/auditReportDocs",
+					method: "GET",
+					credentials: "include",
+				}),
+				providesTags: ["getAllauditReportDocs"],
+			}),
+			addauditReportDocs: builder.mutation<IResponse, any>({
+				query: (data) => ({
+					url: "/documents/add/auditReportDocs",
+					method: "POST",
+					credentials: "include",
+					body: data,
+				}),
+				invalidatesTags: ["addauditReportDocs"],
+			}),
+			updateauditReportDocs: builder.mutation<
+				IResponse,
+				{ formData: any; id: string }
+			>({
+				query: ({ formData, id }) => ({
+					url: `/documents/update/auditReportDocs/${id}`,
+					method: "PATCH",
+					credentials: "include",
+					body: formData,
+				}),
+				invalidatesTags: ["updateauditReportDocs"],
+			}),
+			deleteauditReportDocs: builder.mutation<IResponse, string>({
+				query: (id) => ({
+					url: `/documents/delete/auditReportDocs/${id}`,
+					method: "DELETE",
+					credentials: "include",
+				}),
+				invalidatesTags: ["deleteauditReportDocs"],
+			}),
 		}),
 	});
 
@@ -166,4 +208,8 @@ export const {
 	useDeleteGivingBackDocsMutation,
 	useGetAllGivingBackDocsQuery,
 	useUpdateGivingBackDocsMutation,
+	useAddauditReportDocsMutation,
+	useDeleteauditReportDocsMutation,
+	useUpdateauditReportDocsMutation,
+	useGetAllauditReportDocsQuery,
 } = docsApi;

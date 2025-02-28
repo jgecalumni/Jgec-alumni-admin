@@ -24,11 +24,20 @@ import {
 	SidebarProvider,
 	SidebarTrigger,
 } from "@/components/ui/sidebar";
+import {
+	DropdownMenu,
+	DropdownMenuCheckboxItem,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuLabel,
+	DropdownMenuSeparator,
+	DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { useLogoutMutation } from "@/store/baseApi";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { ChevronRight, Loader2, MoveRightIcon } from "lucide-react";
-
+import { Button } from "@/components/ui/button";
 
 export default function Layout({
 	children,
@@ -37,7 +46,8 @@ export default function Layout({
 }>) {
 	const pathname = usePathname();
 	const router = useRouter();
-	const [logout, { isLoading, isError, error, isSuccess }] = useLogoutMutation();
+	const [logout, { isLoading, isError, error, isSuccess }] =
+		useLogoutMutation();
 	const [documentsOpen, setDocumentsOpen] = useState(false);
 
 	useEffect(() => {
@@ -54,7 +64,7 @@ export default function Layout({
 		{ name: "Dashboard", path: "/", icon: <TiHome size={22} /> },
 		{ name: "Notice", path: "/notice", icon: <IoIosCreate size={20} /> },
 		{ name: "Scholarship", path: "/scholarship", icon: <IoSchool size={20} /> },
-		{name: "Events", path:"/events",icon: <MdEventNote size={20}/>},
+		{ name: "Events", path: "/events", icon: <MdEventNote size={20} /> },
 		{ name: "Gallery", path: "/gallery", icon: <IoMdPhotos size={18} /> },
 		{ name: "Members", path: "/members", icon: <FaUser size={16} /> },
 	];
@@ -62,6 +72,7 @@ export default function Layout({
 		{ name: "Scholarships", path: "/documents/scholarship" },
 		{ name: "Kanchenjunga", path: "/documents/kanchenjunga" },
 		{ name: "Giving-Back", path: "/documents/giving-back" },
+		{ name: "Audit-Report", path: "/documents/audit-report" },
 	];
 
 	return (
@@ -83,7 +94,7 @@ export default function Layout({
 								</div>
 							</div>
 						</SidebarGroupLabel>
-						<SidebarGroupContent className="mt-8 p-4 ">
+						<SidebarGroupContent className="mt-6 p-4 ">
 							<SidebarMenu className="space-y-6">
 								{navItems.map((item) => (
 									<SidebarMenuItem key={item.name}>
@@ -91,14 +102,16 @@ export default function Layout({
 											<Link
 												href={item.path}
 												key={item.name}
-												className={`flex hover:text-[#516bb7] duration-200 justify-between font-medium items-center ${pathname === item.path ? "text-[#516bb7] " : ""
-													}`}>
+												className={`flex hover:text-[#516bb7] duration-200 justify-between font-medium items-center ${
+													pathname === item.path ? "text-[#516bb7] " : ""
+												}`}>
 												<span>{item.name}</span>
 												<span
-													className={`${pathname === item.path
-														? "text-[#516bb7]"
-														: "text-gray-400 hover:text-[#516bb7] duration-200"
-														} `}>
+													className={`${
+														pathname === item.path
+															? "text-[#516bb7]"
+															: "text-gray-400 hover:text-[#516bb7] duration-200"
+													} `}>
 													{item.icon}
 												</span>
 											</Link>
@@ -107,7 +120,7 @@ export default function Layout({
 								))}
 								{/* Documents Dropdown */}
 								<SidebarMenuItem>
-									<button
+									{/* <button
 										onClick={() => setDocumentsOpen(!documentsOpen)}
 										className="flex w-full justify-between font-medium items-center hover:text-[#516bb7] px-2 mt-2 duration-200"
 									>
@@ -125,7 +138,30 @@ export default function Layout({
 												</Link>
 											))}
 										</div>
-									)}
+									)} */}
+									<DropdownMenu>
+										<DropdownMenuTrigger className="flex w-full justify-between font-medium items-center hover:text-[#516bb7] px-2 mt-2 duration-200 focus:outline-none focus:ring-0">
+											<span>Documents</span>
+											<span className="text-gray-400 hover:text-[#516bb7] duration-200">
+												<MdFolder size={20} />
+											</span>
+										</DropdownMenuTrigger>
+										<DropdownMenuContent className="w-56">
+											{documentSections.map((doc) => (
+												<DropdownMenuItem
+													key={doc.name}
+													asChild>
+													<Link
+														href={doc.path}
+														className={`flex text-sm items-center gap-2 font-medium px-2 py-1 ${
+															pathname === doc.path ? "text-[#516bb7]" : ""
+														} hover:text-[#516bb7] duration-200`}>
+														<ChevronRight size={18} /> {doc.name}
+													</Link>
+												</DropdownMenuItem>
+											))}
+										</DropdownMenuContent>
+									</DropdownMenu>
 								</SidebarMenuItem>
 							</SidebarMenu>
 						</SidebarGroupContent>
@@ -148,10 +184,16 @@ export default function Layout({
 					<button
 						className="bg-danger flex items-center justify-center gap-2 p-2 px-4 text-white rounded text-sm disabled:opacity-50"
 						onClick={async () => await logout()}
-						disabled={isLoading}
-					>
+						disabled={isLoading}>
 						<div>Logout</div>
-						{!isLoading ? <FiLogOut /> : <Loader2 className="animate-spin" size={16} />}
+						{!isLoading ? (
+							<FiLogOut />
+						) : (
+							<Loader2
+								className="animate-spin"
+								size={16}
+							/>
+						)}
 					</button>
 				</div>
 			</nav>

@@ -161,7 +161,7 @@ body {
 	background: #f1f1f1 !important;
 }
 *::-webkit-scrollbar-thumb {
-	background: red !important;
+	background: #868686 !important;
 	border-radius: 10px !important;
 }
 *::-webkit-scrollbar-thumb:hover {
@@ -191,4 +191,15 @@ body {
 .scholarship_view_editor .ql-container.ql-disabled .ql-tooltip {
 	display: none !important;
 	height: 0 !important;
+}
+
+
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+	}
+  body {
+    @apply bg-background text-foreground;
+	}
 }
