@@ -205,7 +205,7 @@ const Members = () => {
 					closed={() => {
 						setOpenModal(false);
 						setEditMembers(null);
-						// refetch();
+						refetch();
 					}}
 					details={editMembers}
 				/>
