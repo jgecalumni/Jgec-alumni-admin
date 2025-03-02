@@ -152,7 +152,7 @@ const Gallery = () => {
 										</th>
 										<td className="px-8 py-4 ">{item.images.length}</td>
 										<td className="px-6 flex gap-3 py-4 ">
-											<div className="bg-slate-100 rounded p-2">
+											<div className="bg-slate-100 cursor-pointer rounded p-2">
 												<Upload
 													size={16}
 													color="green"
@@ -163,7 +163,7 @@ const Gallery = () => {
 													}}
 												/>
 											</div>
-											<div className="bg-slate-100 p-2 rounded">
+											<div className="bg-slate-100 cursor-pointer p-2 rounded">
 												<Link
 													size={16}
 													color="black"
