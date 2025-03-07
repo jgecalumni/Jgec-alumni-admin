@@ -41,8 +41,8 @@ export const ModalDocumentsScholarship: React.FC<IProps> = memo(
 			const file = e.target.files ? e.target.files[0] : null;
 
 			if (file) {
-				if (file.size > 2 * 1024 * 1024) {
-					toast.error("File size must be less than 2MB");
+				if (file.size > 10 * 1024 * 1024) {
+					toast.error("File size must be less than 10MB");
 					return;
 				}
 				setFieldValue("file", file);
@@ -56,8 +56,8 @@ export const ModalDocumentsScholarship: React.FC<IProps> = memo(
 		};
 		const handelSubmit = async (values: any) => {
 			const { title, file } = values;
-			if (file && file.size > 2 * 1024 * 1024) {
-				toast.error("File size must be less than 2MB");
+			if (file && file.size > 10 * 1024 * 1024) {
+				toast.error("File size must be less than 10MB");
 				return;
 			}
 			const formData = new FormData();
@@ -194,8 +194,8 @@ export const ModalDocumentsKanchenjunga: React.FC<IProps> = memo(
 			const file = e.target.files ? e.target.files[0] : null;
 
 			if (file) {
-				if (file.size > 2 * 1024 * 1024) {
-					toast.error("File size must be less than 2MB");
+				if (file.size > 10 * 1024 * 1024) {
+					toast.error("File size must be less than 10MB");
 					return;
 				}
 				setFieldValue("file", file);
@@ -209,8 +209,8 @@ export const ModalDocumentsKanchenjunga: React.FC<IProps> = memo(
 		};
 		const handelSubmit = async (values: any) => {
 			const { title, file } = values;
-			if (file && file.size > 2 * 1024 * 1024) {
-				toast.error("File size must be less than 2MB");
+			if (file && file.size > 10 * 1024 * 1024) {
+				toast.error("File size must be less than 10MB");
 				return;
 			}
 			const formData = new FormData();
@@ -347,8 +347,8 @@ export const ModalDocumentsGivingBack: React.FC<IProps> = memo(
 			const file = e.target.files ? e.target.files[0] : null;
 
 			if (file) {
-				if (file.size > 2 * 1024 * 1024) {
-					toast.error("File size must be less than 2MB");
+				if (file.size > 10 * 1024 * 1024) {
+					toast.error("File size must be less than 10MB");
 					return;
 				}
 				setFieldValue("file", file);
@@ -362,8 +362,8 @@ export const ModalDocumentsGivingBack: React.FC<IProps> = memo(
 		};
 		const handelSubmit = async (values: any) => {
 			const { title, file } = values;
-			if (file && file.size > 2 * 1024 * 1024) {
-				toast.error("File size must be less than 2MB");
+			if (file && file.size > 10 * 1024 * 1024) {
+				toast.error("File size must be less than 10MB");
 				return;
 			}
 			const formData = new FormData();
@@ -500,8 +500,8 @@ export const ModalDocumentsAuditReport: React.FC<IProps> = memo(
 			const file = e.target.files ? e.target.files[0] : null;
 
 			if (file) {
-				if (file.size > 2 * 1024 * 1024) {
-					toast.error("File size must be less than 2MB");
+				if (file.size > 10 * 1024 * 1024) {
+					toast.error("File size must be less than 10MB");
 					return;
 				}
 				setFieldValue("file", file);
@@ -515,8 +515,8 @@ export const ModalDocumentsAuditReport: React.FC<IProps> = memo(
 		};
 		const handelSubmit = async (values: any) => {
 			const { title, file } = values;
-			if (file && file.size > 2 * 1024 * 1024) {
-				toast.error("File size must be less than 2MB");
+			if (file && file.size > 10 * 1024 * 1024) {
+				toast.error("File size must be less than 10MB");
 				return;
 			}
 			const formData = new FormData();
