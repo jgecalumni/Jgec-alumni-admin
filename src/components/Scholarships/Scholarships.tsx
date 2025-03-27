@@ -30,7 +30,6 @@ const Scholarships: React.FC = () => {
 		page: page,
 		search: searchQuery,
 	});
-	console.log(data);
 	
 	const [
 		deleteScholarship,
