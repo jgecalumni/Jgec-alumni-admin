@@ -30,6 +30,8 @@ const Scholarships: React.FC = () => {
 		page: page,
 		search: searchQuery,
 	});
+	console.log(data);
+	
 	const [
 		deleteScholarship,
 		{ isLoading: isDeleting, error: deleteError, isError: isDeleteError },
@@ -157,7 +159,7 @@ const Scholarships: React.FC = () => {
 												setScholarshipDetails(item);
 										}}
 										key={item.id}
-										className="bg-white cursor-pointer border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
+										className={`bg-white cursor-pointer border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 ${item.isActive===false ? "bg-slate-300 cursor-not-allowed" : ""}`}>
 										<th
 											scope="row"
 											className="px-6 truncate lg:whitespace-normal font-medium text-gray-900 dark:text-white max-w-xs"

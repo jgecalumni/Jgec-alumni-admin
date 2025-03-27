@@ -126,6 +126,8 @@ const ModalScholarshipEdit: React.FC<IProps> = memo(
 			formData.append("ageLimit", values.ageLimit);
 			formData.append("amountDetails", values.amountDetails);
 			formData.append("semRequire", sem);
+			formData.append("isActive", values.isActive);
+			formData.append("department", values.department);
 			if (details) {
 				if (!values.semRequire.length) {
 					sem = details.semRequire;
@@ -175,6 +177,8 @@ const ModalScholarshipEdit: React.FC<IProps> = memo(
 									ageLimit: details?.ageLimit || "",
 									amountDetails: details?.amountDetails || "",
 									semRequire: details?.semRequire?.split[","] || [],
+									isActive: details?.isActive,
+									department: details?.department || "All",
 								}}
 								onSubmit={handelSubmit}
 								validationSchema={validationSchema}>
@@ -309,7 +313,11 @@ const ModalScholarshipEdit: React.FC<IProps> = memo(
 											<SelectField
 												name="providerDepartment"
 												label="Provider Department"
-												defaultValue="Select provider department"
+												defaultValue={`${
+													values.providerDepartment
+														? values.providerDepartment
+														: "Select provider department"
+												}`}
 												data={[
 													{ label: "CSE", value: "CSE" },
 													{ label: "IT", value: "IT" },
@@ -455,6 +463,61 @@ const ModalScholarshipEdit: React.FC<IProps> = memo(
 												name="semRequire"
 												component={"div"}
 												className="text-xs text-red-500 mt-1.5"
+											/>
+										</div>
+										<div>
+											<SelectField
+												name="isActive"
+												label="Is Active?"
+												defaultValue={
+													values.isActive === true
+														? "Yes"
+														: values.isActive === false
+														? "No"
+														: "Select yes or no"
+												}
+												data={[
+													{ label: "Yes", value: "Yes" },
+													{ label: "No", value: "No" },
+												]}
+												onValueChange={(value) =>
+													setFieldValue("isActive", value)
+												}
+												value={values.isActive}
+											/>
+											<ErrorMessage
+												name="isActive"
+												component="div"
+												className="text-red-500 text-xs"
+											/>
+										</div>
+										<div>
+											<SelectField
+												name="department"
+												label="Department"
+												defaultValue={`${
+													values.department
+														? values.department
+														: "Select which department can apply"
+												}`}
+												data={[
+													{ label: "CSE", value: "CSE" },
+													{ label: "IT", value: "IT" },
+													{ label: "ECE", value: "ECE" },
+													{ label: "EE", value: "EE" },
+													{ label: "ME", value: "ME" },
+													{ label: "CE", value: "CE" },
+													{ label: "All", value: "All" },
+												]}
+												onValueChange={(value) =>
+													setFieldValue("department", value)
+												}
+												value={values.department}
+											/>
+											<ErrorMessage
+												name="department"
+												component="div"
+												className="text-red-500 text-xs"
 											/>
 										</div>
 										<div className="items-center w-full flex justify-end">
