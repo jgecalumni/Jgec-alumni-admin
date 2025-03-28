@@ -49,7 +49,7 @@ const validationSchema = Yup.object().shape({
 		.required("Amount details is required")
 		.max(500, "Amount details should be less than 500 characters"),
 	// array should not be empty
-	semRequire: Yup.array().min(1, "Semester required is required"),
+	semRequire: Yup.array().min(1, "At least 1 semester is required"),
 });
 
 const semOptions = [
@@ -111,7 +111,7 @@ const ModalScholarshipEdit: React.FC<IProps> = memo(
 		}, [isError, error, isEditError, editError]);
 
 		const handelSubmit = async (values: any) => {
-			let sem = values.semRequire.join(",");
+			let sem = values.semRequire.join(",");			
 			const formData = new FormData();
 			formData.append("name", values.name);
 			formData.append("subtitle", values.subtitle);
@@ -177,11 +177,12 @@ const ModalScholarshipEdit: React.FC<IProps> = memo(
 									ageLimit: details?.ageLimit || "",
 									amountDetails: details?.amountDetails || "",
 									semRequire: details?.semRequire?.split[","] || [],
-									isActive: details?.isActive,
-									department: details?.department || "All",
+									isActive: details?.isActive || "Yes",
+									department: details?.department,
 								}}
 								onSubmit={handelSubmit}
-								validationSchema={validationSchema}>
+								validationSchema={validationSchema}
+								>
 								{({ handleChange, values, setFieldValue }) => (
 									<Form className="mt-4 space-y-5">
 										<div>
@@ -450,7 +451,9 @@ const ModalScholarshipEdit: React.FC<IProps> = memo(
 													setFieldValue("semRequire", value)
 												}
 												defaultValue={
-													details ? details.semRequire.split(",") : []
+													details?.semRequire
+														? details.semRequire.split(",")
+														: []
 												}
 												placeholder="Select semester"
 												footer={false}
