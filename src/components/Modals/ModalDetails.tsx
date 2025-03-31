@@ -131,10 +131,10 @@ export const ModalScholarshipDetails: React.FC<IProps> = memo(
 										<span className="font-medium">Amount</span> :{" "}
 										{details.amountDetails}
 									</div>
-									<div>
+									{/* <div>
 										<span className="font-medium">When to apply?</span> :{" "}
 										{details.whenToApply}
-									</div>
+									</div> */}
 								</div>
 							</div>
 							<div className="border border-gray-200 my-4"></div>

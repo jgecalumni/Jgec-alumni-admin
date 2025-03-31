@@ -173,8 +173,8 @@ const ModalScholarshipEdit: React.FC<IProps> = memo(
 									providerPassingYear: details?.providerPassingYear || "",
 									providerDescription: details?.providerDescription || "",
 									whoCanApply: details?.whoCanApply || "",
-									whenToApply: details?.whenToApply || "",
-									ageLimit: details?.ageLimit || "",
+									whenToApply: details?.whenToApply || "null",
+									ageLimit: details?.ageLimit || "null",
 									amountDetails: details?.amountDetails || "",
 									semRequire: details?.semRequire?.split[","] || [],
 									isActive: details?.isActive || "Yes",
@@ -387,7 +387,7 @@ const ModalScholarshipEdit: React.FC<IProps> = memo(
 												className="text-xs text-red-500 mt-1.5"
 											/>
 										</div>
-										<div>
+										{/* <div>
 											<Label htmlFor="ageLimit">Age Limit</Label>
 											<Textarea
 												id="ageLimit"
@@ -420,7 +420,7 @@ const ModalScholarshipEdit: React.FC<IProps> = memo(
 												component={"div"}
 												className="text-xs text-red-500 mt-1.5"
 											/>
-										</div>
+										</div> */}
 										<div>
 											<Label htmlFor="amountDetails">
 												Scholarship Amount Details
