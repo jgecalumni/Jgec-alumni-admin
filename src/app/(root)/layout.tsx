@@ -26,18 +26,14 @@ import {
 } from "@/components/ui/sidebar";
 import {
 	DropdownMenu,
-	DropdownMenuCheckboxItem,
 	DropdownMenuContent,
 	DropdownMenuItem,
-	DropdownMenuLabel,
-	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useLogoutMutation } from "@/store/baseApi";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { ChevronRight, Loader2, MoveRightIcon } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { ChevronRight, Loader2, ReceiptIndianRupee } from "lucide-react";
 
 export default function Layout({
 	children,
@@ -67,6 +63,7 @@ export default function Layout({
 		{ name: "Events", path: "/events", icon: <MdEventNote size={20} /> },
 		{ name: "Gallery", path: "/gallery", icon: <IoMdPhotos size={18} /> },
 		{ name: "Members", path: "/members", icon: <FaUser size={16} /> },
+		{ name: "Receipt", path: "/receipt", icon: <ReceiptIndianRupee size={16} /> },
 	];
 	const documentSections = [
 		{ name: "Scholarships", path: "/documents/scholarship" },
