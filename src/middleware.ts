@@ -23,6 +23,8 @@ export const config = {
         '/members',
         '/notice',
         '/events',
-        '/scholarship', 
+        '/scholarship',
+        '/receipt' ,
+        '/documents'
   ]
 }; 
