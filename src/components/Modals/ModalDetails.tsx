@@ -154,7 +154,6 @@ export const ModalScholarshipDetails: React.FC<IProps> = memo(
 											<span className="font-medium">Passing Year</span> :{" "}
 											{details.providerPassingYear}
 										</div>
-										
 									</div>
 								</div>
 								<div className="">
@@ -168,14 +167,14 @@ export const ModalScholarshipDetails: React.FC<IProps> = memo(
 								</div>
 							</div>
 							<div>
-											<span className="font-medium">Provider Description</span> :{" "}
-											<ReactQuill
-											theme="bubble"
-											value={details.providerDescription}
-											readOnly={true}
-											className="scholarship_view_editor"
-										/>
-										</div>
+								<span className="font-medium">Provider Description</span> :{" "}
+								<ReactQuill
+									theme="bubble"
+									value={details.providerDescription}
+									readOnly={true}
+									className="scholarship_view_editor"
+								/>
+							</div>
 						</div>
 					</DialogContent>
 				</Dialog>
@@ -187,7 +186,6 @@ ModalScholarshipDetails.displayName = "ModalScholarshipDetails";
 
 export const ModalEventDetails: React.FC<IProps> = memo(
 	({ open, closed, details }) => {
-		
 		return (
 			<div>
 				<Dialog
@@ -266,7 +264,17 @@ export const ModalEventDetails: React.FC<IProps> = memo(
 									<div
 										key={schedule.id}
 										className=" bg-white flex items-center gap-3 rounded-md h-12 shadow-lg ">
-										<div className="h-full text-white flex items-center justify-center p-3 text-[12px] lg:text-[14px] rounded-l-md bg-primary">{format(parse(schedule.startTime, "HH:mm", new Date()), "h:mm a")}- {format(parse(schedule.endTime, "HH:mm", new Date()), "h:mm a")}</div>
+										<div className="h-full text-white flex items-center justify-center p-3 text-[12px] lg:text-[14px] rounded-l-md bg-primary">
+											{format(
+												parse(schedule.startTime, "HH:mm", new Date()),
+												"h:mm a"
+											)}
+											-{" "}
+											{format(
+												parse(schedule.endTime, "HH:mm", new Date()),
+												"h:mm a"
+											)}
+										</div>
 										<div className="font-medium">{schedule.activity}</div>
 									</div>
 								))}
@@ -280,3 +288,94 @@ export const ModalEventDetails: React.FC<IProps> = memo(
 );
 
 ModalEventDetails.displayName = "ModalEventDetails";
+
+export const ModalReceiptDetails: React.FC<IProps> = memo(
+	({ open, closed, details }) => {
+		console.log(details);
+		return (
+			<div>
+				<Dialog
+					open={open}
+					onOpenChange={closed}>
+					<DialogContent className="sm:max-w-2xl  bg-[#edf1f4] modal-scrollbar">
+						<DialogHeader className="font-semibold text-lg">
+							<DialogTitle>Receipt Details</DialogTitle>
+						</DialogHeader>
+						<div className="mt-2 text-[14px] lg:text-[14px] text-gray-700">
+							<div className="flex justify-between items-center w-full ">
+								<div className="space-y-3 w-full">
+									<div className="flex gap-8 w-full  items-center justify-between ">
+										<div className="space-y-3 ">
+											<div>
+												<span className="font-medium">Name</span> :{" "}
+												{details.name}
+											</div>
+											<div>
+												<span className="font-medium">Email</span> :{" "}
+												{details.email}
+											</div>
+											<div>
+												<span className="font-medium">Phone No.</span> :{" "}
+												{details.phone}
+											</div>
+											<div>
+												<span className="font-medium">Transaction ID</span> :{" "}
+												{details.transactionId}
+											</div>
+											<div>
+												<span className="font-medium">Donation For</span> :{" "}
+												{details.donationFor}
+											</div>
+										</div>
+										<div className="">
+											<Link
+												href={details.receipt}
+												target="_blank">
+												<Image
+													src={details.receipt}
+													height={120}
+													width={120}
+													className="rounded mr-4"
+													alt=""
+												/>
+											</Link>
+										</div>
+									</div>
+									<div>
+										<span className="font-medium">Status</span> :{" "}
+										{details.paymentStatus === "Pending" ? (
+											<span className="px-2 py-1 rounded-md text-[12px] font-bold bg-yellow-100 text-yellow-600">
+												Pending
+											</span>
+										) : details.paymentStatus === "APPROVED" ? (
+											<span className="px-2 py-1 rounded-md text-[12px] font-bold bg-green-100 text-green-600">
+												Approved
+											</span>
+										) : (
+											<span className="px-2 py-1 rounded-md text-[12px] font-bold bg-red-100 text-red-600">
+												Deny
+											</span>
+										)}
+									</div>
+								</div>
+							</div>
+							<div className="border border-gray-300 my-4"></div>
+							{details.generatedReceipt ? (
+								<div className="mt-2 border rounded-lg p-2 relative">
+									<iframe
+										src={details.generatedReceipt || ""}
+										className="w-full h-64 border rounded"
+										title="PDF Preview"
+									/>
+								</div>
+							) : (
+								<div>No receipt generated.</div>
+							)}
+						</div>
+					</DialogContent>
+				</Dialog>
+			</div>
+		);
+	}
+);
+ModalReceiptDetails.displayName = "ModalReceiptDetails";
