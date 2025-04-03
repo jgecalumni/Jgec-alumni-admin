@@ -37,6 +37,7 @@ interface IReceiptType {
 	email: string;
 	phone: string;
 	amount: number;
+	passoutYear: number;
 	transactionId: string;
 	donationFor: string;
 	paymentStatus: string;

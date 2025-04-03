@@ -319,6 +319,10 @@ export const ModalReceiptDetails: React.FC<IProps> = memo(
 												{details.phone}
 											</div>
 											<div>
+												<span className="font-medium">Passout Year:</span> :{" "}
+												{details.passoutYear}
+											</div>
+											<div>
 												<span className="font-medium">Transaction ID</span> :{" "}
 												{details.transactionId}
 											</div>
