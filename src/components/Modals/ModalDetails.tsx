@@ -331,7 +331,7 @@ export const ModalReceiptDetails: React.FC<IProps> = memo(
 												{details.donationFor}
 											</div>
 										</div>
-										<div className="">
+										{/* <div className="">
 											<Link
 												href={details.receipt}
 												target="_blank">
@@ -343,7 +343,7 @@ export const ModalReceiptDetails: React.FC<IProps> = memo(
 													alt=""
 												/>
 											</Link>
-										</div>
+										</div> */}
 									</div>
 									<div>
 										<span className="font-medium">Status</span> :{" "}

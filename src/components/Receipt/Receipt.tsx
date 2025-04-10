@@ -175,6 +175,7 @@ const Receipt: React.FC = () => {
 											<Link
 												href={`${item.generatedReceipt}`}
 												target="_blank"
+												onClick={(e => e.stopPropagation())}
 												className="flex items-center justify-center font-medium gap-2 bg-blue-500 text-white px-3 py-2 rounded-md text-sm text-center">
 												View
 												{/* <Eye size={20} className="text-gray-500 cursor-pointer" /> */}
