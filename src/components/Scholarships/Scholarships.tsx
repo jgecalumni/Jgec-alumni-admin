@@ -217,14 +217,14 @@ const Scholarships: React.FC = () => {
 						</div>
 						<div className="flex items-center gap-4">
 							<button
-								onClick={() => setPage(page - 1)}
+								onClick={() => {setPage(page - 1),window.scrollTo(0, 0)}}
 								disabled={page === 1}
 								className="px-4 py-2 bg-primary text-white rounded-md text-sm font-normal disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1">
 								<ArrowLeft size={14} />
 								Prev
 							</button>
 							<button
-								onClick={() => setPage(page + 1)}
+								onClick={() => {setPage(page + 1),window.scrollTo(0, 0)}}
 								disabled={page === totalPages}
 								className="px-4 py-2 bg-primary text-white rounded-md text-sm font-normal disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1">
 								Next
