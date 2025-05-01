@@ -20,11 +20,15 @@ function parseJwt(token: string) {
 export function middleware(request: NextRequest) {
 	const path = request.nextUrl.pathname;
 	const isPublic = path === "/login";
+
 	const token =
-		request.cookies.get("tokenAdmin")?.value ||"";
+		request.cookies.get("tokenAdmin")?.value ||
+		request.cookies.get("tokenMoney")?.value || "";
+
 	const tokenData = parseJwt(token);
 
-	if (isPublic && token && tokenData) {
+	// If user is logged in and trying to access login page, redirect them accordingly
+	if (isPublic && tokenData) {
 		if (tokenData.role === "admin") {
 			return NextResponse.redirect(new URL("/", request.nextUrl));
 		}
@@ -33,13 +37,24 @@ export function middleware(request: NextRequest) {
 		}
 	}
 
+	// If user is not logged in and trying to access a protected route
 	if (!isPublic && !token) {
 		return NextResponse.redirect(new URL("/login", request.nextUrl));
 	}
 
+	// Role-based access control
 	if (token && tokenData) {
-		if (path !== "/receipt" && tokenData.role !== "admin") {
-			return NextResponse.redirect(new URL("/receipt", request.nextUrl));
+		if (tokenData.role === "admin") {
+			// admin can access all routes
+			return NextResponse.next();
+		} else if (tokenData.role === "money") {
+			// money can only access /receipt
+			if (path !== "/receipt") {
+				return NextResponse.redirect(new URL("/receipt", request.nextUrl));
+			}
+		} else {
+			// unknown role - redirect to login
+			return NextResponse.redirect(new URL("/login", request.nextUrl));
 		}
 	}
 }
