@@ -48,11 +48,11 @@ const Notice: React.FC = () => {
 		<>
 			<div className="flex justify-between items-center">
 				<div className="flex flex-col">
-					<div className="text-3xl text-[#343e4c] font-medium">Notice</div>
+					<div className="lg:text-3xl text-2xl text-[#343e4c] font-medium">Notice</div>
 					<div className="border-2  border-[#516bb7] rounded w-16"></div>
 				</div>
-				<button className="bg-primary flex items-center justify-center gap-1 p-3 rounded-md text-white px-8" onClick={() => setOpenModal(true)} >
-					Add New Notice
+				<button className="bg-primary text-sm flex items-center justify-center gap-1 p-3 rounded-md text-white lg:px-8" onClick={() => setOpenModal(true)} >
+					Add Notice
 				</button>
 			</div>
 			<div className=" flex-col  w-full  h-full">

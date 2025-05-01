@@ -11,8 +11,12 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { ModalReceiptDetails } from "../Modals/ModalDetails";
+import { Button } from "../ui/button";
+import { ref } from "yup";
+import { ModalReceipt } from "../Modals/ModalReceipt";
 
 const Receipt: React.FC = () => {
+	const [isOpen, setIsOpen] = useState(false);
 	const [page, setPage] = useState<number>(1);
 	const [totalPages, setTotalPages] = useState<number>(1);
 	const [searchQuery, setSearchQuery] = useState<string>("");
@@ -57,13 +61,22 @@ const Receipt: React.FC = () => {
 
 	return (
 		<>
-			<div className="p-6">
+			<div className="py-2">
 				{/* Header */}
-				<div className="mb-6">
-					<h1 className="text-3xl font-semibold text-[#343e4c]">
-						Money Receipts
-					</h1>
-					<div className="border-2 border-[#516bb7] w-28 mt-2"></div>
+				<div className="mb-2 flex justify-between lg:mb-6">
+					<div>
+						<h1 className="lg:text-3xl text-xl font-semibold text-[#343e4c]">
+							Money Receipts
+						</h1>
+						<div className="border-2 border-[#516bb7] w-28 mt-1"></div>
+					</div>
+					<div>
+						<Button
+							onClick={() => setIsOpen(!isOpen)}
+							className="text-white lg:text-sm text-xs">
+							Add Receipt
+						</Button>
+					</div>
 				</div>
 
 				{/* Search Bar */}
@@ -118,7 +131,9 @@ const Receipt: React.FC = () => {
 									<tr
 										key={item.id}
 										className="hover:bg-gray-100 cursor-pointer"
-										onClick={(e) =>{e.stopPropagation(), setReceiptDetails(item)}}>
+										onClick={(e) => {
+											e.stopPropagation(), setReceiptDetails(item);
+										}}>
 										<td className="px-6 py-4">{item.name}</td>
 										<td className="px-6 py-4">{item.email}</td>
 										<td className="px-6 py-4">{item.phone}</td>
@@ -129,11 +144,10 @@ const Receipt: React.FC = () => {
 											{item.paymentStatus === "Pending" ? (
 												<div className="flex gap-2">
 													<button
-														onClick={(e) =>{
+														onClick={(e) => {
 															e.stopPropagation(),
-															handleStatusChange(item.id, "APPROVED")
-														}
-														}
+																handleStatusChange(item.id, "APPROVED");
+														}}
 														className="px-2 py-1 bg-green-100 text-green-600 font-medium rounded-md text-xs">
 														{isApproveLoading ? (
 															<Loader2
@@ -175,7 +189,7 @@ const Receipt: React.FC = () => {
 											<Link
 												href={`${item.generatedReceipt}`}
 												target="_blank"
-												onClick={(e => e.stopPropagation())}
+												onClick={(e) => e.stopPropagation()}
 												className="flex items-center justify-center font-medium gap-2 bg-blue-500 text-white px-3 py-2 rounded-md text-sm text-center">
 												View
 												{/* <Eye size={20} className="text-gray-500 cursor-pointer" /> */}
@@ -227,6 +241,15 @@ const Receipt: React.FC = () => {
 					details={receiptDetails}
 				/>
 			)}
+			{
+				<ModalReceipt
+					open={isOpen}
+					closed={() => {
+						setIsOpen(false);
+						refetch();
+					}}
+				/>
+			}
 		</>
 	);
 };

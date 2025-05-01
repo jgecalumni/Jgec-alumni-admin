@@ -194,7 +194,7 @@ export default function Layout({
 					</button>
 				</div>
 			</nav>
-			<div className="bg-[#edf1f4] w-full mt-14 z-10 h-screen lg:max-h-fit top-16 p-8 text-black">
+			<div className="bg-[#edf1f4] w-full mt-14 z-10 h-screen lg:max-h-fit top-16 lg:p-8 p-4 text-black">
 				{children}
 			</div>
 		</SidebarProvider>
