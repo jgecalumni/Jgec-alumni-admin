@@ -21,9 +21,7 @@ export function middleware(request: NextRequest) {
 	const path = request.nextUrl.pathname;
 	const isPublic = path === "/login";
 	const token =
-		request.cookies.get("tokenAdmin")?.value ||
-		request.cookies.get("tokenMoney")?.value ||
-		"";
+		request.cookies.get("tokenAdmin")?.value ||"";
 	const tokenData = parseJwt(token);
 
 	if (isPublic && token && tokenData) {
