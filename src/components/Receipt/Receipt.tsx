@@ -4,9 +4,10 @@ import {
 	useGetAllReceiptQuery,
 	useApproveReceiptMutation,
 	useDenyReceiptMutation,
+	useDeleteReceiptMutation,
 } from "@/store/feature/receipt-feature";
 import { debounce } from "@/utils";
-import { ArrowLeft, ArrowRight, Eye, Loader2 } from "lucide-react";
+import { ArrowLeft, ArrowRight, Eye, Loader2, Trash } from "lucide-react";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
@@ -14,6 +15,7 @@ import { ModalReceiptDetails } from "../Modals/ModalDetails";
 import { Button } from "../ui/button";
 import { ref } from "yup";
 import { ModalReceipt } from "../Modals/ModalReceipt";
+import { set } from "date-fns";
 
 const Receipt: React.FC = () => {
 	const [isOpen, setIsOpen] = useState(false);
@@ -29,7 +31,9 @@ const Receipt: React.FC = () => {
 	const [approveReceipt, { isLoading: isApproveLoading }] =
 		useApproveReceiptMutation();
 	const [denyReceipt, { isLoading: isDenyLoading }] = useDenyReceiptMutation();
-
+	const [deleteReceipt, { isLoading: isDeleteLoading }] =
+		useDeleteReceiptMutation();
+    const [loadingId, setLoadingId] = useState("");
 	const handleSearch = debounce(async (e: any) => {
 		setSearchQuery(e.target.value);
 	}, 1000);
@@ -41,6 +45,13 @@ const Receipt: React.FC = () => {
 			await denyReceipt({ formData: {}, id });
 		}
 		toast.success("Status updated successfully!");
+		refetch();
+	};
+
+	const handleDelete = async (id: string) => {
+		setLoadingId(id);
+		await deleteReceipt(id);
+		toast.success("Receipt deleted successfully!");
 		refetch();
 	};
 	useEffect(() => {
@@ -121,7 +132,7 @@ const Receipt: React.FC = () => {
 								<th className="px-6 py-3 text-left">Transaction ID</th>
 								<th className="px-6 py-3 text-left">Donation For</th>
 								<th className="px-6 py-3 text-left">Status</th>
-								<th className="px-6 py-3 text-left">Receipt</th>
+								<th className="px-6 py-3 text-left">Task</th>
 							</tr>
 						</thead>
 
@@ -185,15 +196,37 @@ const Receipt: React.FC = () => {
 												</span>
 											)}
 										</td>
-										<td className="px-6 py-4">
+										<td className="px-6 flex gap-2 py-4">
 											<Link
 												href={`${item.generatedReceipt}`}
 												target="_blank"
-												onClick={(e) => e.stopPropagation()}
-												className="flex items-center justify-center font-medium gap-2 bg-blue-500 text-white px-3 py-2 rounded-md text-sm text-center">
-												View
-												{/* <Eye size={20} className="text-gray-500 cursor-pointer" /> */}
+												onClick={(e) => e.stopPropagation()}>
+												<Button>
+													<Eye
+														size={12}
+														className="cursor-pointer"
+														color="white"
+													/>
+												</Button>
 											</Link>
+											<Button
+												onClick={(e) => {
+													e.stopPropagation(), handleDelete(item.id);
+												}}
+												className="bg-red-500 hover:bg-red-600">
+												{isDeleteLoading && loadingId===item.id ?  (
+													<Loader2
+														className="animate-spin text-white"
+														size={12}
+													/>
+												) : (
+													<Trash
+														size={12}
+														className="cursor-pointer"
+														color="white"
+													/>
+												)}
+											</Button>
 										</td>
 									</tr>
 								))
