@@ -78,7 +78,6 @@ export const ModalReceipt: React.FC<IProps> = memo(({ open, closed }) => {
 										color: "#000",
 									},
 								});
-                                
 							}}>
 							{({ handleChange, values, setFieldValue }) => (
 								<Form>
@@ -119,6 +118,7 @@ export const ModalReceipt: React.FC<IProps> = memo(({ open, closed }) => {
 												name="gender"
 												defaultValue="Select your gender"
 												data={[
+													{ label: "Company", value: "Company" },
 													{ label: "Male", value: "Male" },
 													{ label: "Female", value: "Female" },
 												]}
