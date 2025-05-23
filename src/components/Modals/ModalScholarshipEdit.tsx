@@ -177,7 +177,7 @@ const ModalScholarshipEdit: React.FC<IProps> = memo(
 									ageLimit: details?.ageLimit || "null",
 									amountDetails: details?.amountDetails || "",
 									semRequire: details?.semRequire?.split[","] || [],
-									isActive: details?.isActive || "Yes",
+									isActive: details?.isActive,
 									department: details?.department,
 								}}
 								onSubmit={handelSubmit}
@@ -473,11 +473,12 @@ const ModalScholarshipEdit: React.FC<IProps> = memo(
 												name="isActive"
 												label="Is Active?"
 												defaultValue={
-													values.isActive === true
-														? "Yes"
-														: values.isActive === false
-														? "No"
-														: "Select yes or no"
+													values.isActive === true ||
+													values.isActive === false
+														? values.isActive === true
+															? "Yes"
+															: "No"
+														: "Select Yes or No"
 												}
 												data={[
 													{ label: "Yes", value: "Yes" },
