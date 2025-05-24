@@ -124,7 +124,7 @@ const Receipt: React.FC = () => {
 				{/* Table */}
 				<div className="overflow-x-auto rounded-lg shadow-md">
 					<table className="w-full border-collapse">
-						<thead className="bg-[#516bb7] text-white text-sm uppercase">
+						<thead className="bg-[#516bb7] text-white text-[13px] uppercase">
 							<tr>
 								<th className="px-6 py-3 text-left">Name</th>
 								<th className="px-6 py-3 text-left">Email</th>
@@ -136,7 +136,7 @@ const Receipt: React.FC = () => {
 							</tr>
 						</thead>
 
-						<tbody className="divide-y text-[13px] divide-gray-200">
+						<tbody className="divide-y text-[12px] divide-gray-200">
 							{data?.data.length ?? 0 ? (
 								data?.data.map((item: any) => (
 									<tr
