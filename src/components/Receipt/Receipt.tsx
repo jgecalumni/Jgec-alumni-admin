@@ -5,6 +5,7 @@ import {
 	useApproveReceiptMutation,
 	useDenyReceiptMutation,
 	useDeleteReceiptMutation,
+	useAddReceiptMutation,
 } from "@/store/feature/receipt-feature";
 import { debounce } from "@/utils";
 import { ArrowLeft, ArrowRight, Eye, Loader2, Trash } from "lucide-react";
@@ -15,7 +16,7 @@ import { ModalReceiptDetails } from "../Modals/ModalDetails";
 import { Button } from "../ui/button";
 import { ref } from "yup";
 import { ModalReceipt } from "../Modals/ModalReceipt";
-import { set } from "date-fns";
+import { add, set } from "date-fns";
 
 const Receipt: React.FC = () => {
 	const [isOpen, setIsOpen] = useState(false);
@@ -33,7 +34,7 @@ const Receipt: React.FC = () => {
 	const [denyReceipt, { isLoading: isDenyLoading }] = useDenyReceiptMutation();
 	const [deleteReceipt, { isLoading: isDeleteLoading }] =
 		useDeleteReceiptMutation();
-    const [loadingId, setLoadingId] = useState("");
+	const [loadingId, setLoadingId] = useState("");
 	const handleSearch = debounce(async (e: any) => {
 		setSearchQuery(e.target.value);
 	}, 1000);
@@ -54,12 +55,16 @@ const Receipt: React.FC = () => {
 		toast.success("Receipt deleted successfully!");
 		refetch();
 	};
+
+	
+
 	useEffect(() => {
 		if (isError) {
 			toast.error(
 				(error as any)?.data?.message || "Failed to fetch scholarships"
 			);
 		}
+		
 
 		if (data) {
 			setTotalPages(data?.totalPages);
@@ -214,7 +219,7 @@ const Receipt: React.FC = () => {
 													e.stopPropagation(), handleDelete(item.id);
 												}}
 												className="bg-red-500 hover:bg-red-600">
-												{isDeleteLoading && loadingId===item.id ?  (
+												{isDeleteLoading && loadingId === item.id ? (
 													<Loader2
 														className="animate-spin text-white"
 														size={12}

@@ -1,5 +1,5 @@
 import { ErrorMessage, Form, Formik } from "formik";
-import { memo } from "react";
+import { memo, use, useEffect } from "react";
 import { Input } from "../ui/input";
 import { Select, SelectField } from "../ui/select";
 import { Button } from "../ui/button";
@@ -13,6 +13,7 @@ interface IProps {
 }
 import * as Yup from "yup";
 import toast from "react-hot-toast";
+import { useAddReceiptMutation } from "@/store/feature/receipt-feature";
 
 const MoneyReceiptSchema = Yup.object().shape({
 	email: Yup.string().email("Invalid email").required("Required"),
@@ -40,6 +41,25 @@ const MoneyReceiptSchema = Yup.object().shape({
 });
 
 export const ModalReceipt: React.FC<IProps> = memo(({ open, closed }) => {
+	//add receipt
+	const [addReceipt, { isError, error, isLoading }] = useAddReceiptMutation();
+
+	const handleAddReceipt = async (data: any) => {
+		try {
+			const response = await addReceipt(data);
+			if (response.data?.success) {
+				toast.success("Receipt request sent successfully");
+				closed();
+			}
+		} catch (error) {
+			toast.error("Failed to add receipt");
+		}
+	};
+	useEffect(() => {
+		if (isError) {
+			toast.error((error as any)?.data?.message || "Failed to add receipt");
+		}
+	}, [isError, error]);
 	return (
 		<Dialog
 			open={open}
@@ -66,18 +86,9 @@ export const ModalReceipt: React.FC<IProps> = memo(({ open, closed }) => {
 								phone: "",
 								donationFor: "",
 							}}
-							// validationSchema={MoneyReceiptSchema}
+							validationSchema={MoneyReceiptSchema}
 							onSubmit={(values: any) => {
-								// handleSubmit(values);
-								toast("Work in progress!", {
-									icon: "⚠️",
-									style: {
-										border: "3px solid yellow",
-										borderRadius: "10px",
-										background: "#fff",
-										color: "#000",
-									},
-								});
+								handleAddReceipt(values);
 							}}>
 							{({ handleChange, values, setFieldValue }) => (
 								<Form>
@@ -253,12 +264,12 @@ export const ModalReceipt: React.FC<IProps> = memo(({ open, closed }) => {
 											/>
 										</div>
 									</div>
-									<div className="pt-8 flex justify-end">
-										{/* {isLoading ? (
+									<div className="pt-8 w-full flex ">
+										{isLoading ? (
 										<>
 											<Button
 												disabled
-												className="py-3 text-white hover:scale-100 w-full max-w-lg lg:max-w-xs"
+												className="py-3 text-white hover:scale-100 w-full max-w-lg lg:max-w-full"
 												type="submit">
 												<Loader2 className="animate-spin" /> Loading...
 											</Button>
@@ -266,19 +277,12 @@ export const ModalReceipt: React.FC<IProps> = memo(({ open, closed }) => {
 									) : (
 										<>
 											<Button
-												className="py-3 text-white hover:scale-100 w-full max-w-lg lg:max-w-xs"
+												className="py-3 text-white hover:scale-100 w-full max-w-lg lg:max-w-full"
 												type="submit">
 												Submit
 											</Button>
 										</>
-									)} */}
-										<>
-											<Button
-												className="py-3 text-white hover:scale-100 max-w-full  w-full"
-												type="submit">
-												Submit
-											</Button>
-										</>
+									)}
 									</div>
 								</Form>
 							)}
