@@ -16,24 +16,24 @@ import toast from "react-hot-toast";
 import { useAddReceiptMutation } from "@/store/feature/receipt-feature";
 
 const MoneyReceiptSchema = Yup.object().shape({
-	email: Yup.string().email("Invalid email").required("Required"),
+	// email: Yup.string().email("Invalid email").required("Required"),
 	name: Yup.string()
 		.min(2, "Too Short!")
 		.max(70, "Too Long!")
 		.required("Required"),
-	phone: Yup.string().required("Required"),
-	panId: Yup.string()
-		.matches(/^[A-Z0-9]*$/, "Only uppercase letters and digits allowed")
-		.max(10, "Must be 10 digits")
-		.min(10, "Must be 10 digits")
-		.required("Required"),
+	// phone: Yup.string().required("Required"),
+	// panId: Yup.string()
+	// 	.matches(/^[A-Z0-9]*$/, "Only uppercase letters and digits allowed")
+	// 	.max(10, "Must be 10 digits")
+	// 	.min(10, "Must be 10 digits")
+	// 	.required("Required"),
 	amount: Yup.number()
 		.min(499, "Amount must be greater than Rs.499")
 		.required("Required"),
-	passoutYear: Yup.string()
-		.max(4, "Must be 4 digits")
-		.required("Required")
-		.typeError("Passing Year must be a number"),
+	// passoutYear: Yup.string()
+	// 	.max(4, "Must be 4 digits")
+	// 	.required("Required")
+	// 	.typeError("Passing Year must be a number"),
 	date: Yup.string().required("Required"),
 	transactionId: Yup.string(),
 	gender: Yup.string().required("Required"),
@@ -51,6 +51,8 @@ export const ModalReceipt: React.FC<IProps> = memo(({ open, closed }) => {
 				toast.success("Receipt request sent successfully");
 				closed();
 			}
+			console.log(response);
+			
 		} catch (error) {
 			toast.error("Failed to add receipt");
 		}
@@ -93,7 +95,7 @@ export const ModalReceipt: React.FC<IProps> = memo(({ open, closed }) => {
 							{({ handleChange, values, setFieldValue }) => (
 								<Form>
 									<div className="grid lg:grid-cols-2 grid-col-1 gap-4">
-										<div className="flex flex-col gap-1">
+										{/* <div className="flex flex-col gap-1">
 											<Label>Email</Label>
 											<Input
 												type="email"
@@ -107,7 +109,7 @@ export const ModalReceipt: React.FC<IProps> = memo(({ open, closed }) => {
 												component="div"
 												className="text-red-500 text-xs"
 											/>
-										</div>
+										</div> */}
 
 										<div className="flex flex-col gap-1">
 											<Label>Name</Label>
@@ -144,7 +146,7 @@ export const ModalReceipt: React.FC<IProps> = memo(({ open, closed }) => {
 												className="text-red-500 text-xs"
 											/>
 										</div>
-										<div className="flex flex-col gap-1">
+										{/* <div className="flex flex-col gap-1">
 											<Label>Phone No.</Label>
 											<Input
 												name="phone"
@@ -157,8 +159,8 @@ export const ModalReceipt: React.FC<IProps> = memo(({ open, closed }) => {
 												component="div"
 												className="text-red-500 text-xs"
 											/>
-										</div>
-										<div className="flex flex-col gap-1">
+										</div> */}
+										{/* <div className="flex flex-col gap-1">
 											<Label>PAN ID</Label>
 											<Input
 												name="panId"
@@ -171,8 +173,8 @@ export const ModalReceipt: React.FC<IProps> = memo(({ open, closed }) => {
 												component="div"
 												className="text-red-500 text-xs"
 											/>
-										</div>
-										<div className="flex flex-col gap-1">
+										</div> */}
+										{/* <div className="flex flex-col gap-1">
 											<Label>Passout Year</Label>
 											<Input
 												name="passoutYear"
@@ -185,7 +187,7 @@ export const ModalReceipt: React.FC<IProps> = memo(({ open, closed }) => {
 												component="div"
 												className="text-red-500 text-xs"
 											/>
-										</div>
+										</div> */}
 										<div className="flex flex-col gap-1">
 											<Label>Amount</Label>
 											<Input
