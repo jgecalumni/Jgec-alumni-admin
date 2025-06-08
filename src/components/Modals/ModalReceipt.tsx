@@ -174,7 +174,7 @@ export const ModalReceipt: React.FC<IProps> = memo(({ open, closed }) => {
 												className="text-red-500 text-xs"
 											/>
 										</div> */}
-										{/* <div className="flex flex-col gap-1">
+										<div className="flex flex-col gap-1">
 											<Label>Passout Year</Label>
 											<Input
 												name="passoutYear"
@@ -187,7 +187,7 @@ export const ModalReceipt: React.FC<IProps> = memo(({ open, closed }) => {
 												component="div"
 												className="text-red-500 text-xs"
 											/>
-										</div> */}
+										</div>
 										<div className="flex flex-col gap-1">
 											<Label>Amount</Label>
 											<Input
