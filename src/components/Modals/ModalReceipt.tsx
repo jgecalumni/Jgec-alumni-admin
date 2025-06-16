@@ -95,7 +95,7 @@ export const ModalReceipt: React.FC<IProps> = memo(({ open, closed }) => {
 							{({ handleChange, values, setFieldValue }) => (
 								<Form>
 									<div className="grid lg:grid-cols-2 grid-col-1 gap-4">
-										{/* <div className="flex flex-col gap-1">
+										<div className="flex flex-col gap-1">
 											<Label>Email</Label>
 											<Input
 												type="email"
@@ -109,7 +109,7 @@ export const ModalReceipt: React.FC<IProps> = memo(({ open, closed }) => {
 												component="div"
 												className="text-red-500 text-xs"
 											/>
-										</div> */}
+										</div>
 
 										<div className="flex flex-col gap-1">
 											<Label>Name</Label>
@@ -160,7 +160,7 @@ export const ModalReceipt: React.FC<IProps> = memo(({ open, closed }) => {
 												className="text-red-500 text-xs"
 											/>
 										</div> */}
-										{/* <div className="flex flex-col gap-1">
+										<div className="flex flex-col gap-1">
 											<Label>PAN ID</Label>
 											<Input
 												name="panId"
@@ -173,7 +173,7 @@ export const ModalReceipt: React.FC<IProps> = memo(({ open, closed }) => {
 												component="div"
 												className="text-red-500 text-xs"
 											/>
-										</div> */}
+										</div>
 										<div className="flex flex-col gap-1">
 											<Label>Passout Year</Label>
 											<Input
