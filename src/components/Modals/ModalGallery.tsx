@@ -169,7 +169,7 @@ export const ModalGalleryImageUpload: React.FC<IProps> = memo(
 		}, [isError, error]);
 
 		const handleSubmit = async (values: any) => {
-			const formData = new FormData();
+			const formData = new FormData();			
 			values.images.forEach((file: any) => {
 				formData.append("images", file);
 			});
