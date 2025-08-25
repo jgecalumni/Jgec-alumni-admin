@@ -38,6 +38,10 @@ export const docsApi = baseApi
 			"addauditReportDocs",
 			"deleteauditReportDocs",
 			"updateauditReportDocs",
+			"getAllAgmMomDocs",
+			"addAgmMomDocs",
+			"deleteAgmMomDocs",
+			"updateAgmMomDocs",
 		],
 	})
 	.injectEndpoints({
@@ -192,6 +196,43 @@ export const docsApi = baseApi
 				}),
 				invalidatesTags: ["deleteauditReportDocs"],
 			}),
+			addAgmMomDocs: builder.mutation<IResponse, any>({
+				query: (data) => ({
+					url: "/documents/add/AgmMomDocs",
+					method: "POST",
+					credentials: "include",
+					body: data,
+				}),
+				invalidatesTags: ["addAgmMomDocs"],
+			}),
+			updateAgmMomDocs: builder.mutation<
+				IResponse,
+				{ formData: any; id: string }
+			>({
+				query: ({ formData, id }) => ({
+					url: `/documents/update/AgmMomDocs/${id}`,
+					method: "PATCH",
+					credentials: "include",
+					body: formData,
+				}),
+				invalidatesTags: ["updateAgmMomDocs"],
+			}),
+			deleteAgmMomDocs: builder.mutation<IResponse, string>({
+				query: (id) => ({
+					url: `/documents/delete/AgmMomDocs/${id}`,
+					method: "DELETE",
+					credentials: "include",
+				}),
+				invalidatesTags: ["deleteAgmMomDocs"],
+			}),
+			getAllAgmMomDocs: builder.query<IGetAllDocsRes, any>({
+				query: () => ({
+					url: "/documents/AgmMomDocs",
+					method: "GET",
+					credentials: "include",
+				}),
+				providesTags: ["getAllAgmMomDocs"],
+			}),
 		}),
 	});
 
@@ -212,4 +253,8 @@ export const {
 	useDeleteauditReportDocsMutation,
 	useUpdateauditReportDocsMutation,
 	useGetAllauditReportDocsQuery,
+	useGetAllAgmMomDocsQuery,
+	useAddAgmMomDocsMutation,
+	useDeleteAgmMomDocsMutation,
+	useUpdateAgmMomDocsMutation,
 } = docsApi;

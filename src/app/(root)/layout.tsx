@@ -70,6 +70,7 @@ export default function Layout({
 		{ name: "Kanchenjunga", path: "/documents/kanchenjunga" },
 		{ name: "Giving-Back", path: "/documents/giving-back" },
 		{ name: "Audit-Report", path: "/documents/audit-report" },
+		{ name: "AGM-MOM", path: "/documents/agm-mom" },
 	];
 
 	return (
