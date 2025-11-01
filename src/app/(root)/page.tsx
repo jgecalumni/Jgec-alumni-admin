@@ -1,8 +1,9 @@
-"use client"
+"use client";
 
 import { FaUser } from "react-icons/fa6";
 import { IoSchool } from "react-icons/io5";
 import { IoIosCreate } from "react-icons/io";
+import { FaMoneyCheckAlt } from "react-icons/fa";
 import { useGetCountQuery } from "@/store/feature/dashboard-feature";
 import Loading from "../loading";
 import { useEffect } from "react";
@@ -103,6 +104,25 @@ export default function Home() {
 								</div>
 							</div>
 							<IoIosCreate
+								color="#f5f5f5"
+								className="pt-1 pr-3"
+								size={35}
+							/>
+						</div>
+					</div>
+				</Link>
+
+				<Link href="/payments">
+					<div className="rounded-md relative overflow-hidden w-full h-40 card-back-2">
+						<div className="absolute w-[22vh] rotate-0 -right-16 -top-8 rounded-full bg-[#ffffff2c] h-[22vh]"></div>
+						<div className="absolute w-[25vh] rotate-0 -right-6 -bottom-24 rounded-full bg-[#ffffff2c] h-[25vh]"></div>
+						<div className="py-8 px-4 flex justify-between items-start">
+							<div className="pl-3">
+								<div className="text-[#f5f5f5] text-2xl font-medium">
+									Payments
+								</div>
+							</div>
+							<FaMoneyCheckAlt
 								color="#f5f5f5"
 								className="pt-1 pr-3"
 								size={35}
