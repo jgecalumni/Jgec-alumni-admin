@@ -3,7 +3,8 @@
 
 import React, { useRef, useState, useMemo, useEffect } from "react";
 import * as XLSX from "xlsx";
-
+import JSZip from "jszip";
+import { saveAs } from "file-saver";
 import {
 	Upload,
 	X,
@@ -16,6 +17,7 @@ import {
 	ArrowLeft,
 	ArrowRight,
 	Loader,
+	Download,
 } from "lucide-react";
 import {
 	useAddContributionsMutation,
@@ -68,7 +70,7 @@ const Payments: React.FC = () => {
 	} = useGetAllContributionsQuery({
 		search: searchTerm || "",
 		page: page,
-		limit: 10,
+		limit: searchTerm ? 1000 : 10,
 		graduationYear: selectedYear !== "all" ? selectedYear : "",
 	});
 	const contris = data?.data || [];
@@ -171,6 +173,66 @@ const Payments: React.FC = () => {
 		}
 	};
 
+	const handleDownloadAll = async () => {
+		try {
+			if (!contris || contris.length === 0) {
+				toast.error("No receipts available to download");
+				return;
+			}
+
+			const zip = new JSZip();
+			let count = 0;
+			const fileNameMap: Record<string, number> = {};
+
+			toast.loading("Downloading receipts... Please wait", { id: "download" });
+
+			for (const row of contris) {
+				if (row.pdfLink) {
+					try {
+						const response = await fetch(row.pdfLink);
+						if (!response.ok) throw new Error(`Failed to fetch ${row.pdfLink}`);
+						const blob = await response.blob();
+
+						// Generate a safe base name
+						let baseName = `${row.nameOfAluminus || "receipt"}_${
+							row.graduationYear || ""
+						}`
+							.trim()
+							.replace(/\s+/g, "_")
+							.replace(/[^\w\-()_]/g, "");
+
+						// Always make filename unique
+						if (fileNameMap[baseName]) {
+							fileNameMap[baseName]++;
+							baseName = `${baseName}(${fileNameMap[baseName]})`;
+						} else {
+							fileNameMap[baseName] = 1;
+						}
+
+						const fileName = `${baseName}.pdf`;
+						zip.file(fileName, blob);
+						count++;
+					} catch (err) {
+						console.error("Error downloading:", row.pdfLink, err);
+					}
+				}
+			}
+
+			if (count === 0) {
+				toast.error("No valid receipt links found", { id: "download" });
+				return;
+			}
+
+			const zipBlob = await zip.generateAsync({ type: "blob" });
+			saveAs(zipBlob, `Receipts_${new Date().toISOString().split("T")[0]}.zip`);
+
+			toast.success(`Downloaded ${count} receipts`, { id: "download" });
+		} catch (error) {
+			console.error(error);
+			toast.error("Failed to download receipts", { id: "download" });
+		}
+	};
+
 	if (isdataLoading) {
 		return <Loading />;
 	}
@@ -190,7 +252,9 @@ const Payments: React.FC = () => {
 					<button
 						onClick={handleUploadClick}
 						disabled={isUploadLoading}
-						className={`bg-gradient-to-r ${isUploadLoading?"cursor-wait":"cursor-pointer"} from-[#516bb7] to-[#3b5998] hover:from-[#3b5998] hover:to-[#516bb7] flex items-center justify-center gap-2 px-6 py-3 rounded-lg text-white font-medium shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105`}>
+						className={`bg-gradient-to-r ${
+							isUploadLoading ? "cursor-wait" : "cursor-pointer"
+						} from-[#516bb7] to-[#3b5998] hover:from-[#3b5998] hover:to-[#516bb7] flex items-center justify-center gap-2 px-6 py-3 rounded-lg text-white font-medium shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105`}>
 						{isUploadLoading ? (
 							<Loader
 								className="animate-spin"
@@ -201,6 +265,12 @@ const Payments: React.FC = () => {
 						)}
 
 						<span>{isUploadLoading ? "Uploading" : "Upload File"}</span>
+					</button>
+					<button
+						onClick={handleDownloadAll}
+						className="bg-gradient-to-r from-[#3b5998] to-[#516bb7] hover:from-[#516bb7] hover:to-[#3b5998] flex items-center justify-center gap-2 px-6 py-3 rounded-lg text-white font-medium shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+						<Download size={18} />
+						<span>Download All</span>
 					</button>
 
 					<input
@@ -430,7 +500,7 @@ const Payments: React.FC = () => {
 										<td className="px-6 py-4 text-gray-700">{row.mobileNo}</td>
 										<td className="px-6 py-4">
 											<Link
-												href={row.pdfLink||"#"}
+												href={row.pdfLink || "#"}
 												onClick={(e) => e.stopPropagation()}
 												target="_blank">
 												<Button className="h-9 px-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white shadow-md hover:shadow-lg transition-all">
@@ -608,9 +678,6 @@ const Payments: React.FC = () => {
 									onClick={handleCloseModal}
 									className="flex-1 px-5 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg font-semibold transition-all duration-200 shadow-sm hover:shadow">
 									Close
-								</button>
-								<button className="flex-1 px-5 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white rounded-lg font-semibold transition-all duration-200 shadow-md hover:shadow-lg">
-									Edit Details
 								</button>
 							</div>
 						</div>

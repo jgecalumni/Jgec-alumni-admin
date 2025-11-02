@@ -10,12 +10,14 @@ interface IStats {
 
 interface IContribution {
 	id?: string;
+	slNo: Number;
 	nameOfAluminus?: string;
 	email?: string;
 	mobileNo?: string;
 	graduationYear?: number;
 	amount?: number;
 	depositedOn?: string;
+	pdfLink: string;
 }
 
 interface IResponse {
