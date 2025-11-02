@@ -8,6 +8,7 @@ import { IoMdPhotos } from "react-icons/io";
 import { FaUser } from "react-icons/fa";
 import { FiLogOut } from "react-icons/fi";
 import { MdEventNote, MdFolder } from "react-icons/md";
+import { FaMoneyCheckAlt } from "react-icons/fa";
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -64,6 +65,7 @@ export default function Layout({
 		{ name: "Gallery", path: "/gallery", icon: <IoMdPhotos size={18} /> },
 		{ name: "Members", path: "/members", icon: <FaUser size={16} /> },
 		{ name: "Receipt", path: "/receipt", icon: <ReceiptIndianRupee size={16} /> },
+		{ name: "Payments", path: "/payments", icon: <FaMoneyCheckAlt size={18} /> },
 	];
 	const documentSections = [
 		{ name: "Scholarships", path: "/documents/scholarship" },
