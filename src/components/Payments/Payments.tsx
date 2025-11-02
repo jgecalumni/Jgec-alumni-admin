@@ -162,6 +162,7 @@ const Payments: React.FC = () => {
 
 				if (res.success) {
 					refetch();
+					toast.success("File Uploaded Successfully")
 				}
 			};
 
