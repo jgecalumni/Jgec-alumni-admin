@@ -18,6 +18,7 @@ interface IContribution {
 	amount?: number;
 	depositedOn?: string;
 	pdfLink: string;
+	
 }
 
 interface IResponse {
@@ -30,6 +31,7 @@ interface IResponse {
 	page: number;
 	limit: number;
 	stats: IStats;
+	pdfLinksAndNames: [{name: string, pdf: string, graduationYear: string}];
 	allGraduationYears: number[]; // ✅ added this
 }
 
