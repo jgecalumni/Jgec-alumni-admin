@@ -74,7 +74,7 @@ const Payments: React.FC = () => {
 		graduationYear: selectedYear !== "all" ? selectedYear : "",
 	});
 	console.log(data);
-	
+
 	const contris = data?.data || [];
 	const stats = data?.stats || {
 		totalAmount: 0,
@@ -83,21 +83,18 @@ const Payments: React.FC = () => {
 		monthlyContributions: 0,
 	};
 	useEffect(() => {
-		if (isError) {
-			toast.error(
-				(error as any)?.data?.message || "Failed to create contributions"
-			);
-		}
 		if (data) {
 			setTotalPages(data?.totalPages);
 		}
-	}, [isError, error, data]);
+	}, [data]);
 
 	const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setSearchTerm(e.target.value);
 	};
 
-	const graduationYears = data?.allGraduationYears || [];
+	const graduationYears = (data?.allGraduationYears || []).sort(
+		(a, b) => a - b
+	);
 
 	const handleUploadClick = () => fileInputRef.current?.click();
 
@@ -164,7 +161,7 @@ const Payments: React.FC = () => {
 
 				if (res.success) {
 					refetch();
-					toast.success("File Uploaded Successfully")
+					toast.success("File Uploaded Successfully");
 				}
 			};
 
@@ -177,67 +174,68 @@ const Payments: React.FC = () => {
 	};
 
 	const handleDownloadAll = async () => {
-	try {
-		if (!data?.pdfLinksAndNames) {
-			toast.error("No receipts available to download");
-			return;
-		}
+		try {
+			if (!data?.pdfLinksAndNames) {
+				toast.error("No receipts available to download");
+				return;
+			}
 
-		toast.loading("Downloading receipts... Please wait", { id: "download" });
+			toast.loading("Downloading receipts... Please wait", { id: "download" });
 
-		const zip = new JSZip();
-		let count = 0;
-		const fileNameMap: Record<string, number> = {};
+			const zip = new JSZip();
+			let count = 0;
+			const fileNameMap: Record<string, number> = {};
 
-		for (const row of data.pdfLinksAndNames) {
-			if (row.pdf) {
-				try {
-					const response = await fetch(row.pdf);
-					if (!response.ok) throw new Error(`Failed to fetch ${row.pdf}`);
-					const blob = await response.blob();
+			for (const row of data.pdfLinksAndNames) {
+				if (row.pdf) {
+					try {
+						const response = await fetch(row.pdf);
+						if (!response.ok) throw new Error(`Failed to fetch ${row.pdf}`);
+						const blob = await response.blob();
 
-					// Create safe filename
-					let baseName = `${row.name || "receipt"}_${row.graduationYear || ""}`
-						.trim()
-						.replace(/\s+/g, "_")
-						.replace(/[^\w\-()_]/g, "");
+						// Create safe filename
+						let baseName = `${row.name || "receipt"}_${
+							row.graduationYear || ""
+						}`
+							.trim()
+							.replace(/\s+/g, "_")
+							.replace(/[^\w\-()_]/g, "");
 
-					// Handle duplicates properly (allow duplicates but make them unique)
-					if (fileNameMap[baseName]) {
-						fileNameMap[baseName]++;
-						baseName = `${baseName}(${fileNameMap[baseName]})`;
-					} else {
-						fileNameMap[baseName] = 1;
+						// Handle duplicates properly (allow duplicates but make them unique)
+						if (fileNameMap[baseName]) {
+							fileNameMap[baseName]++;
+							baseName = `${baseName}(${fileNameMap[baseName]})`;
+						} else {
+							fileNameMap[baseName] = 1;
+						}
+
+						const fileName = `${baseName}.pdf`;
+						zip.file(fileName, blob);
+						count++;
+					} catch (err) {
+						console.error("Error downloading:", row.pdf, err);
 					}
-
-					const fileName = `${baseName}.pdf`;
-					zip.file(fileName, blob);
-					count++;
-				} catch (err) {
-					console.error("Error downloading:", row.pdf, err);
 				}
 			}
+
+			if (count === 0) {
+				toast.error("No valid receipt links found", { id: "download" });
+				return;
+			}
+
+			// Generate and save ZIP
+			const zipBlob = await zip.generateAsync({ type: "blob" });
+			const today = new Date().toISOString().split("T")[0];
+			saveAs(zipBlob, `Receipts_${today}.zip`);
+
+			toast.success(`Downloaded ${count} receipts successfully`, {
+				id: "download",
+			});
+		} catch (error) {
+			console.error("Error in handleDownloadAll:", error);
+			toast.error("Failed to download receipts", { id: "download" });
 		}
-
-		if (count === 0) {
-			toast.error("No valid receipt links found", { id: "download" });
-			return;
-		}
-
-		// Generate and save ZIP
-		const zipBlob = await zip.generateAsync({ type: "blob" });
-		const today = new Date().toISOString().split("T")[0];
-		saveAs(zipBlob, `Receipts_${today}.zip`);
-
-		toast.success(`Downloaded ${count} receipts successfully`, {
-			id: "download",
-		});
-	} catch (error) {
-		console.error("Error in handleDownloadAll:", error);
-		toast.error("Failed to download receipts", { id: "download" });
-	}
-};
-
+	};
 
 	if (isdataLoading) {
 		return <Loading />;
