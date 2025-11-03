@@ -92,9 +92,8 @@ const Payments: React.FC = () => {
 		setSearchTerm(e.target.value);
 	};
 
-	const graduationYears = (data?.allGraduationYears || []).sort(
-		(a, b) => a - b
-	);
+	const graduationYears = [...(data?.allGraduationYears || [])].sort((a, b) => a - b);
+
 
 	const handleUploadClick = () => fileInputRef.current?.click();
 
@@ -194,9 +193,8 @@ const Payments: React.FC = () => {
 						const blob = await response.blob();
 
 						// Create safe filename
-						let baseName = `${row.name || "receipt"}_${
-							row.graduationYear || ""
-						}`
+						let baseName = `${row.name || "receipt"}_${row.graduationYear || ""
+							}`
 							.trim()
 							.replace(/\s+/g, "_")
 							.replace(/[^\w\-()_]/g, "");
@@ -256,9 +254,8 @@ const Payments: React.FC = () => {
 					<button
 						onClick={handleUploadClick}
 						disabled={isUploadLoading}
-						className={`bg-gradient-to-r ${
-							isUploadLoading ? "cursor-wait" : "cursor-pointer"
-						} from-[#516bb7] to-[#3b5998] hover:from-[#3b5998] hover:to-[#516bb7] flex items-center justify-center gap-2 px-6 py-3 rounded-lg text-white font-medium shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105`}>
+						className={`bg-gradient-to-r ${isUploadLoading ? "cursor-wait" : "cursor-pointer"
+							} from-[#516bb7] to-[#3b5998] hover:from-[#3b5998] hover:to-[#516bb7] flex items-center justify-center gap-2 px-6 py-3 rounded-lg text-white font-medium shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105`}>
 						{isUploadLoading ? (
 							<Loader
 								className="animate-spin"
@@ -425,9 +422,8 @@ const Payments: React.FC = () => {
 												onClick={() => setSelectedYear("all")}
 												className="cursor-pointer">
 												<Check
-													className={`mr-2 h-4 w-4 ${
-														selectedYear === "all" ? "opacity-100" : "opacity-0"
-													}`}
+													className={`mr-2 h-4 w-4 ${selectedYear === "all" ? "opacity-100" : "opacity-0"
+														}`}
 												/>
 												All Graduation Years
 											</DropdownMenuItem>
@@ -440,11 +436,10 @@ const Payments: React.FC = () => {
 													}}
 													className="cursor-pointer">
 													<Check
-														className={`mr-2 h-4 w-4 ${
-															selectedYear === year.toString()
+														className={`mr-2 h-4 w-4 ${selectedYear === year.toString()
 																? "opacity-100"
 																: "opacity-0"
-														}`}
+															}`}
 													/>
 													Class of {year}
 												</DropdownMenuItem>
@@ -545,9 +540,8 @@ const Payments: React.FC = () => {
 				</div>
 			</div>
 			<div
-				className={`flex items-center my-8 justify-between ${
-					contris.length > 0 ? "block" : "hidden"
-				} `}>
+				className={`flex items-center my-8 justify-between ${contris.length > 0 ? "block" : "hidden"
+					} `}>
 				<div>
 					Show Page {page} of {totalPages}
 				</div>
