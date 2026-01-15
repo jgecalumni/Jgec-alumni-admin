@@ -261,6 +261,10 @@ export const ModalReceipt: React.FC<IProps> = memo(({ open, closed }) => {
 														label: "Financial Support for ICPC Regional Contest",
 														value: "Financial Support for ICPC Regional Contest",
 													},
+													{
+														label: "Seminar @ campus on 21st February 2026",
+														value: "Seminar @ campus on 21st February 2026",
+													},
 												]}
 												onValueChange={(value) =>
 													setFieldValue("donationFor", value)
