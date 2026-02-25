@@ -240,7 +240,7 @@ export default function MediaPressAdmin() {
               </div>
               <div>
                 <DialogTitle className="text-2xl font-black text-slate-900 tracking-tight">
-                  {editId ? "Update Dispatch" : "Draft New Article"}
+                  {editId ? "Update News" : "Draft New Article"}
                 </DialogTitle>
                 <p className="text-slate-400 text-sm font-medium">Capture alumni success and campus events.</p>
               </div>
@@ -375,7 +375,7 @@ export default function MediaPressAdmin() {
               <Button type="button" variant="ghost" onClick={() => setIsModalOpen(false)} className="rounded-2xl font-black uppercase tracking-widest text-[10px] h-12 px-8 text-slate-400 hover:bg-slate-50 transition-all">Cancel</Button>
               <Button disabled={loading} type="submit" className="rounded-2xl bg-[#5f7dcc] hover:bg-blue-700 px-10 h-12 font-black uppercase tracking-widest text-[10px] shadow-lg shadow-blue-500/20 text-white transition-all active:scale-95">
                 {loading ? <Loader2 className="animate-spin mr-2" size={16}/> : <CheckCircle2 className="mr-2" size={16}/>}
-                {editId ? "Update Dispatch" : "Publish Dispatch"}
+                {editId ? "Update News" : "Publish News"}
               </Button>
             </DialogFooter>
           </form>
