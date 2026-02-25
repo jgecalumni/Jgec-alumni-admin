@@ -34,7 +34,7 @@ import {
 import { useLogoutMutation } from "@/store/baseApi";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { ChevronRight, Loader2, ReceiptIndianRupee } from "lucide-react";
+import { ChevronRight, Loader2, Newspaper, ReceiptIndianRupee } from "lucide-react";
 
 export default function Layout({
 	children,
@@ -66,6 +66,7 @@ export default function Layout({
 		{ name: "Members", path: "/members", icon: <FaUser size={16} /> },
 		{ name: "Receipt", path: "/receipt", icon: <ReceiptIndianRupee size={16} /> },
 		{ name: "Payments", path: "/payments", icon: <FaMoneyCheckAlt size={18} /> },
+		{ name: "Media & Press Release", path: "/media&press-release", icon: <Newspaper size={18} /> },
 	];
 	const documentSections = [
 		{ name: "Scholarships", path: "/documents/scholarship" },
