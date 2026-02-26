@@ -37,7 +37,7 @@ import {
 interface Media { id: number; type: "image" | "youtube" | "facebook"; url: string; }
 interface NewsItem { id: number; title: string; tag: string; excerpt: string; date: string; location: string; media: Media[]; }
 
-const API_BASE_URL = "http://localhost:8000/v1/api/media_press";
+const API_BASE_URL = `${process.env.NEXT_PUBLIC_API_URL}/media_press`;
 
 export default function MediaPressAdmin() {
   const [loading, setLoading] = useState(false);
