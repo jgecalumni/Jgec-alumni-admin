@@ -274,6 +274,10 @@ export const ModalReceipt: React.FC<IProps> = memo(({ open, closed }) => {
 														value: "Scholarship 2026 and Seminar",
 													},
 													{
+														label: "Scholarship 2026",
+														value: "Scholarship 2026",
+													},
+													{
 														label: "Seminar",
 														value: "Seminar",
 													},
