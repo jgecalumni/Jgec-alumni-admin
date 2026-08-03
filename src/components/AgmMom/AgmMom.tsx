@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { Button } from "../ui/button";
-import { Delete, Eye, FilePenLine, PlusIcon, Trash2 } from "lucide-react";
+import { Delete, Eye, FilePenLine, PlusIcon, } from "lucide-react";
 import DocumentCard from "../Documents/DocumentCard";
 import Loading from "@/app/loading";
 import toast from "react-hot-toast";
