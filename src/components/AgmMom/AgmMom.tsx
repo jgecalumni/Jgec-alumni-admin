@@ -35,19 +35,28 @@ const AgmMom = () => {
 	};
 
 	return (
-		<>
-			<div className="flex justify-end">
+		<div className="p-4 md:p-6 lg:p-8 space-y-6 md:space-y-8 max-w-7xl mx-auto w-full animate-in fade-in zoom-in-95 duration-500">
+			<div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-card/60 backdrop-blur-md p-6 rounded-2xl border border-border shadow-sm">
+				<div className="space-y-1.5">
+					<h1 className="text-2xl font-bold tracking-tight text-foreground flex items-center gap-2">
+						<span className="bg-primary/10 text-primary p-2 rounded-xl">
+							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 22h14a2 2 0 0 0 2-2V7.5L14.5 2H6a2 2 0 0 0-2 2v4"/><path d="M14 2v6h6"/><path d="m3 12.5 3 3 3-3"/><path d="M6 15.5v-8"/></svg>
+						</span>
+						AGM & MOM Documents
+					</h1>
+					<p className="text-sm text-muted-foreground max-w-xl leading-relaxed">
+						Manage and view Annual General Meeting (AGM) and Minutes of Meeting (MOM) documents for the alumni association.
+					</p>
+				</div>
 				<Button
-					className="bg-primary flex items-center justify-center gap-1.5 p-2.5 rounded-md text-primary-foreground hover:bg-primary/90 px-4 text-sm transition-colors shadow-sm"
+					className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-sm flex items-center gap-2 rounded-xl px-5 py-5 transition-all w-full sm:w-auto"
 					onClick={() => setOpenModal(true)}>
-					<PlusIcon
-						className="font-bold"
-						size={16}
-					/>
-					<div>Add Docs</div>
+					<PlusIcon size={18} strokeWidth={2.5} />
+					<span className="font-semibold">Add Document</span>
 				</Button>
 			</div>
-			<div className="mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+
+			<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
 				{data?.response?.length > 0 ? (
 					<>
 						{data?.response.map((item: any) => (
@@ -61,15 +70,16 @@ const AgmMom = () => {
 						))}
 					</>
 				) : (
-					<div className="col-span-full py-16 flex flex-col items-center justify-center bg-card rounded-2xl border border-dashed border-border text-muted-foreground shadow-sm">
-						<div className="bg-indigo-100 dark:bg-indigo-900/20 p-4 rounded-full mb-4 text-indigo-500">
-							<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z"/></svg>
+					<div className="col-span-full py-20 flex flex-col items-center justify-center bg-card/50 rounded-2xl border border-dashed border-border text-muted-foreground shadow-sm transition-all hover:bg-card/80">
+						<div className="bg-primary/10 p-5 rounded-full mb-4 text-primary animate-pulse">
+							<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z"/></svg>
 						</div>
-						<p className="font-medium text-foreground">No documents found</p>
-						<p className="text-sm mt-1">Upload a new document to get started.</p>
+						<p className="font-semibold text-foreground text-lg">No documents found</p>
+						<p className="text-sm mt-1.5 max-w-sm text-center">There are currently no AGM or MOM documents available. Click "Add Document" to upload a new one.</p>
 					</div>
 				)}
 			</div>
+			
 			{(openModal || !!editAgmMomDocs) && (
 				<ModalDocumentsAgmMom
 					open={openModal || editAgmMomDocs}
@@ -81,7 +91,7 @@ const AgmMom = () => {
 					data={editAgmMomDocs}
 				/>
 			)}
-		</>
+		</div>
 	);
 };
 
