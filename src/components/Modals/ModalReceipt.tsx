@@ -66,15 +66,17 @@ export const ModalReceipt: React.FC<IProps> = memo(({ open, closed }) => {
 		<Dialog
 			open={open}
 			onOpenChange={closed}>
-			<DialogContent className="max-w-2xl modal-scrollbar lg:w-full  max-h-[85vh] overflow-auto">
-				{/* <DialogHeader>
-					<DialogTitle>Add New Receipt</DialogTitle>
-				</DialogHeader> */}
-				<div className="h-full  w-full max-w-screen-lg mx-auto  justify-center gap-8 items-center">
-					<div className=" w-full bg-white ">
-						<div className="text-xl sm:text-2xl text-center font-medium mb-10">
-							Money Receipt Form
+			<DialogContent className="sm:max-w-2xl modal-scrollbar p-0 overflow-hidden border-border/60 shadow-2xl rounded-2xl bg-card max-h-[85vh] flex flex-col">
+				<DialogHeader className="bg-muted/30 px-6 py-5 border-b border-border/50 m-0 shrink-0">
+					<DialogTitle className="text-xl font-bold flex items-center gap-3 text-foreground">
+						<div className="bg-indigo-100 dark:bg-indigo-900/40 text-indigo-600 dark:text-indigo-400 p-2 rounded-lg">
+							<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1-2-1Z"/><path d="M16 14h-6"/><path d="M16 10h-6"/><path d="M8 10h.01"/><path d="M8 14h.01"/></svg>
 						</div>
+						Add New Receipt
+					</DialogTitle>
+				</DialogHeader>
+				<div className="px-6 py-4 overflow-y-auto no-scrollbar flex-1 w-full max-w-screen-lg mx-auto">
+					<div className="w-full">
 						<Formik
 							initialValues={{
 								email: "",
@@ -94,13 +96,13 @@ export const ModalReceipt: React.FC<IProps> = memo(({ open, closed }) => {
 							}}>
 							{({ handleChange, values, setFieldValue }) => (
 								<Form>
-									<div className="grid lg:grid-cols-2 grid-col-1 gap-4">
+									<div className="grid lg:grid-cols-2 grid-cols-1 gap-4">
 										<div className="flex flex-col gap-1">
-											<Label>Email</Label>
+											<Label className="font-semibold text-foreground">Email</Label>
 											<Input
 												type="email"
 												name="email"
-												className="text-sm"
+												className="text-sm rounded-xl border-border/60 bg-muted/20 focus:bg-background transition-colors px-4 py-2 w-full"
 												placeholder="Enter your email"
 												onChange={handleChange}
 											/>
@@ -112,10 +114,10 @@ export const ModalReceipt: React.FC<IProps> = memo(({ open, closed }) => {
 										</div>
 
 										<div className="flex flex-col gap-1">
-											<Label>Name</Label>
+											<Label className="font-semibold text-foreground">Name</Label>
 											<Input
 												name="name"
-												className="text-sm"
+												className="text-sm rounded-xl border-border/60 bg-muted/20 focus:bg-background transition-colors px-4 py-2 w-full"
 												placeholder="Enter your full name"
 												onChange={handleChange}
 											/>
@@ -126,7 +128,7 @@ export const ModalReceipt: React.FC<IProps> = memo(({ open, closed }) => {
 											/>
 										</div>
 										<div className="flex flex-col gap-1">
-											<Label>Gender</Label>
+											<Label className="font-semibold text-foreground">Gender</Label>
 											<SelectField
 												name="gender"
 												defaultValue="Select your gender"
@@ -147,10 +149,10 @@ export const ModalReceipt: React.FC<IProps> = memo(({ open, closed }) => {
 											/>
 										</div>
 										{/* <div className="flex flex-col gap-1">
-											<Label>Phone No.</Label>
+											<Label className="font-semibold text-foreground">Phone No.</Label>
 											<Input
 												name="phone"
-												className="text-sm"
+												className="text-sm rounded-xl border-border/60 bg-muted/20 focus:bg-background transition-colors px-4 py-2 w-full"
 												placeholder="Phone No."
 												onChange={handleChange}
 											/>
@@ -161,12 +163,12 @@ export const ModalReceipt: React.FC<IProps> = memo(({ open, closed }) => {
 											/>
 										</div> */}
 										<div className="flex flex-col gap-1">
-											<Label>PAN ID</Label>
+											<Label className="font-semibold text-foreground">PAN ID</Label>
 											<Input
 												name="panId"
 												placeholder="PAN"
 												onChange={handleChange}
-												className="uppercase text-sm"
+												className="uppercase text-sm rounded-xl border-border/60 bg-muted/20 focus:bg-background transition-colors px-4 py-2 w-full"
 											/>
 											<ErrorMessage
 												name="panId"
@@ -175,10 +177,10 @@ export const ModalReceipt: React.FC<IProps> = memo(({ open, closed }) => {
 											/>
 										</div>
 										<div className="flex flex-col gap-1">
-											<Label>Passout Year</Label>
+											<Label className="font-semibold text-foreground">Passout Year</Label>
 											<Input
 												name="passoutYear"
-												className="text-sm"
+												className="text-sm rounded-xl border-border/60 bg-muted/20 focus:bg-background transition-colors px-4 py-2 w-full"
 												placeholder="Passout Year"
 												onChange={handleChange}
 											/>
@@ -189,10 +191,10 @@ export const ModalReceipt: React.FC<IProps> = memo(({ open, closed }) => {
 											/>
 										</div>
 										<div className="flex flex-col gap-1">
-											<Label>Amount</Label>
+											<Label className="font-semibold text-foreground">Amount</Label>
 											<Input
 												name="amount"
-												className="text-sm"
+												className="text-sm rounded-xl border-border/60 bg-muted/20 focus:bg-background transition-colors px-4 py-2 w-full"
 												placeholder="Amount"
 												onChange={handleChange}
 											/>
@@ -203,10 +205,10 @@ export const ModalReceipt: React.FC<IProps> = memo(({ open, closed }) => {
 											/>
 										</div>
 										<div className="flex flex-col gap-1">
-											<Label>Transaction ID</Label>
+											<Label className="font-semibold text-foreground">Transaction ID</Label>
 											<Input
 												name="transactionId"
-												className="text-sm"
+												className="text-sm rounded-xl border-border/60 bg-muted/20 focus:bg-background transition-colors px-4 py-2 w-full"
 												placeholder="Transaction ID"
 												onChange={handleChange}
 											/>
@@ -217,12 +219,8 @@ export const ModalReceipt: React.FC<IProps> = memo(({ open, closed }) => {
 											/>
 										</div>
 										<div className="flex flex-col gap-1">
-											<Label>Date</Label>
-											<Input
-												name="date"
-												type="date"
-												onChange={handleChange}
-											/>
+											<Label className="font-semibold text-foreground">Date</Label>
+											<Input name="date" type="date" onChange={handleChange} className="text-sm rounded-xl border-border/60 bg-muted/20 focus:bg-background transition-colors px-4 py-2 w-full" />
 											<ErrorMessage
 												name="date"
 												component="div"
@@ -230,7 +228,7 @@ export const ModalReceipt: React.FC<IProps> = memo(({ open, closed }) => {
 											/>
 										</div>
 										<div className="flex flex-col gap-1">
-											<Label>Donation For</Label>
+											<Label className="font-semibold text-foreground">Donation For</Label>
 											<SelectField
 												name="donationFor"
 												defaultValue="Select reason for Donation"
@@ -294,25 +292,26 @@ export const ModalReceipt: React.FC<IProps> = memo(({ open, closed }) => {
 											/>
 										</div>
 									</div>
-									<div className="pt-8 w-full flex ">
-										{isLoading ? (
-										<>
-											<Button
-												disabled
-												className="py-3 text-white hover:scale-100 w-full max-w-lg lg:max-w-full"
-												type="submit">
-												<Loader2 className="animate-spin" /> Loading...
-											</Button>
-										</>
-									) : (
-										<>
-											<Button
-												className="py-3 text-white hover:scale-100 w-full max-w-lg lg:max-w-full"
-												type="submit">
-												Submit
-											</Button>
-										</>
-									)}
+									<div className="flex justify-end gap-3 items-center w-full pt-6 pb-2 border-t border-border/50 mt-8">
+										<Button 
+											type="button" 
+											variant="outline" 
+											onClick={closed} 
+											className="rounded-xl font-medium px-5"
+										>
+											Cancel
+										</Button>
+										<Button
+											type="submit"
+											className="bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl shadow-md shadow-indigo-500/20 transition-all duration-300 hover:shadow-lg hover:shadow-indigo-500/30 hover:-translate-y-0.5 font-medium px-6 flex items-center gap-2"
+											disabled={isLoading}
+										>
+											{isLoading ? (
+												<><Loader2 className="animate-spin" size={16} /> Submitting...</>
+											) : (
+												<>Submit Receipt</>
+											)}
+										</Button>
 									</div>
 								</Form>
 							)}

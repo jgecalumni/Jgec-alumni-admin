@@ -8,6 +8,12 @@ import {
 	Loader2,
 	PlusIcon,
 	Upload,
+	Folder,
+	FolderOpen,
+	Images,
+	Edit2,
+	Search,
+	Trash2,
 } from "lucide-react";
 import { debounce } from "@/utils";
 import {
@@ -66,177 +72,160 @@ const Gallery = () => {
 			toast.success("Category deleted successfully");
 			refetch();
 		}
+		setLoadingId(null);
 	};
 	if (isLoading) return <Loading />;
 
 	return (
 		<>
-			<div className="flex justify-end">
+			{/* Header */}
+			<div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 mb-8">
+				<div className="flex flex-col">
+					<h1 className="text-3xl font-bold tracking-tight lg:text-4xl text-foreground">Gallery</h1>
+					<p className="text-muted-foreground mt-1 text-sm lg:text-base">Manage photo categories and galleries.</p>
+				</div>
 				<Button
-					className="bg-primary  flex items-center justify-center gap-1.5 p-2.5 rounded-md text-white px-4 text-sm"
-					onClick={() => setOpenModal(true)}>
-					<PlusIcon
-						className="font-bold"
-						size={16}
-					/>
-					<div className="text-xs">Add Category</div>
+					onClick={() => setOpenModal(true)}
+					className="bg-indigo-600 hover:bg-indigo-700 text-white gap-2 transition-all shadow-md shadow-indigo-500/20 hover:shadow-lg hover:shadow-indigo-500/30 hover:-translate-y-0.5 rounded-xl px-5 h-11"
+				>
+					<PlusIcon size={18} strokeWidth={2.5} />
+					<span className="font-semibold">Add Category</span>
 				</Button>
 			</div>
-			<div>
-				<div className="relative my-8 overflow-x-auto no-scrollbar sm:rounded-lg">
-					<div className="flex flex-column sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-between pb-4">
-						<label
-							htmlFor="table-search"
-							className="sr-only">
-							Search
-						</label>
-						<div className="relative">
-							<div className="absolute inset-y-0 left-0 flex items-center ps-3 pointer-events-none">
-								<svg
-									className="w-5 h-5 text-gray-500 dark:text-gray-400"
-									aria-hidden="true"
-									fill="currentColor"
-									viewBox="0 0 20 20"
-									xmlns="http://www.w3.org/2000/svg">
-									<path
-										fillRule="evenodd"
-										d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-										clipRule="evenodd"></path>
-								</svg>
-							</div>
-							<input
-								type="text"
-								id="table-search"
-								onChange={handleSearch}
-								className="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-								placeholder="Search for category"
-							/>
+			
+			<div className="bg-card/90 backdrop-blur-md border border-border/50 rounded-2xl shadow-xl overflow-hidden mb-8">
+				{/* Toolbar */}
+				<div className="p-6 flex flex-col sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-between border-b border-border/50 bg-muted/10">
+					<div className="relative w-full sm:w-80 group">
+						<div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-muted-foreground group-focus-within:text-indigo-500 transition-colors">
+							<Search size={18} />
 						</div>
+						<input
+							type="text"
+							onChange={handleSearch}
+							className="block w-full pl-10 pr-4 py-2.5 bg-background border border-border/60 rounded-xl text-sm text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-500 transition-all shadow-sm"
+							placeholder="Search for category..."
+						/>
 					</div>
-					<table className="w-full no-scrollbar mb-8 shadow-md text-sm text-left text-gray-500 dark:text-gray-400">
-						<thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-							<tr>
-								<th
-									scope="col"
-									className="px-6 py-3">
-									Category name
-								</th>
-								<th
-									scope="col"
-									className="px-6 py-3">
-									No. of photos
-								</th>
-								<th
-									scope="col"
-									className="px-6 py-3">
-									Photos
-								</th>
-								<th
-									scope="col"
-									className="px-6 py-3">
-									Action
-								</th>
-							</tr>
-						</thead>
-						<tbody>
-							{data?.data.length > 0 ? (
-								data?.data.map((item: any) => (
-									<tr
-										key={item.id}
-										className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
-										<th
-											scope="row"
-											className="px-6 truncate lg:whitespace-normal font-medium text-gray-900 dark:text-white max-w-xs"
-											title={item.name}>
+					
+					<div className="text-sm text-muted-foreground font-medium px-4 py-2 bg-background rounded-xl border border-border/50 shadow-sm">
+						Total Categories: <span className="text-foreground font-bold">{data?.totalCount || data?.data?.length || 0}</span>
+					</div>
+				</div>
+				
+				{/* Grid Layout */}
+				<div className="p-6">
+					<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+						{data?.data && data.data.length > 0 ? (
+							data.data.map((item: any) => (
+								<div 
+									key={item.id} 
+									className="group flex flex-col bg-background/50 border border-border/60 rounded-2xl p-5 hover:bg-muted/30 hover:border-indigo-500/30 hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:hover:shadow-[0_8px_30px_rgb(0,0,0,0.2)] transition-all duration-300 hover:-translate-y-1 relative overflow-hidden"
+								>
+									{/* Top decorative gradient */}
+									<div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-500 to-purple-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+									
+									<div className="flex items-start justify-between mb-4">
+										<div className="p-3.5 bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 rounded-2xl group-hover:bg-indigo-100 dark:group-hover:bg-indigo-500/20 transition-colors">
+											<Folder size={24} strokeWidth={2} className="group-hover:scale-110 transition-transform duration-300"/>
+										</div>
+										<div className="flex flex-col items-end">
+											<span className="text-xs font-bold text-indigo-700 dark:text-indigo-300 bg-indigo-100 dark:bg-indigo-900/40 px-2.5 py-1 rounded-lg border border-indigo-200 dark:border-indigo-800 shadow-sm">
+												{item.images?.length || 0} Photos
+											</span>
+										</div>
+									</div>
+									
+									<div className="flex-1 mb-6">
+										<h3 className="text-lg font-bold text-foreground truncate mb-1 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors" title={item.name}>
 											{item.name}
-										</th>
-										<td className="px-8 py-4 ">{item.images.length}</td>
-										<td className="px-6 flex gap-3 py-4 ">
-											<div className="bg-slate-100 cursor-pointer rounded p-2">
-												<Upload
-													size={16}
-													color="green"
-													onClick={(e) => {
-														e.stopPropagation();
-														setOpenImage(true);
-														setCategoryID(item.id);
-													}}
-												/>
-											</div>
-											<div className="bg-slate-100 cursor-pointer p-2 rounded">
-												<Link
-													size={16}
-													color="black"
-													onClick={(e) => {
-														e.stopPropagation();
-														setViewImages(item);
-													}}
-												/>
-											</div>
-										</td>
-										<td className="px-8 py-4 gap-2">
-											<div className="flex gap-3">
-												<button
-													className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-													onClick={(e) => {
-														e.stopPropagation();
-														setEditCategory(item);
-													}}>
-													Edit
-												</button>
+										</h3>
+										<p className="text-xs text-muted-foreground font-medium">Gallery Collection</p>
+									</div>
 
-												<button
-													className="font-medium text-danger hover:underline"
-													onClick={(e) => {
-														e.stopPropagation();
-														handleDelete(item.id);
-													}}>
-													{loadingId === item.id ? (
-														<Loader2 size={17} className="animate-spin" color="red" />
-													) : (
-														"Delete"
-													)}
-												</button>
-											</div>
-										</td>
-									</tr>
-								))
-							) : (
-								<tr>
-									<td
-										colSpan={5}
-										className="px-6 py-4 text-center text-gray-500">
-										No Category found.
-									</td>
-								</tr>
-							)}
-						</tbody>
-					</table>
-					<div
-						className={`flex items-center justify-between ${data?.data.length > 0 ? "block" : "hidden"
-							} `}>
-						<div>
-							Show Page {page} of {totalPages}
-						</div>
-						<div className="flex items-center gap-4">
-							<button
-								onClick={() => setPage(page - 1)}
-								disabled={page === 1}
-								className="px-4 py-2 bg-primary text-white rounded-md text-sm font-normal disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1">
-								<ArrowLeft size={14} />
-								Prev
-							</button>
-							<button
-								onClick={() => setPage(page + 1)}
-								disabled={page === totalPages}
-								className="px-4 py-2 bg-primary text-white rounded-md text-sm font-normal disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1">
-								Next
-								<ArrowRight size={14} />
-							</button>
-						</div>
+									{/* Action Buttons */}
+									<div className="flex items-center justify-between pt-4 border-t border-border/50">
+										<div className="flex items-center gap-2">
+											<button 
+												className="flex items-center justify-center w-9 h-9 bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 rounded-xl hover:bg-emerald-100 dark:hover:bg-emerald-500/20 hover:text-emerald-700 transition-all shadow-sm hover:shadow"
+												onClick={(e) => { e.stopPropagation(); setOpenImage(true); setCategoryID(item.id); }}
+												title="Upload Photo"
+											>
+												<Upload size={16} strokeWidth={2.5} />
+											</button>
+											<button 
+												className="flex items-center justify-center w-9 h-9 bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 rounded-xl hover:bg-blue-100 dark:hover:bg-blue-500/20 hover:text-blue-700 transition-all shadow-sm hover:shadow"
+												onClick={(e) => { e.stopPropagation(); setViewImages(item); }}
+												title="View Gallery"
+											>
+												<Images size={16} strokeWidth={2.5} />
+											</button>
+										</div>
+										
+										<div className="flex items-center gap-2">
+											<button 
+												className="flex items-center justify-center w-9 h-9 bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400 rounded-xl hover:bg-amber-100 dark:hover:bg-amber-500/20 hover:text-amber-700 transition-all shadow-sm hover:shadow"
+												onClick={(e) => { e.stopPropagation(); setEditCategory(item); }}
+												title="Edit Category"
+											>
+												<Edit2 size={16} strokeWidth={2.5} />
+											</button>
+											<button 
+												className="flex items-center justify-center w-9 h-9 bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400 rounded-xl hover:bg-red-100 dark:hover:bg-red-500/20 hover:text-red-700 transition-all shadow-sm hover:shadow disabled:opacity-50 disabled:cursor-not-allowed"
+												onClick={(e) => { e.stopPropagation(); handleDelete(item.id); }}
+												disabled={loadingId === item.id}
+												title="Delete Category"
+											>
+												{loadingId === item.id ? <Loader2 size={16} className="animate-spin" /> : <Trash2 size={16} strokeWidth={2.5} />}
+											</button>
+										</div>
+									</div>
+								</div>
+							))
+						) : (
+							<div className="col-span-full py-20 flex flex-col items-center justify-center text-muted-foreground bg-muted/10 rounded-2xl border-2 border-dashed border-border/50">
+								<div className="p-4 bg-muted/30 rounded-full mb-4">
+									<FolderOpen size={48} className="opacity-40" strokeWidth={1.5} />
+								</div>
+								<p className="text-xl font-bold text-foreground mb-1">No Categories Found</p>
+								<p className="text-sm">Create a new category to get started with your gallery.</p>
+								<Button
+									variant="outline"
+									onClick={() => setOpenModal(true)}
+									className="mt-6 border-indigo-200 text-indigo-600 hover:bg-indigo-50 hover:text-indigo-700 dark:border-indigo-800 dark:text-indigo-400 dark:hover:bg-indigo-900/30"
+								>
+									<PlusIcon size={16} className="mr-2" />
+									Create Category
+								</Button>
+							</div>
+						)}
+					</div>
+				</div>
+				
+				{/* Pagination */}
+				<div className={`flex items-center justify-between p-6 border-t border-border/50 bg-muted/10 ${data?.data?.length > 0 ? "block" : "hidden"}`}>
+					<div className="text-sm text-muted-foreground">
+						Showing Page <span className="font-bold text-foreground">{page}</span> of <span className="font-bold text-foreground">{totalPages}</span>
+					</div>
+					<div className="flex items-center gap-2">
+						<button
+							onClick={() => {setPage(page - 1); window.scrollTo(0, 0)}}
+							disabled={page === 1}
+							className="px-4 py-2 bg-background border border-border hover:bg-muted text-foreground rounded-lg text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1.5 transition-all shadow-sm hover:shadow hover:scale-[1.02] active:scale-95">
+							<ArrowLeft size={16} />
+							Prev
+						</button>
+						<button
+							onClick={() => {setPage(page + 1); window.scrollTo(0, 0)}}
+							disabled={page === totalPages}
+							className="px-4 py-2 bg-background border border-border hover:bg-muted text-foreground rounded-lg text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1.5 transition-all shadow-sm hover:shadow hover:scale-[1.02] active:scale-95">
+							Next
+							<ArrowRight size={16} />
+						</button>
 					</div>
 				</div>
 			</div>
+			
 			{(openModal || editCategory) && (
 				<ModalGalleryCategory
 					open={openModal || editCategory}

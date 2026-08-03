@@ -5,6 +5,7 @@ import ReactQueryProvider from "@/store/query-client";
 import { Toaster } from "react-hot-toast";
 import { Poppins } from "next/font/google"
 import "react-quill/dist/quill.snow.css";
+import { ThemeProvider } from "@/components/theme-provider";
 
 export const metadata: Metadata = {
 	title: "Jalpaiguri Government Engineering College Alumni Association.",
@@ -33,14 +34,21 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang="en">
+		<html lang="en" suppressHydrationWarning>
 			<body className={`${poppins.className} antialiased`}>
-				<Providers>
-					<ReactQueryProvider>
-						{children}
-						<Toaster />
-					</ReactQueryProvider>
-				</Providers>
+				<ThemeProvider
+					attribute="class"
+					defaultTheme="system"
+					enableSystem
+					disableTransitionOnChange
+				>
+					<Providers>
+						<ReactQueryProvider>
+							{children}
+							<Toaster />
+						</ReactQueryProvider>
+					</Providers>
+				</ThemeProvider>
 			</body>
 		</html>
 	);

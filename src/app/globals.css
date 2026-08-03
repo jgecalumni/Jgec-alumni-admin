@@ -7,42 +7,35 @@
 body {
 	font-weight: 400;
 	font-style: normal;
-	background-color: #edf1f4;
 }
-/* * {
-	scrollbar-width: thin;
-	
-} */
+
 *::-webkit-scrollbar {
-	width: 6px;
+	width: 6px !important;
 }
 *::-webkit-scrollbar-track {
-	background: #f1f1f1;
-	/* border-top-right-radius: 6px;
-	border-bottom-right-radius: 6px; */
+	background: hsl(var(--secondary)) !important;
 }
 *::-webkit-scrollbar-thumb {
-	background: #888;
-	/* border-top-right-radius: 6px;
-	border-bottom-right-radius: 6px; */
+	background: hsl(var(--muted-foreground)) !important;
+	border-radius: 10px !important;
 }
 *::-webkit-scrollbar-thumb:hover {
-	background: #555;
+	background: hsl(var(--foreground)) !important;
 }
 .no-scrollbar::-webkit-scrollbar {
-	display: none;
+	display: none !important;
 }
 
 .modal-scrollbar::-webkit-scrollbar {
 	width: 6px;
 }
 .modal-scrollbar::-webkit-scrollbar-track {
-	background: #f1f1f1;
+	background: hsl(var(--secondary));
 	border-top-right-radius: 6px;
 	border-bottom-right-radius: 6px;
 }
 .modal-scrollbar::-webkit-scrollbar-thumb {
-	background: #888;
+	background: hsl(var(--muted-foreground));
 	border-top-right-radius: 6px;
 	border-bottom-right-radius: 6px;
 }
@@ -82,6 +75,7 @@ body {
 		--card-foreground: 0 0% 3.9%;
 		--popover: 0 0% 100%;
 		--popover-foreground: 0 0% 3.9%;
+		--primary: 226 43% 52%;
 		--primary-foreground: 0 0% 98%;
 		--secondary: 0 0% 96.1%;
 		--secondary-foreground: 0 0% 9%;
@@ -116,7 +110,7 @@ body {
 		--card-foreground: 0 0% 98%;
 		--popover: 0 0% 3.9%;
 		--popover-foreground: 0 0% 98%;
-		--primary: 0 0% 98%;
+		--primary: 226 43% 52%;
 		--primary-foreground: 0 0% 9%;
 		--secondary: 0 0% 14.9%;
 		--secondary-foreground: 0 0% 98%;
@@ -147,29 +141,13 @@ body {
 
 @layer base {
 	* {
-		@apply border-border;
+		@apply border-border outline-ring/50;
 	}
 	body {
 		@apply bg-background text-foreground;
 	}
 }
 
-*::-webkit-scrollbar {
-	width: 6px !important;
-}
-*::-webkit-scrollbar-track {
-	background: #f1f1f1 !important;
-}
-*::-webkit-scrollbar-thumb {
-	background: #868686 !important;
-	border-radius: 10px !important;
-}
-*::-webkit-scrollbar-thumb:hover {
-	background: #555 !important;
-}
-.no-scrollbar::-webkit-scrollbar {
-	display: none !important;
-}
 .text_editor .ql-editor {
 	height: 8rem !important;
 }
@@ -191,15 +169,4 @@ body {
 .scholarship_view_editor .ql-container.ql-disabled .ql-tooltip {
 	display: none !important;
 	height: 0 !important;
-}
-
-
-
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
-	}
-  body {
-    @apply bg-background text-foreground;
-	}
 }

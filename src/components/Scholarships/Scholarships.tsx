@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { ScholarshipDetails } from "@/lib/ScholarshipData";
 import Image from "next/image";
-import { ArrowLeft, ArrowRight, PlusIcon } from "lucide-react";
+import { ArrowLeft, ArrowRight, PlusIcon, Pencil, Trash2, Users } from "lucide-react";
 import dynamic from "next/dynamic";
 import {
 	useAllScholarshipsQuery,
@@ -12,6 +12,7 @@ import {
 import toast from "react-hot-toast";
 import { debounce } from "@/utils";
 import Loading from "@/app/loading";
+import { useRouter } from "next/navigation";
 import { ModalScholarshipDetails } from "../Modals/ModalDetails";
 const ModalScholarshipEdit = dynamic(
 	() => import("../Modals/ModalScholarshipEdit"),
@@ -19,6 +20,7 @@ const ModalScholarshipEdit = dynamic(
 );
 
 const Scholarships: React.FC = () => {
+	const router = useRouter();
 	const [searchQuery, setSearchQuery] = useState<string>("");
 	const [openModal, setOpenModal] = useState(false);
 	const [openScholarshipModal, setOpenScholarshipModal] = useState(false);
@@ -71,97 +73,104 @@ const Scholarships: React.FC = () => {
 
 	return (
 		<>
-			<div className="flex justify-between  items-center">
+			{/* Header */}
+			<div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 mb-8">
 				<div className="flex flex-col">
-					<div className="lg:text-3xl text-xl text-[#343e4c] font-medium">
-						Scholarships
-					</div>
-					<div className="border-2  border-[#516bb7] rounded w-16"></div>
+					<h1 className="text-3xl font-bold tracking-tight lg:text-4xl text-foreground">Scholarships</h1>
+					<p className="text-muted-foreground mt-1 text-sm lg:text-base">Manage and view scholarship programs.</p>
 				</div>
 				<button
-					className="bg-primary  flex items-center justify-center gap-1.5 p-2.5 rounded-md text-white px-4 text-sm"
+					className="bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white shadow-md hover:shadow-lg hover:scale-[1.02] active:scale-95 text-sm flex items-center justify-center gap-2 py-2.5 px-6 rounded-xl transition-all duration-300 font-medium"
 					onClick={() => setOpenModal(true)}>
 					<PlusIcon
 						className="font-bold"
-						size={16}
+						size={18}
 					/>
-					<div>Add Scholarship</div>
+					<span>Add Scholarship</span>
 				</button>
 			</div>
-			<div>
-				<div className="relative my-8 overflow-x-auto no-scrollbar sm:rounded-lg">
-					<div className="flex flex-column sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-between pb-4">
-						<label
-							htmlFor="table-search"
-							className="sr-only">
-							Search
-						</label>
-						<div className="relative">
-							<div className="absolute inset-y-0 left-0 flex items-center ps-3 pointer-events-none">
-								<svg
-									className="w-5 h-5 text-gray-500 dark:text-gray-400"
-									aria-hidden="true"
-									fill="currentColor"
-									viewBox="0 0 20 20"
-									xmlns="http://www.w3.org/2000/svg">
-									<path
-										fillRule="evenodd"
-										d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-										clipRule="evenodd"></path>
-								</svg>
-							</div>
-							<input
-								type="text"
-								id="table-search"
-								onChange={handleSearch}
-								className="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-								placeholder="Search for scholarships"
-							/>
+			
+			<div className="bg-card/90 backdrop-blur-md border border-border/50 rounded-2xl shadow-xl overflow-hidden mb-8">
+				<div className="p-6 flex flex-col sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-between border-b border-border/50 bg-muted/10">
+					<label
+						htmlFor="table-search"
+						className="sr-only">
+						Search
+					</label>
+					<div className="relative group w-full max-w-md">
+						<div className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
+							<svg
+								className="w-5 h-5 text-muted-foreground group-focus-within:text-indigo-500 transition-colors"
+								aria-hidden="true"
+								fill="none"
+								stroke="currentColor"
+								viewBox="0 0 24 24"
+								xmlns="http://www.w3.org/2000/svg">
+								<path
+									strokeLinecap="round"
+									strokeLinejoin="round"
+									strokeWidth="2"
+									d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+							</svg>
 						</div>
+						<input
+							type="text"
+							id="table-search"
+							onChange={handleSearch}
+							className="block w-full py-2.5 pl-10 pr-4 text-sm text-foreground bg-background border border-border rounded-xl focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all shadow-sm outline-none"
+							placeholder="Search for scholarships..."
+						/>
 					</div>
-					<table className="w-full no-scrollbar mb-8 shadow-md text-sm text-left text-gray-500 dark:text-gray-400">
-						<thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+					
+					<div className="text-sm text-muted-foreground font-medium whitespace-nowrap px-4 py-1.5 bg-muted/40 rounded-full border border-border/50 shadow-inner">
+						Showing <span className="text-foreground font-bold">{data?.scholarships?.length || 0}</span> results
+					</div>
+				</div>
+				
+				<div className="overflow-x-auto no-scrollbar">
+					<table className="w-full text-sm text-left text-muted-foreground">
+						<thead className="text-xs text-muted-foreground uppercase bg-muted/30 border-b border-border/50 backdrop-blur-md sticky top-0">
 							<tr>
 								<th
 									scope="col"
-									className="px-6 py-3">
+									className="px-6 py-4 font-bold tracking-wider">
 									Scholarship name
 								</th>
 								<th
 									scope="col"
-									className="px-6 py-3">
+									className="px-6 py-4 font-bold tracking-wider">
 									Amount Details
 								</th>
 								<th
 									scope="col"
-									className="px-6 py-3">
+									className="px-6 py-4 font-bold tracking-wider">
 									Provider Name
 								</th>
 								<th
 									scope="col"
-									className="px-6 py-3">
+									className="px-6 py-4 font-bold tracking-wider">
 									Provider Image
 								</th>
 								<th
 									scope="col"
-									className="px-6 py-3">
-									Action
+									className="px-6 py-4 font-bold tracking-wider text-right">
+									Actions
 								</th>
 							</tr>
 						</thead>
-						<tbody>
-							{data?.scholarships.length > 0 ? (
-								data?.scholarships.map((item: any) => (
+						<tbody className="divide-y divide-border/50">
+							{data?.scholarships?.length > 0 ? (
+								data.scholarships.map((item: any) => (
 									<tr
 										onClick={() => {
 											setOpenScholarshipModal(!openScholarshipModal),
 												setScholarshipDetails(item);
 										}}
 										key={item.id}
-										className={` cursor-pointer border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 ${item.isActive===false ? "bg-slate-300 cursor-not-allowed" : "bg-white"}`}>
+										className={`cursor-pointer transition-colors duration-200 group ${item.isActive === false ? "bg-muted/20 text-muted-foreground cursor-not-allowed" : "bg-transparent text-foreground hover:bg-indigo-50/50 dark:hover:bg-indigo-950/20"}`}>
 										<th
 											scope="row"
-											className="px-6 truncate lg:whitespace-normal font-medium text-gray-900 dark:text-white max-w-xs"
+											className="px-6 py-4 truncate lg:whitespace-normal font-medium max-w-xs group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors"
 											title={item.name}>
 											{item.name}
 										</th>
@@ -170,30 +179,44 @@ const Scholarships: React.FC = () => {
 										</td>
 										<td className="px-6 py-4">{item.providerName}</td>
 										<td className="px-6 py-4">
-											<Image
-												src={item.providerImage}
-												alt={item.provideName}
-												width={100}
-												height={100}
-												className="w-40 h-20 object-contain"
-											/>
+											<div className="relative h-12 w-24 bg-white/10 rounded-md overflow-hidden flex items-center justify-center p-1 border border-border/50">
+												<Image
+													src={item.providerImage}
+													alt={item.provideName || item.providerName || "Provider"}
+													fill
+													className="object-contain"
+												/>
+											</div>
 										</td>
-										<td className="px-6 py-4 w-full h-full flex items-center gap-2">
-											<button
-												className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-												onClick={(e) => {
-													e.stopPropagation();
-													setEditScholarship(item);
-												}}>
-												Edit
-											</button>
-											<button
-												className="font-medium text-danger hover:underline"
-												onClick={(e) => {
-													e.stopPropagation(), handleDelete(item.id);
-												}}>
-												Delete
-											</button>
+										<td className="px-6 py-4">
+											<div className="flex items-center justify-end gap-2">
+												<button
+													title="View Applicants"
+													className="p-2 text-emerald-600 hover:text-emerald-700 bg-emerald-50 hover:bg-emerald-100 dark:bg-emerald-500/10 dark:hover:bg-emerald-500/20 dark:text-emerald-400 rounded-lg transition-all"
+													onClick={(e) => {
+														e.stopPropagation();
+														router.push(`/scholarship/applications/${item.id}`);
+													}}>
+													<Users size={18} />
+												</button>
+												<button
+													title="Edit Scholarship"
+													className="p-2 text-indigo-600 hover:text-indigo-700 bg-indigo-50 hover:bg-indigo-100 dark:bg-indigo-500/10 dark:hover:bg-indigo-500/20 dark:text-indigo-400 rounded-lg transition-all"
+													onClick={(e) => {
+														e.stopPropagation();
+														setEditScholarship(item);
+													}}>
+													<Pencil size={18} />
+												</button>
+												<button
+													title="Delete Scholarship"
+													className="p-2 text-rose-600 hover:text-rose-700 bg-rose-50 hover:bg-rose-100 dark:bg-rose-500/10 dark:hover:bg-rose-500/20 dark:text-rose-400 rounded-lg transition-all"
+													onClick={(e) => {
+														e.stopPropagation(), handleDelete(item.id);
+													}}>
+													<Trash2 size={18} />
+												</button>
+											</div>
 										</td>
 									</tr>
 								))
@@ -201,39 +224,46 @@ const Scholarships: React.FC = () => {
 								<tr>
 									<td
 										colSpan={5}
-										className="px-6 py-4 text-center text-gray-500">
-										No scholarships found.
+										className="px-6 py-12 text-center text-muted-foreground bg-transparent">
+										<div className="flex flex-col items-center justify-center space-y-3">
+											<svg className="w-12 h-12 text-muted-foreground/50" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+												<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+											</svg>
+											<span>No scholarships found.</span>
+										</div>
 									</td>
 								</tr>
 							)}
 						</tbody>
 					</table>
-					<div
-						className={`flex items-center justify-between ${
-							data?.scholarships.length > 0 ? "block" : "hidden"
-						} `}>
-						<div>
-							Show Page {page} of {totalPages}
-						</div>
-						<div className="flex items-center gap-4">
-							<button
-								onClick={() => {setPage(page - 1),window.scrollTo(0, 0)}}
-								disabled={page === 1}
-								className="px-4 py-2 bg-primary text-white rounded-md text-sm font-normal disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1">
-								<ArrowLeft size={14} />
-								Prev
-							</button>
-							<button
-								onClick={() => {setPage(page + 1),window.scrollTo(0, 0)}}
-								disabled={page === totalPages}
-								className="px-4 py-2 bg-primary text-white rounded-md text-sm font-normal disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1">
-								Next
-								<ArrowRight size={14} />
-							</button>
-						</div>
+				</div>
+				
+				<div
+					className={`flex items-center justify-between p-6 border-t border-border/50 bg-muted/10 ${
+						data?.scholarships?.length > 0 ? "block" : "hidden"
+					}`}>
+					<div className="text-sm text-muted-foreground">
+						Showing Page <span className="font-bold text-foreground">{page}</span> of <span className="font-bold text-foreground">{totalPages}</span>
+					</div>
+					<div className="flex items-center gap-2">
+						<button
+							onClick={() => {setPage(page - 1),window.scrollTo(0, 0)}}
+							disabled={page === 1}
+							className="px-4 py-2 bg-background border border-border hover:bg-muted text-foreground rounded-lg text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1.5 transition-all shadow-sm hover:shadow hover:scale-[1.02] active:scale-95">
+							<ArrowLeft size={16} />
+							Prev
+						</button>
+						<button
+							onClick={() => {setPage(page + 1),window.scrollTo(0, 0)}}
+							disabled={page === totalPages}
+							className="px-4 py-2 bg-background border border-border hover:bg-muted text-foreground rounded-lg text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1.5 transition-all shadow-sm hover:shadow hover:scale-[1.02] active:scale-95">
+							Next
+							<ArrowRight size={16} />
+						</button>
 					</div>
 				</div>
 			</div>
+			
 			{openScholarshipModal && (
 				<ModalScholarshipDetails
 					details={scholarshipDetails}

@@ -21,6 +21,14 @@ export const scholarshipApi = baseApi
                 }),
                 providesTags: ['scholarship-details']
             }),
+            getScholarshipApplications: builder.query<any, { id: string, limit?: number, page?: number, search?: string }>({
+                query: ({ id, limit = 10, page = 1, search = "" }) => ({
+                    url: `/scholarships/applications`,
+                    params: { limit, page, scholarshipId: id, search },
+                    method: 'GET',
+                    credentials: 'include'
+                }),
+            }),
             addScholarships: builder.mutation<any, any >({
                 query: (formData) => ({
                     url: '/scholarships/add',
@@ -47,6 +55,13 @@ export const scholarshipApi = baseApi
                 }),
                 invalidatesTags: ['delete-scholarships']
             }),
+            deleteScholarshipApplication: builder.mutation<any, string>({
+                query: (id) => ({
+                    url: `/scholarships/applicants/delete/${id}`,
+                    method: 'DELETE',
+                    credentials: 'include'
+                }),
+            }),
         }),
     });
 
@@ -55,5 +70,8 @@ export const {
     useScholarshipsQuery,
     useAddScholarshipsMutation,
     useEditScholarshipsMutation,
-    useDeleteScholarshipsMutation
+    useDeleteScholarshipsMutation,
+    useGetScholarshipApplicationsQuery,
+    useLazyGetScholarshipApplicationsQuery,
+    useDeleteScholarshipApplicationMutation
 } = scholarshipApi;

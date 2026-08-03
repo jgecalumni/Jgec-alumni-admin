@@ -240,22 +240,19 @@ const Payments: React.FC = () => {
 	}
 
 	return (
-		<div className="p-4 w-full ">
+		<div className="w-full">
 			{/* Header */}
-			<div className="flex flex-wrap justify-between items-center gap-4 mb-8">
+			<div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 mb-8">
 				<div className="flex flex-col">
-					<div className="lg:text-4xl text-2xl text-[#1e293b] font-bold tracking-tight">
-						Payments Dashboard
-					</div>
-					<div className="border-2 border-[#516bb7] rounded w-20 mt-2"></div>
+					<h1 className="text-3xl font-bold tracking-tight lg:text-4xl text-foreground">Payments Dashboard</h1>
+					<p className="text-muted-foreground mt-1 text-sm lg:text-base">Manage contributions and receipts.</p>
 				</div>
 
 				<div className="flex flex-wrap items-center gap-3">
 					<button
 						onClick={handleUploadClick}
 						disabled={isUploadLoading}
-						className={`bg-gradient-to-r ${isUploadLoading ? "cursor-wait" : "cursor-pointer"
-							} from-[#516bb7] to-[#3b5998] hover:from-[#3b5998] hover:to-[#516bb7] flex items-center justify-center gap-2 px-6 py-3 rounded-lg text-white font-medium shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105`}>
+						className={`bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white ${isUploadLoading ? "cursor-wait opacity-80" : "cursor-pointer hover:scale-[1.02] hover:shadow-lg active:scale-95"} flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl text-sm font-medium transition-all shadow-md duration-300`}>
 						{isUploadLoading ? (
 							<Loader
 								className="animate-spin"
@@ -265,11 +262,11 @@ const Payments: React.FC = () => {
 							<Upload size={18} />
 						)}
 
-						<span>{isUploadLoading ? "Uploading" : "Upload File"}</span>
+						<span>{isUploadLoading ? "Uploading..." : "Upload File"}</span>
 					</button>
 					<button
 						onClick={handleDownloadAll}
-						className="bg-gradient-to-r from-[#3b5998] to-[#516bb7] hover:from-[#516bb7] hover:to-[#3b5998] flex items-center justify-center gap-2 px-6 py-3 rounded-lg text-white font-medium shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+						className="bg-card hover:bg-muted text-foreground border border-border/50 flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl text-sm font-medium transition-all shadow-sm hover:shadow-md hover:scale-[1.02] active:scale-95 duration-300">
 						<Download size={18} />
 						<span>Download All</span>
 					</button>
@@ -287,82 +284,82 @@ const Payments: React.FC = () => {
 			{/* Statistics Cards */}
 			<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
 				{/* Total Amount Card */}
-				<div className="bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl p-6 text-white shadow-lg hover:shadow-xl transition-shadow duration-300">
+				<div className="bg-card/80 backdrop-blur-xl border border-border/50 rounded-2xl p-6 shadow-lg hover:-translate-y-1 hover:shadow-xl transition-all duration-300 group">
 					<div className="flex items-center justify-between mb-4">
-						<div className="bg-white/20 p-3 rounded-lg backdrop-blur-sm">
+						<div className="bg-emerald-500/10 dark:bg-emerald-500/20 p-3.5 rounded-xl group-hover:scale-110 group-hover:bg-emerald-500/20 transition-all duration-300">
 							<DollarSign
-								size={24}
-								className="text-white"
+								size={26}
+								className="text-emerald-600 dark:text-emerald-400"
 							/>
 						</div>
-						<div className="text-xs font-medium bg-white/20 px-3 py-1 rounded-full backdrop-blur-sm">
+						<div className="text-xs font-bold bg-muted/50 text-muted-foreground px-3 py-1.5 rounded-full uppercase tracking-wider">
 							Total
 						</div>
 					</div>
-					<div className="space-y-1">
-						<div className="text-sm font-medium opacity-90">Total Amount</div>
-						<div className="text-3xl font-bold">
+					<div className="space-y-1.5">
+						<div className="text-sm font-medium text-muted-foreground">Total Amount</div>
+						<div className="text-3xl font-extrabold text-foreground tracking-tight">
 							₹ {stats.totalAmount.toLocaleString("en-IN")}
 						</div>
 					</div>
 				</div>
 
 				{/* Total Contributors Card */}
-				<div className="bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl p-6 text-white shadow-lg hover:shadow-xl transition-shadow duration-300">
+				<div className="bg-card/80 backdrop-blur-xl border border-border/50 rounded-2xl p-6 shadow-lg hover:-translate-y-1 hover:shadow-xl transition-all duration-300 group">
 					<div className="flex items-center justify-between mb-4">
-						<div className="bg-white/20 p-3 rounded-lg backdrop-blur-sm">
+						<div className="bg-blue-500/10 dark:bg-blue-500/20 p-3.5 rounded-xl group-hover:scale-110 group-hover:bg-blue-500/20 transition-all duration-300">
 							<Users
-								size={24}
-								className="text-white"
+								size={26}
+								className="text-blue-600 dark:text-blue-400"
 							/>
 						</div>
-						<div className="text-xs font-medium bg-white/20 px-3 py-1 rounded-full backdrop-blur-sm">
+						<div className="text-xs font-bold bg-muted/50 text-muted-foreground px-3 py-1.5 rounded-full uppercase tracking-wider">
 							Count
 						</div>
 					</div>
-					<div className="space-y-1">
-						<div className="text-sm font-medium opacity-90">
+					<div className="space-y-1.5">
+						<div className="text-sm font-medium text-muted-foreground">
 							Total Contributors
 						</div>
-						<div className="text-3xl font-bold">{stats.totalContributions}</div>
+						<div className="text-3xl font-extrabold text-foreground tracking-tight">{stats.totalContributions}</div>
 					</div>
 				</div>
 
 				{/* Graduation Years Card */}
-				<div className="bg-gradient-to-br from-purple-500 to-pink-600 rounded-xl p-6 text-white shadow-lg hover:shadow-xl transition-shadow duration-300">
+				<div className="bg-card/80 backdrop-blur-xl border border-border/50 rounded-2xl p-6 shadow-lg hover:-translate-y-1 hover:shadow-xl transition-all duration-300 group">
 					<div className="flex items-center justify-between mb-4">
-						<div className="bg-white/20 p-3 rounded-lg backdrop-blur-sm">
+						<div className="bg-purple-500/10 dark:bg-purple-500/20 p-3.5 rounded-xl group-hover:scale-110 group-hover:bg-purple-500/20 transition-all duration-300">
 							<TrendingUp
-								size={24}
-								className="text-white"
+								size={26}
+								className="text-purple-600 dark:text-purple-400"
 							/>
 						</div>
-						<div className="text-xs font-medium bg-white/20 px-3 py-1 rounded-full backdrop-blur-sm">
+						<div className="text-xs font-bold bg-muted/50 text-muted-foreground px-3 py-1.5 rounded-full uppercase tracking-wider">
 							Years
 						</div>
 					</div>
-					<div className="space-y-1">
-						<div className="text-sm font-medium opacity-90">Unique Batches</div>
-						<div className="text-3xl font-bold">{stats.uniqueBatches}</div>
+					<div className="space-y-1.5">
+						<div className="text-sm font-medium text-muted-foreground">Unique Batches</div>
+						<div className="text-3xl font-extrabold text-foreground tracking-tight">{stats.uniqueBatches}</div>
 					</div>
 				</div>
 
 				{/* This Month Card */}
-				<div className="bg-gradient-to-br from-orange-500 to-red-600 rounded-xl p-6 text-white shadow-lg hover:shadow-xl transition-shadow duration-300">
+				<div className="bg-card/80 backdrop-blur-xl border border-border/50 rounded-2xl p-6 shadow-lg hover:-translate-y-1 hover:shadow-xl transition-all duration-300 group">
 					<div className="flex items-center justify-between mb-4">
-						<div className="bg-white/20 p-3 rounded-lg backdrop-blur-sm">
+						<div className="bg-orange-500/10 dark:bg-orange-500/20 p-3.5 rounded-xl group-hover:scale-110 group-hover:bg-orange-500/20 transition-all duration-300">
 							<Calendar
-								size={24}
-								className="text-white"
+								size={26}
+								className="text-orange-600 dark:text-orange-400"
 							/>
 						</div>
-						<div className="text-xs font-medium bg-white/20 px-3 py-1 rounded-full backdrop-blur-sm">
+						<div className="text-xs font-bold bg-muted/50 text-muted-foreground px-3 py-1.5 rounded-full uppercase tracking-wider">
 							Monthly
 						</div>
 					</div>
-					<div className="space-y-1">
-						<div className="text-sm font-medium opacity-90">This Month</div>
-						<div className="text-3xl font-bold">
+					<div className="space-y-1.5">
+						<div className="text-sm font-medium text-muted-foreground">This Month</div>
+						<div className="text-3xl font-extrabold text-foreground tracking-tight">
 							{stats.monthlyContributions}
 						</div>
 					</div>
@@ -370,108 +367,104 @@ const Payments: React.FC = () => {
 			</div>
 
 			{/* Table Section */}
-			<div className="bg-white rounded-xl shadow-lg overflow-hidden">
+			<div className="bg-card/90 backdrop-blur-md border border-border/50 rounded-2xl shadow-xl overflow-hidden mb-8">
 				{/* Search Bar */}
-				<div className="p-6 border-b border-gray-200 bg-gradient-to-r from-gray-50 to-white">
-					<div className="flex flex-wrap items-center justify-between gap-4">
-						<div className="flex flex-wrap items-center gap-3 flex-1">
-							<div className="relative flex-1 max-w-md">
-								<svg
-									className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
-									width="20"
-									height="20"
-									fill="none"
-									stroke="currentColor"
-									viewBox="0 0 24 24">
-									<path
-										strokeLinecap="round"
-										strokeLinejoin="round"
-										strokeWidth="2"
-										d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-									/>
-								</svg>
-								<input
-									type="text"
-									value={searchTerm}
-									onChange={handleSearch}
-									className="w-full pl-10 pr-4 py-3 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-									placeholder="Search by name, email or mobile..."
+				<div className="p-6 flex flex-col sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-between border-b border-border/50 bg-muted/10">
+					<div className="flex flex-wrap items-center gap-4 flex-1">
+						<div className="relative flex-1 max-w-md group">
+							<svg
+								className="absolute left-3.5 top-1/2 transform -translate-y-1/2 text-muted-foreground group-focus-within:text-indigo-500 transition-colors"
+								width="18"
+								height="18"
+								fill="none"
+								stroke="currentColor"
+								viewBox="0 0 24 24">
+								<path
+									strokeLinecap="round"
+									strokeLinejoin="round"
+									strokeWidth="2"
+									d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
 								/>
-							</div>
+							</svg>
+							<input
+								type="text"
+								value={searchTerm}
+								onChange={handleSearch}
+								className="w-full pl-10 pr-4 py-2.5 text-sm text-foreground bg-background border border-border rounded-xl focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all shadow-sm outline-none"
+								placeholder="Search by name, email or mobile..."
+							/>
+						</div>
 
-							<DropdownMenu>
-								<DropdownMenuTrigger asChild>
-									<Button
-										variant="outline"
-										className="min-w-[200px] justify-between bg-white hover:bg-gray-50 border-gray-300 text-gray-900 font-medium">
-										{selectedYear === "all"
-											? "All Graduation Years"
-											: `Class of ${selectedYear}`}
-										<ChevronDown className="ml-2 h-4 w-4 opacity-50" />
-									</Button>
-								</DropdownMenuTrigger>
+						<DropdownMenu>
+							<DropdownMenuTrigger asChild>
+								<Button
+									variant="outline"
+									className="min-w-[200px] justify-between bg-background border-border text-foreground font-medium rounded-xl shadow-sm hover:shadow-md hover:border-indigo-500/50 transition-all duration-300">
+									{selectedYear === "all"
+										? "All Graduation Years"
+										: `Class of ${selectedYear}`}
+									<ChevronDown className="ml-2 h-4 w-4 opacity-50" />
+								</Button>
+							</DropdownMenuTrigger>
 
-								<DropdownMenuPortal>
-									<DropdownMenuContent
-										align="end"
-										sideOffset={6}
-										className="min-w-[220px] p-0 bg-white rounded-md shadow-lg border border-gray-200">
-										{/* Scrollable container: ensure fixed max-height + overflow-auto */}
-										<div className="max-h-[220px] overflow-y-auto">
+							<DropdownMenuPortal>
+								<DropdownMenuContent
+									align="end"
+									sideOffset={8}
+									className="min-w-[220px] p-1.5 bg-popover rounded-xl shadow-xl border border-border/50 backdrop-blur-xl">
+									<div className="max-h-[260px] overflow-y-auto no-scrollbar">
+										<DropdownMenuItem
+											onClick={() => setSelectedYear("all")}
+											className="cursor-pointer text-popover-foreground hover:bg-muted focus:bg-muted rounded-lg py-2.5 font-medium transition-colors">
+											<Check
+												className={`mr-2 h-4 w-4 ${selectedYear === "all" ? "opacity-100 text-indigo-500" : "opacity-0"
+													}`}
+											/>
+											All Graduation Years
+										</DropdownMenuItem>
+
+										{graduationYears.map((year: any) => (
 											<DropdownMenuItem
-												onClick={() => setSelectedYear("all")}
-												className="cursor-pointer">
+												key={year}
+												onClick={() => {
+													setSelectedYear(year.toString());
+												}}
+												className="cursor-pointer text-popover-foreground hover:bg-muted focus:bg-muted rounded-lg py-2.5 font-medium transition-colors">
 												<Check
-													className={`mr-2 h-4 w-4 ${selectedYear === "all" ? "opacity-100" : "opacity-0"
+													className={`mr-2 h-4 w-4 ${selectedYear === year.toString()
+															? "opacity-100 text-indigo-500"
+															: "opacity-0"
 														}`}
 												/>
-												All Graduation Years
+												Class of {year}
 											</DropdownMenuItem>
+										))}
+									</div>
+								</DropdownMenuContent>
+							</DropdownMenuPortal>
+						</DropdownMenu>
+					</div>
 
-											{graduationYears.map((year: any) => (
-												<DropdownMenuItem
-													key={year}
-													onClick={() => {
-														setSelectedYear(year.toString());
-													}}
-													className="cursor-pointer">
-													<Check
-														className={`mr-2 h-4 w-4 ${selectedYear === year.toString()
-																? "opacity-100"
-																: "opacity-0"
-															}`}
-													/>
-													Class of {year}
-												</DropdownMenuItem>
-											))}
-										</div>
-									</DropdownMenuContent>
-								</DropdownMenuPortal>
-							</DropdownMenu>
-						</div>
-
-						<div className="text-sm text-gray-600 font-medium whitespace-nowrap">
-							Showing {contris.length} of {stats.totalContributions}{" "}
-							contributions
-						</div>
+					<div className="text-sm text-muted-foreground font-medium whitespace-nowrap px-4 py-1.5 bg-muted/40 rounded-full border border-border/50 shadow-inner">
+						Showing <span className="text-foreground font-bold">{contris.length}</span> of <span className="text-foreground font-bold">{stats.totalContributions}</span>
 					</div>
 				</div>
 
 				{/* Table */}
-				<div className="overflow-x-auto">
-					<table className="w-full text-sm text-left text-gray-700">
-						<thead className="text-xs text-gray-700 uppercase bg-gradient-to-r from-gray-100 to-gray-50 border-b-2 border-gray-200">
+				<div className="overflow-x-auto no-scrollbar">
+					<table className="w-full text-sm text-left text-muted-foreground">
+						<thead className="text-xs text-muted-foreground uppercase bg-muted/30 border-b border-border/50 backdrop-blur-md sticky top-0">
 							<tr>
-								<th className="px-6 py-4 font-semibold">Sl. No</th>
-								<th className="px-6 py-4 font-semibold">Name of Alumnus</th>
-								<th className="px-6 py-4 font-semibold">Graduation Year</th>
-								<th className="px-6 py-4 font-semibold">Amount (INR)</th>
-								<th className="px-6 py-4 font-semibold">Deposited On</th>
-								<th className="px-6 py-4 font-semibold">Mobile No.</th>
-								<th className="px-6 py-4 font-semibold">Receipt</th>
+								<th className="px-6 py-4 font-bold tracking-wider">Sl. No</th>
+								<th className="px-6 py-4 font-bold tracking-wider">Name of Alumnus</th>
+								<th className="px-6 py-4 font-bold tracking-wider">Graduation Year</th>
+								<th className="px-6 py-4 font-bold tracking-wider">Amount (INR)</th>
+								<th className="px-6 py-4 font-bold tracking-wider">Deposited On</th>
+								<th className="px-6 py-4 font-bold tracking-wider">Mobile No.</th>
+								<th className="px-6 py-4 font-bold tracking-wider">Receipt</th>
 							</tr>
 						</thead>
-						<tbody>
+						<tbody className="divide-y divide-border/50">
 							{contris.length > 0 ? (
 								contris.map((row: any, index: number) => (
 									<tr
@@ -480,29 +473,29 @@ const Payments: React.FC = () => {
 											e.stopPropagation();
 											handleRowClick(row);
 										}}
-										className="bg-white border-b border-gray-100 hover:bg-blue-50/50 cursor-pointer transition-all duration-200">
-										<td className="px-6 py-4 font-medium text-gray-900">
+										className="bg-transparent text-foreground cursor-pointer hover:bg-indigo-50/50 dark:hover:bg-indigo-950/20 transition-colors duration-200 group">
+										<td className="px-6 py-4 font-medium">
 											{row.slNo}
 										</td>
-										<td className="px-6 py-4 font-medium text-gray-900">
+										<td className="px-6 py-4 font-medium text-foreground group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
 											{row.nameOfAluminus}
 										</td>
-										<td className="px-6 py-4 text-gray-700">
+										<td className="px-6 py-4">
 											{row.graduationYear}
 										</td>
-										<td className="px-6 py-4 font-semibold text-green-600">
+										<td className="px-6 py-4 font-semibold text-emerald-600 dark:text-emerald-400">
 											₹ {parseFloat(row.amount || 0).toLocaleString("en-IN")}
 										</td>
-										<td className="px-6 py-4 text-gray-700">
+										<td className="px-6 py-4">
 											{row.depositedOn}
 										</td>
-										<td className="px-6 py-4 text-gray-700">{row.mobileNo}</td>
+										<td className="px-6 py-4">{row.mobileNo}</td>
 										<td className="px-6 py-4">
 											<Link
 												href={row.pdfLink || "#"}
 												onClick={(e) => e.stopPropagation()}
 												target="_blank">
-												<Button className="h-9 px-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white shadow-md hover:shadow-lg transition-all">
+												<Button size="sm" className="h-8 px-4 bg-primary hover:bg-primary/90 text-primary-foreground shadow-sm hover:shadow-md hover:scale-105 transition-all duration-300 rounded-lg">
 													View
 												</Button>
 											</Link>
@@ -513,20 +506,20 @@ const Payments: React.FC = () => {
 								<tr>
 									<td
 										colSpan={7}
-										className="text-center py-12">
+										className="text-center py-12 bg-card">
 										<div className="flex flex-col items-center gap-3">
-											<div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center">
+											<div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center">
 												<DollarSign
-													className="text-gray-400"
+													className="text-muted-foreground"
 													size={32}
 												/>
 											</div>
-											<div className="text-gray-500 font-medium">
+											<div className="text-muted-foreground font-medium">
 												{searchTerm
 													? "No matching contributions found"
 													: "No data uploaded yet"}
 											</div>
-											<div className="text-gray-400 text-sm">
+											<div className="text-muted-foreground/70 text-sm">
 												{searchTerm
 													? "Try adjusting your search"
 													: "Upload an Excel file to get started"}
@@ -538,32 +531,32 @@ const Payments: React.FC = () => {
 						</tbody>
 					</table>
 				</div>
-			</div>
-			<div
-				className={`flex items-center my-8 justify-between ${contris.length > 0 ? "block" : "hidden"
-					} `}>
-				<div>
-					Show Page {page} of {totalPages}
-				</div>
-				<div className="flex items-center gap-4">
-					<button
-						onClick={() => {
-							setPage(page - 1), window.scrollTo(0, 0);
-						}}
-						disabled={page === 1}
-						className="px-4 py-2 bg-primary text-white rounded-md text-sm font-normal disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1">
-						<ArrowLeft size={14} />
-						Prev
-					</button>
-					<button
-						onClick={() => {
-							setPage(page + 1), window.scrollTo(0, 0);
-						}}
-						disabled={page === totalPages}
-						className="px-4 py-2 bg-primary text-white rounded-md text-sm font-normal disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1">
-						Next
-						<ArrowRight size={14} />
-					</button>
+				<div
+					className={`flex items-center justify-between p-6 border-t border-border/50 bg-muted/10 ${contris.length > 0 ? "block" : "hidden"
+						} `}>
+					<div className="text-sm text-muted-foreground">
+						Showing Page <span className="font-bold text-foreground">{page}</span> of <span className="font-bold text-foreground">{totalPages}</span>
+					</div>
+					<div className="flex items-center gap-2">
+						<button
+							onClick={() => {
+								setPage(page - 1), window.scrollTo(0, 0);
+							}}
+							disabled={page === 1}
+							className="px-4 py-2 bg-background border border-border hover:bg-muted text-foreground rounded-lg text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1.5 transition-all shadow-sm hover:shadow hover:scale-[1.02] active:scale-95">
+							<ArrowLeft size={16} />
+							Prev
+						</button>
+						<button
+							onClick={() => {
+								setPage(page + 1), window.scrollTo(0, 0);
+							}}
+							disabled={page === totalPages}
+							className="px-4 py-2 bg-background border border-border hover:bg-muted text-foreground rounded-lg text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1.5 transition-all shadow-sm hover:shadow hover:scale-[1.02] active:scale-95">
+							Next
+							<ArrowRight size={16} />
+						</button>
+					</div>
 				</div>
 			</div>
 
@@ -571,36 +564,38 @@ const Payments: React.FC = () => {
 			<Dialog
 				open={isModalOpen}
 				onOpenChange={setIsModalOpen}>
-				<DialogContent className="sm:max-w-[650px] max-h-[90vh] overflow-y-auto">
-					<DialogHeader>
-						<DialogTitle className="text-3xl font-bold text-[#1e293b] flex items-center gap-3">
-							<div className="w-2 h-8 bg-gradient-to-b from-blue-600 to-indigo-600 rounded-full"></div>
-							Payment Details
-						</DialogTitle>
-					</DialogHeader>
+				<DialogContent className="sm:max-w-[650px] p-0 overflow-hidden border-border/50 bg-card rounded-2xl shadow-2xl backdrop-blur-xl">
+					<div className="bg-muted/30 px-6 py-5 border-b border-border/50">
+						<DialogHeader>
+							<DialogTitle className="text-2xl font-bold text-foreground flex items-center gap-3">
+								<div className="w-1.5 h-6 bg-indigo-500 rounded-full shadow-sm"></div>
+								Payment Details
+							</DialogTitle>
+						</DialogHeader>
+					</div>
 
-					{selectedRow && (
-						<div className="mt-6 space-y-5">
+					<div className="px-6 py-6 max-h-[75vh] overflow-y-auto no-scrollbar">
+						{selectedRow && (
+							<div className="space-y-6">
 							{/* Alumnus Info Section */}
-							<div className="bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 rounded-xl p-6 border border-blue-200 shadow-sm">
-								<h3 className="text-lg font-bold text-gray-800 mb-5 flex items-center gap-2">
-									<div className="w-1.5 h-7 bg-gradient-to-b from-blue-600 to-indigo-600 rounded-full"></div>
+							<div className="bg-muted/30 rounded-xl p-6 border border-border shadow-sm">
+								<h3 className="text-lg font-semibold text-foreground mb-4 flex items-center gap-2">
 									Alumnus Information
 								</h3>
-								<div className="space-y-4">
+								<div className="space-y-3">
 									<div className="flex justify-between items-start">
-										<span className="text-sm text-gray-600 font-semibold">
+										<span className="text-sm text-muted-foreground font-medium">
 											Name:
 										</span>
-										<span className="text-sm text-gray-900 font-bold text-right max-w-[400px]">
+										<span className="text-sm text-foreground font-medium text-right max-w-[400px]">
 											{selectedRow.NameOfAlumnus}
 										</span>
 									</div>
 									<div className="flex justify-between items-start">
-										<span className="text-sm text-gray-600 font-semibold">
+										<span className="text-sm text-muted-foreground font-medium">
 											Graduation Year:
 										</span>
-										<span className="text-sm text-gray-900 font-bold">
+										<span className="text-sm text-foreground font-medium">
 											{selectedRow.GraduationYear}
 										</span>
 									</div>
@@ -608,62 +603,62 @@ const Payments: React.FC = () => {
 							</div>
 
 							{/* Payment Info Section */}
-							<div className="bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 rounded-xl p-6 border border-green-200 shadow-sm">
-								<h3 className="text-lg font-bold text-gray-800 mb-5 flex items-center gap-2">
-									<div className="w-1.5 h-7 bg-gradient-to-b from-green-600 to-emerald-600 rounded-full"></div>
+							<div className="bg-emerald-500/5 dark:bg-emerald-500/10 rounded-xl p-6 border border-emerald-500/20 shadow-sm">
+								<h3 className="text-lg font-semibold text-foreground mb-4 flex items-center gap-2">
 									Payment Information
 								</h3>
 								<div className="space-y-4">
-									<div className="flex justify-between items-start bg-white/60 p-4 rounded-lg">
-										<span className="text-sm text-gray-600 font-semibold">
+									<div className="flex justify-between items-center bg-background/50 p-4 rounded-lg border border-border">
+										<span className="text-sm text-muted-foreground font-medium">
 											Amount:
 										</span>
-										<span className="text-2xl text-green-700 font-bold">
+										<span className="text-2xl text-emerald-600 dark:text-emerald-400 font-bold">
 											₹{" "}
 											{parseFloat(
 												selectedRow.AmountINR?.toString() || "0"
 											).toLocaleString("en-IN")}
 										</span>
 									</div>
-									<div className="flex justify-between items-start">
-										<span className="text-sm text-gray-600 font-semibold">
-											Deposited On:
-										</span>
-										<span className="text-sm text-gray-900 font-bold">
-											{selectedRow.DepositedOn}
-										</span>
-									</div>
-									<div className="flex justify-between items-start">
-										<span className="text-sm text-gray-600 font-semibold">
-											Serial No:
-										</span>
-										<span className="text-sm text-gray-900 font-bold">
-											{selectedRow.SlNo}
-										</span>
+									<div className="space-y-3 px-1">
+										<div className="flex justify-between items-start">
+											<span className="text-sm text-muted-foreground font-medium">
+												Deposited On:
+											</span>
+											<span className="text-sm text-foreground font-medium">
+												{selectedRow.DepositedOn}
+											</span>
+										</div>
+										<div className="flex justify-between items-start">
+											<span className="text-sm text-muted-foreground font-medium">
+												Serial No:
+											</span>
+											<span className="text-sm text-foreground font-medium">
+												{selectedRow.SlNo}
+											</span>
+										</div>
 									</div>
 								</div>
 							</div>
 
 							{/* Contact Info Section */}
-							<div className="bg-gradient-to-br from-purple-50 via-pink-50 to-rose-50 rounded-xl p-6 border border-purple-200 shadow-sm">
-								<h3 className="text-lg font-bold text-gray-800 mb-5 flex items-center gap-2">
-									<div className="w-1.5 h-7 bg-gradient-to-b from-purple-600 to-pink-600 rounded-full"></div>
+							<div className="bg-muted/30 rounded-xl p-6 border border-border shadow-sm">
+								<h3 className="text-lg font-semibold text-foreground mb-4 flex items-center gap-2">
 									Contact Information
 								</h3>
-								<div className="space-y-4">
+								<div className="space-y-3">
 									<div className="flex justify-between items-start">
-										<span className="text-sm text-gray-600 font-semibold">
+										<span className="text-sm text-muted-foreground font-medium">
 											Mobile No:
 										</span>
-										<span className="text-sm text-gray-900 font-bold">
+										<span className="text-sm text-foreground font-medium">
 											{selectedRow.MobileNo}
 										</span>
 									</div>
 									<div className="flex justify-between items-start">
-										<span className="text-sm text-gray-600 font-semibold">
+										<span className="text-sm text-muted-foreground font-medium">
 											Email:
 										</span>
-										<span className="text-sm text-gray-900 font-bold text-right break-words max-w-[400px]">
+										<span className="text-sm text-foreground font-medium text-right break-words max-w-[400px]">
 											{selectedRow.Email}
 										</span>
 									</div>
@@ -674,12 +669,13 @@ const Payments: React.FC = () => {
 							<div className="flex gap-3 pt-4">
 								<button
 									onClick={handleCloseModal}
-									className="flex-1 px-5 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg font-semibold transition-all duration-200 shadow-sm hover:shadow">
+									className="flex-1 px-5 py-3 bg-secondary hover:bg-secondary/80 text-secondary-foreground border border-border/50 rounded-xl font-semibold transition-all duration-300 shadow-sm hover:shadow-md active:scale-95">
 									Close
 								</button>
 							</div>
 						</div>
 					)}
+				</div>
 				</DialogContent>
 			</Dialog>
 		</div>

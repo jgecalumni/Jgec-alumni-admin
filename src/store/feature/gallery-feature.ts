@@ -6,6 +6,7 @@ interface IResponse {
 	error: boolean;
 	page: number;
 	totalPages: number;
+	totalCount?: number;
 }
 export const galleryApi = baseApi
 	.enhanceEndpoints({

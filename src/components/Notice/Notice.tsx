@@ -1,8 +1,6 @@
-
 "use client"
 
 import React, { useEffect, useState } from "react";
-import "./style.css";
 import Link from "next/link";
 import { MdDeleteForever } from "react-icons/md";
 import dynamic from "next/dynamic";
@@ -13,7 +11,6 @@ import { format } from "date-fns"
 import { FaEdit } from "react-icons/fa";
 const ModalNoticeEdit = dynamic(() => import('../Modals/ModalNoticeEdit'), { ssr: false });
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
-
 
 const Notice: React.FC = () => {
 	const [openModal, setOpenModal] = useState(false);
@@ -34,7 +31,7 @@ const Notice: React.FC = () => {
 		return <Loading />
 	}
 
-	const handelDelete = async (id: string,) => {
+	const handelDelete = async (id: string) => {
 		const res = await deleteNotice(id);
 		if (res?.data?.success) {
 			toast.success("Notice deleted successfully");
@@ -46,93 +43,87 @@ const Notice: React.FC = () => {
 
 	return (
 		<>
-			<div className="flex justify-between items-center">
-				<div className="flex flex-col">
-					<div className="lg:text-3xl text-2xl text-[#343e4c] font-medium">Notice</div>
-					<div className="border-2  border-[#516bb7] rounded w-16"></div>
+			<div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 p-6 lg:p-8 rounded-2xl bg-gradient-to-br from-indigo-50 via-white to-purple-50 dark:from-indigo-950/40 dark:via-background dark:to-purple-950/40 border border-indigo-100/50 dark:border-indigo-900/50 shadow-sm relative overflow-hidden group">
+				{/* Decorative shapes */}
+				<div className="absolute top-0 right-0 -mr-8 -mt-8 w-32 h-32 rounded-full bg-indigo-500/10 blur-2xl transition-transform duration-700 group-hover:scale-150 pointer-events-none"></div>
+				<div className="absolute bottom-0 left-0 -ml-8 -mb-8 w-32 h-32 rounded-full bg-purple-500/10 blur-2xl transition-transform duration-700 group-hover:scale-150 pointer-events-none"></div>
+				
+				<div className="flex flex-col mb-4 sm:mb-0 relative z-10">
+					<h1 className="text-2xl font-bold tracking-tight lg:text-3xl text-foreground flex items-center gap-3">
+						<span className="bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400 bg-clip-text text-transparent">Notice Board</span>
+					</h1>
+					<p className="text-muted-foreground mt-1.5 font-medium">Create, manage and view all platform announcements.</p>
 				</div>
-				<button className="bg-primary text-sm flex items-center justify-center gap-1 p-3 rounded-md text-white lg:px-8" onClick={() => setOpenModal(true)} >
-					Add Notice
+				<button 
+					className="relative z-10 bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-600 dark:hover:bg-indigo-500 text-white font-semibold text-sm flex items-center justify-center gap-2 py-2.5 px-6 rounded-xl transition-all duration-300 shadow-md shadow-indigo-500/20 hover:shadow-xl hover:shadow-indigo-500/30 hover:-translate-y-0.5 active:translate-y-0 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-background" 
+					onClick={() => setOpenModal(true)} 
+				>
+					<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+					Publish Notice
 				</button>
 			</div>
-			<div className=" flex-col  w-full  h-full">
-				{notices && notices.length > 0 ? (<>
-					<div className="row ">
-						<div className="col-md-12">
-							<div id="content" className="">
-								<div className="profile-content w-full py-8">
-									<div className="tab-content p-0">
-										<div className="tab-pane" id="profile-post">
-											<ul className="timeline ">
-												{notices.map((notice, index) => (
-													<li key={index}>
-														<div className="timeline-time slideleft lg:block md:block hidden">
-															<span className="date">2024</span>
-														</div>
-
-														<div className="timeline-icon">
-															<a href="/">&nbsp;</a>
-														</div>
-
-														<div className="timeline-body   ">
-															<div className="timeline-header flex justify-between items-center font-medium">
-																<div>
-																	{format(notice.date, 'dd MMM, yyyy')}
-																</div>
-															</div>
-															<div className=" items-center flex justify-between">
-																<div className="">
-																	<Link
-																		href={notice?.link || "#"}
-																		rel="noreferrer"
-																		className="text-lg font-sans text-black font-medium uppercase">
-																		{notice.title}
-																	</Link>
-																	<ReactQuill
-																		theme="bubble"
-																		value={notice.description}
-																		readOnly={true}
-																		className="view_editor"
-																	/>
-																</div>
-																<div className="flex items-center gap-4">
-																	<button
-																		className="lg:block hidden"
-																		onClick={() => setEditNotice(notice)}
-																	>
-																		<FaEdit
-																			size={22}
-																			color="green"
-																			className="cursor-pointer"
-																		/>
-																	</button>
-																	<button
-																		className="lg:block hidden cursor-pointer"
-																		onClick={() => handelDelete(notice.id)}
-																	>
-																		<MdDeleteForever
-																			size={24}
-																			color="red"
-																		/>
-																	</button>
-																</div>
-															</div>
-														</div>
-													</li>
-												))}
-											</ul>
+			
+			<div className="w-full">
+				{notices && notices.length > 0 ? (
+					<div className="relative border-l border-border ml-4 lg:ml-8 space-y-8 pb-8">
+						{notices.map((notice, index) => (
+							<div key={index} className="relative pl-8 lg:pl-10">
+								{/* Timeline Dot */}
+								<div className="absolute left-[-9px] top-1 h-4 w-4 rounded-full border-2 border-primary bg-background shadow-sm"></div>
+								
+								{/* Content Card */}
+								<div className="rounded-xl border border-border bg-card shadow-sm transition-all hover:shadow-md">
+									<div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-border px-6 py-4 bg-muted/30">
+										<div className="font-medium text-sm text-muted-foreground">
+											{format(new Date(notice.date), 'dd MMM, yyyy')}
+										</div>
+										<div className="flex items-center gap-3 mt-3 sm:mt-0">
+											<button
+												className="p-2 text-emerald-600 bg-emerald-100 dark:bg-emerald-500/20 dark:text-emerald-400 rounded-md hover:bg-emerald-200 dark:hover:bg-emerald-500/30 transition-colors"
+												onClick={() => setEditNotice(notice)}
+												title="Edit Notice"
+											>
+												<FaEdit size={16} />
+											</button>
+											<button
+												className="p-2 text-rose-600 bg-rose-100 dark:bg-rose-500/20 dark:text-rose-400 rounded-md hover:bg-rose-200 dark:hover:bg-rose-500/30 transition-colors"
+												onClick={() => handelDelete(notice.id)}
+												title="Delete Notice"
+											>
+												<MdDeleteForever size={18} />
+											</button>
+										</div>
+									</div>
+									<div className="px-6 py-5">
+										<Link
+											href={notice?.link || "#"}
+											target="_blank"
+											rel="noreferrer"
+											className="inline-block text-xl font-bold text-foreground hover:text-primary transition-colors mb-4"
+										>
+											{notice.title}
+										</Link>
+										<div className="prose prose-sm dark:prose-invert max-w-none text-muted-foreground">
+											<ReactQuill
+												theme="bubble"
+												value={notice.description}
+												readOnly={true}
+												className="view_editor"
+											/>
 										</div>
 									</div>
 								</div>
 							</div>
-						</div>
+						))}
 					</div>
-				</>) : (
-					<div className="w-full h-[60vh] flex items-center justify-center">
-						<h1 className="text-xl font-medium text-neutral-950">No notice found</h1>
+				) : (
+					<div className="w-full h-[40vh] flex flex-col items-center justify-center border border-dashed border-border rounded-xl bg-card/50">
+						<h3 className="text-xl font-medium text-foreground">No notices found</h3>
+						<p className="text-muted-foreground mt-2">Create a notice to see it here.</p>
 					</div>
 				)}
 			</div>
+			
 			<ModalNoticeEdit
 				open={openModal || !!editNotice}
 				closed={() => {

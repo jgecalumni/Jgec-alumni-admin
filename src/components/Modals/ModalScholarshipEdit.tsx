@@ -154,13 +154,20 @@ const ModalScholarshipEdit: React.FC<IProps> = memo(
 				<Dialog
 					open={open}
 					onOpenChange={closed}>
-					<DialogContent className="max-w-2xl modal-scrollbar lg:w-full h-full max-h-[85vh] overflow-auto">
-						<DialogHeader>
-							<DialogTitle>
-								{details ? "Update" : "Add New"} Scholarship
+					<DialogContent className="sm:max-w-3xl modal-scrollbar p-0 overflow-hidden border-border/60 shadow-2xl rounded-2xl bg-card max-h-[85vh] flex flex-col">
+						<DialogHeader className="bg-muted/30 px-6 py-5 border-b border-border/50 m-0 shrink-0">
+							<DialogTitle className="text-xl font-bold flex items-center gap-3 text-foreground">
+								<div className="bg-indigo-100 dark:bg-indigo-900/40 text-indigo-600 dark:text-indigo-400 p-2 rounded-lg">
+									{details ? (
+										<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
+									) : (
+										<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 14l9-5-9-5-9 5 9 5z"/><path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"/><path d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222"/></svg>
+									)}
+								</div>
+								{!details ? "Add New Scholarship" : "Update Scholarship"}
 							</DialogTitle>
 						</DialogHeader>
-						<div>
+						<div className="px-6 py-4 overflow-y-auto no-scrollbar">
 							<Formik
 								enableReinitialize={true}
 								initialValues={{
@@ -184,14 +191,14 @@ const ModalScholarshipEdit: React.FC<IProps> = memo(
 								validationSchema={validationSchema}
 								>
 								{({ handleChange, values, setFieldValue }) => (
-									<Form className="mt-4 space-y-5">
-										<div>
-											<Label htmlFor="name">Scholarship Name</Label>
+									<Form className="space-y-6">
+										<div className="space-y-1.5">
+											<Label htmlFor="name" className="font-semibold text-foreground">Scholarship Name</Label>
 											<Input
 												id="name"
 												name="name"
 												placeholder="Scholarship Name"
-												className="mt-1  text-sm"
+												className="text-sm rounded-xl border-border/60 bg-muted/20 focus:bg-background transition-colors px-4 py-2 w-full"
 												onChange={handleChange}
 												value={values.name}
 											/>
@@ -201,13 +208,13 @@ const ModalScholarshipEdit: React.FC<IProps> = memo(
 												className="text-xs text-red-500 mt-1.5"
 											/>
 										</div>
-										<div>
-											<Label htmlFor="subtitle">Subtitle</Label>
+										<div className="space-y-1.5">
+											<Label htmlFor="subtitle" className="font-semibold text-foreground">Subtitle</Label>
 											<Input
 												id="subtitle"
 												name="subtitle"
 												placeholder="Subtitle for scholarship"
-												className="mt-1  text-sm"
+												className="text-sm rounded-xl border-border/60 bg-muted/20 focus:bg-background transition-colors px-4 py-2 w-full"
 												onChange={handleChange}
 												value={values.subtitle}
 											/>
@@ -217,18 +224,20 @@ const ModalScholarshipEdit: React.FC<IProps> = memo(
 												className="text-xs text-red-500 mt-1.5"
 											/>
 										</div>
-										<div>
-											<Label htmlFor="description">
+										<div className="space-y-1.5">
+											<Label htmlFor="description" className="font-semibold text-foreground">
 												Scholarship Description
 											</Label>
-											<ReactQuill
+											<div className="rounded-xl overflow-hidden border border-border/60 focus-within:border-primary focus-within:ring-1 focus-within:ring-primary transition-all bg-muted/20 focus-within:bg-background [&_.ql-container]:border-none [&_.ql-toolbar]:border-none [&_.ql-toolbar]:border-b [&_.ql-toolbar]:border-border/60 [&_.ql-toolbar]:bg-muted/10">
+												<ReactQuill
 												theme="snow"
 												value={values.description}
 												onChange={(content) =>
 													setFieldValue("description", content)
 												}
-												className="text_editor"
+												className="text_editor border-none"
 											/>
+										</div>
 											<ErrorMessage
 												name="description"
 												component={"div"}
@@ -265,15 +274,15 @@ const ModalScholarshipEdit: React.FC<IProps> = memo(
 												className="text-xs text-red-500 mt-1.5"
 											/>
 										</div> */}
-										<div>
-											<Label htmlFor="providerName">Provider Name</Label>
+										<div className="space-y-1.5">
+											<Label htmlFor="providerName" className="font-semibold text-foreground">Provider Name</Label>
 											<Input
 												name="providerName"
 												id="providerName"
 												placeholder="Enter Provider Name"
 												value={values.providerName}
 												onChange={handleChange}
-												className="mt-1"
+												className="text-sm rounded-xl border-border/60 bg-muted/20 focus:bg-background transition-colors px-4 py-2 w-full"
 											/>
 											<ErrorMessage
 												name="provideName"
@@ -281,8 +290,8 @@ const ModalScholarshipEdit: React.FC<IProps> = memo(
 												className="text-xs text-red-500 mt-1.5"
 											/>
 										</div>
-										<div>
-											<Label htmlFor="providerImage">Provider Image</Label>
+										<div className="space-y-1.5">
+											<Label htmlFor="providerImage" className="font-semibold text-foreground">Provider Image</Label>
 											<div className="lg:flex items-center gap-2">
 												<Input
 													name="providerImage"
@@ -290,7 +299,7 @@ const ModalScholarshipEdit: React.FC<IProps> = memo(
 													type="file"
 													accept="image/*"
 													onChange={(e) => handleFileChange(e, setFieldValue)}
-													className="mt-1"
+													className="text-sm rounded-xl border-border/60 bg-muted/20 focus:bg-background transition-colors px-4 py-2 w-full"
 												/>
 												{imagePreview && (
 													<div className="mt-2">
@@ -339,8 +348,8 @@ const ModalScholarshipEdit: React.FC<IProps> = memo(
 												className="text-red-500 text-xs"
 											/>
 										</div>
-										<div>
-											<Label htmlFor="providerPassingYear">
+										<div className="space-y-1.5">
+											<Label htmlFor="providerPassingYear" className="font-semibold text-foreground">
 												Provider passing year
 											</Label>
 											<Input
@@ -350,34 +359,36 @@ const ModalScholarshipEdit: React.FC<IProps> = memo(
 												type="number"
 												onChange={handleChange}
 												value={values.providerPassingYear}
-												className="mt-1"
+												className="text-sm rounded-xl border-border/60 bg-muted/20 focus:bg-background transition-colors px-4 py-2 w-full"
 											/>
 										</div>
-										<div>
-											<Label htmlFor="providerDescription">
+										<div className="space-y-1.5">
+											<Label htmlFor="providerDescription" className="font-semibold text-foreground">
 												Provider Description/History
 											</Label>
-											<ReactQuill
+											<div className="rounded-xl overflow-hidden border border-border/60 focus-within:border-primary focus-within:ring-1 focus-within:ring-primary transition-all bg-muted/20 focus-within:bg-background [&_.ql-container]:border-none [&_.ql-toolbar]:border-none [&_.ql-toolbar]:border-b [&_.ql-toolbar]:border-border/60 [&_.ql-toolbar]:bg-muted/10">
+												<ReactQuill
 												theme="snow"
 												value={values.providerDescription}
 												onChange={(content) =>
 													setFieldValue("providerDescription", content)
 												}
-												className="text_editor"
+												className="text_editor border-none"
 											/>
+										</div>
 											<ErrorMessage
 												name="providerDescription"
 												component={"div"}
 												className="text-xs text-red-500 mt-1.5"
 											/>
 										</div>
-										<div>
-											<Label htmlFor="whoCanApply">Who can apply?</Label>
+										<div className="space-y-1.5">
+											<Label htmlFor="whoCanApply" className="font-semibold text-foreground">Who can apply?</Label>
 											<Textarea
 												id="whoCanApply"
 												name="whoCanApply"
 												placeholder="Who can apply to the scholarship..."
-												className="mt-1 text-sm bg-slate-100"
+												className="text-sm rounded-xl border-border/60 bg-muted/20 focus:bg-background transition-colors px-4 py-2 w-full min-h-[100px]"
 												onChange={handleChange}
 												value={values.whoCanApply}
 											/>
@@ -387,13 +398,13 @@ const ModalScholarshipEdit: React.FC<IProps> = memo(
 												className="text-xs text-red-500 mt-1.5"
 											/>
 										</div>
-										{/* <div>
-											<Label htmlFor="ageLimit">Age Limit</Label>
+										{/* <div className="space-y-1.5">
+											<Label htmlFor="ageLimit" className="font-semibold text-foreground">Age Limit</Label>
 											<Textarea
 												id="ageLimit"
 												name="ageLimit"
 												placeholder="Age Limit"
-												className="mt-1 text-sm bg-slate-100"
+												className="text-sm rounded-xl border-border/60 bg-muted/20 focus:bg-background transition-colors px-4 py-2 w-full min-h-[100px]"
 												onChange={handleChange}
 												value={values.ageLimit}
 											/>
@@ -403,15 +414,15 @@ const ModalScholarshipEdit: React.FC<IProps> = memo(
 												className="text-xs text-red-500 mt-1.5"
 											/>
 										</div>
-										<div>
-											<Label htmlFor="whenToApply">
+										<div className="space-y-1.5">
+											<Label htmlFor="whenToApply" className="font-semibold text-foreground">
 												When to apply this scholarship ?
 											</Label>
 											<Textarea
 												id="whenToApply"
 												name="whenToApply"
 												placeholder="When to apply this scholarship ?"
-												className="mt-1 text-sm bg-slate-100"
+												className="text-sm rounded-xl border-border/60 bg-muted/20 focus:bg-background transition-colors px-4 py-2 w-full min-h-[100px]"
 												onChange={handleChange}
 												value={values.whenToApply}
 											/>
@@ -421,15 +432,15 @@ const ModalScholarshipEdit: React.FC<IProps> = memo(
 												className="text-xs text-red-500 mt-1.5"
 											/>
 										</div> */}
-										<div>
-											<Label htmlFor="amountDetails">
+										<div className="space-y-1.5">
+											<Label htmlFor="amountDetails" className="font-semibold text-foreground">
 												Scholarship Amount Details
 											</Label>
 											<Textarea
 												id="amountDetails"
 												name="amountDetails"
 												placeholder="Scholarship Amount Details"
-												className="mt-1 text-sm bg-slate-100"
+												className="text-sm rounded-xl border-border/60 bg-muted/20 focus:bg-background transition-colors px-4 py-2 w-full min-h-[100px]"
 												onChange={handleChange}
 												value={values.amountDetails}
 											/>
@@ -439,10 +450,8 @@ const ModalScholarshipEdit: React.FC<IProps> = memo(
 												className="text-xs text-red-500 mt-1.5"
 											/>
 										</div>
-										<div>
-											<Label
-												htmlFor="semRequire"
-												className="pb-1">
+										<div className="space-y-1.5">
+											<Label htmlFor="semRequire" className="font-semibold text-foreground pb-1">
 												Select required semester result for this scholarship
 											</Label>
 											<MultiSelect
@@ -524,17 +533,27 @@ const ModalScholarshipEdit: React.FC<IProps> = memo(
 												className="text-red-500 text-xs"
 											/>
 										</div>
-										<div className="items-center w-full flex justify-end">
-											<Button
-												type="submit"
-												className="bg-success text-white"
-												disabled={isLoading || isEditing}>
-												Submit
-												{(isLoading || isEditing) && (
-													<Loader2 className="animate-spin" />
-												)}
-											</Button>
-										</div>
+										<div className="flex justify-end gap-3 items-center w-full pt-6 pb-2 border-t border-border/50 mt-8">
+										<Button 
+											type="button" 
+											variant="outline" 
+											onClick={closed} 
+											className="rounded-xl font-medium px-5"
+										>
+											Cancel
+										</Button>
+										<Button
+											type="submit"
+											className="bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl shadow-md shadow-indigo-500/20 transition-all duration-300 hover:shadow-lg hover:shadow-indigo-500/30 hover:-translate-y-0.5 font-medium px-6 flex items-center gap-2"
+											disabled={isLoading || isEditing}
+										>
+											{isLoading || isEditing ? (
+												<><Loader2 className="animate-spin" size={16} /> Saving...</>
+											) : (
+												<>{!details ? "Publish Scholarship" : "Save Changes"}</>
+											)}
+										</Button>
+									</div>
 									</Form>
 								)}
 							</Formik>

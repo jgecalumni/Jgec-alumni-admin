@@ -25,7 +25,29 @@ export function middleware(request: NextRequest) {
 		request.cookies.get("tokenAdmin")?.value ||
 		request.cookies.get("tokenMoney")?.value || "";
 
-	const tokenData = parseJwt(token);
+	let tokenData = parseJwt(token);
+	console.log(tokenData);
+	
+
+	// Check if token is expired
+	if (tokenData && tokenData.exp) {
+		const currentTime = Math.floor(Date.now() / 1000);
+		
+		if (tokenData.exp < currentTime) {
+			tokenData = null; // Treat as invalid
+		}
+	}
+
+	// If the user does not have a valid token (missing, invalid, or expired)
+	if (!tokenData) {
+		
+		const response = isPublic
+			? NextResponse.next()
+			: NextResponse.redirect(new URL("/login", request.nextUrl));
+		response.cookies.delete("tokenAdmin");
+		response.cookies.delete("tokenMoney");
+		return response;
+	}
 
 	// If user is logged in and trying to access login page, redirect them accordingly
 	if (isPublic && tokenData) {
@@ -37,13 +59,8 @@ export function middleware(request: NextRequest) {
 		}
 	}
 
-	// If user is not logged in and trying to access a protected route
-	if (!isPublic && !token) {
-		return NextResponse.redirect(new URL("/login", request.nextUrl));
-	}
-
 	// Role-based access control
-	if (token && tokenData) {
+	if (tokenData) {
 		if (tokenData.role === "admin") {
 			// admin can access all routes
 			return NextResponse.next();
@@ -53,8 +70,11 @@ export function middleware(request: NextRequest) {
 				return NextResponse.redirect(new URL("/receipt", request.nextUrl));
 			}
 		} else {
-			// unknown role - redirect to login
-			return NextResponse.redirect(new URL("/login", request.nextUrl));
+			// unknown role - clear cookies and redirect to login
+			const response = NextResponse.redirect(new URL("/login", request.nextUrl));
+			response.cookies.delete("tokenAdmin");
+			response.cookies.delete("tokenMoney");
+			return response;
 		}
 	}
 }
