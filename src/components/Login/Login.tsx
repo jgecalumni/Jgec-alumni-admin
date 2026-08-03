@@ -31,7 +31,7 @@ const Login: React.FC = () => {
 			<div className="w-full max-w-5xl bg-white dark:bg-slate-900 rounded-3xl shadow-2xl overflow-hidden flex flex-col lg:flex-row border border-slate-200 dark:border-slate-800">
 				
 				{/* Left Side - Branding */}
-				<div className="lg:w-1/2 bg-gradient-to-br from-indigo-600 via-indigo-700 to-blue-800 p-12 text-white flex flex-col justify-between relative overflow-hidden">
+				<div className="lg:w-1/2 bg-gradient-to-br from-indigo-600 via-indigo-700 to-blue-800 p-8 lg:p-12 text-white flex flex-col justify-between relative overflow-hidden">
 					{/* Decorative background elements */}
 					<div className="absolute top-0 left-0 w-full h-full overflow-hidden opacity-20 pointer-events-none">
 						<div className="absolute -top-24 -left-24 w-96 h-96 rounded-full bg-white blur-3xl opacity-30 mix-blend-overlay"></div>
@@ -39,19 +39,19 @@ const Login: React.FC = () => {
 					</div>
 
 					<div className="relative z-10 flex flex-col items-start">
-						<div className="bg-white/10 p-4 rounded-2xl backdrop-blur-md border border-white/20 mb-8 shadow-xl">
+						<div className="bg-white/10 p-3 lg:p-4 rounded-2xl backdrop-blur-md border border-white/20 mb-6 lg:mb-8 shadow-xl">
 							<Image
 								src="/assets/Logo.webp"
 								alt="Alumni Logo"
 								width={80}
 								height={80}
-								className="drop-shadow-lg"
+								className="drop-shadow-lg w-16 h-16 lg:w-20 lg:h-20"
 							/>
 						</div>
-						<h1 className="text-4xl lg:text-5xl font-bold tracking-tight mb-4">
+						<h1 className="text-3xl lg:text-5xl font-bold tracking-tight mb-2 lg:mb-4">
 							JGEC Alumni
 						</h1>
-						<p className="text-indigo-100 text-lg lg:text-xl font-medium max-w-md">
+						<p className="text-indigo-100 text-base lg:text-xl font-medium max-w-md hidden sm:block">
 							Welcome to the Admin Portal. Manage the community, events, and resources all in one place.
 						</p>
 					</div>
@@ -66,13 +66,13 @@ const Login: React.FC = () => {
 				</div>
 
 				{/* Right Side - Form */}
-				<div className="lg:w-1/2 p-10 lg:p-16 flex flex-col justify-center bg-white dark:bg-slate-900">
+				<div className="lg:w-1/2 p-6 sm:p-10 lg:p-16 flex flex-col justify-center bg-white dark:bg-slate-900">
 					<div className="max-w-md w-full mx-auto">
-						<div className="mb-10">
-							<h2 className="text-3xl font-bold text-slate-900 dark:text-white tracking-tight mb-2">
+						<div className="mb-8 lg:mb-10">
+							<h2 className="text-2xl lg:text-3xl font-bold text-slate-900 dark:text-white tracking-tight mb-2">
 								Welcome Back
 							</h2>
-							<p className="text-slate-500 dark:text-slate-400">
+							<p className="text-sm lg:text-base text-slate-500 dark:text-slate-400">
 								Please sign in to your admin account to continue.
 							</p>
 						</div>
